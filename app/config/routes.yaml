@@ -1,3 +1,52 @@
 index:
-    path: /
+  path: /
+  controller: App\Controller\MainController::index
+  methods: GET
+
+#---------------------------USER---------------------------#
+
+user:
+  path: /user/{id}
+  controller: App\Controller\DefaultController::index
+
+user.edit:
+  path: /user/{id}/edit
+  controller: App\Controller\DefaultController::index
+
+user.add:
+  path: /user/add
+  controller: App\Controller\DefaultController::index
+
+user.list:
+    path: /user/list
     controller: App\Controller\DefaultController::index
+
+#---------------------------STRUCTS---------------------------#
+
+structs:
+  path: /struct/list
+  controller: App\Controller\DefaultController::index
+
+struct:
+  path: /struct/{id}
+  controller: App\Controller\DefaultController::index
+
+struct.add:
+  path: /struct/add
+  controller: App\Controller\DefaultController::index
+
+struct.edit:
+  path: /struct/{id}/edit
+  controller: App\Controller\DefaultController::index
+
+#---------------------------KARIK---------------------------#
+
+karik:
+  path: /karik
+  controller: App\Controller\DefaultController::index
+
+#---------------------------EVENTS---------------------------#
+
+events:
+  path: /events
+  controller: App\Controller\DefaultController::index
