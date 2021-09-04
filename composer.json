@@ -1,0 +1,9 @@
+{
+    "require-dev": {
+        "symfony/profiler-pack": "^1.0"
+    },
+    "require": {
+        "symfony/debug": "^4.4",
+        "symfony/webpack-encore-bundle": "^1.12"
+    }
+}
