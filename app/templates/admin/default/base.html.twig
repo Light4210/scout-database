@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ua">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('scss') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('js') }}
+    {% endblock %}
+</head>
+<body>
+{% block header %}
+{% endblock %}
+    <div class="content-wrap">
+        {% include 'admin/reusable-parts/sidebar.html.twig' %}
+        <div class="admin-content">
+        {% block body %}
+        {% endblock %}
+        </div>
+    </div>
+{% block footer %}
+{% endblock %}
+</body>
+</html>

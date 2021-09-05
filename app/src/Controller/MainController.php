@@ -11,11 +11,7 @@ class MainController extends AbstractController
     #[Route('/default', name: 'default')]
     public function index(): Response
     {
-        $em = $this->getDoctrine()->getManager();
-        $em->getConnection()->connect();
-        $connected = $em->getConnection()->isConnected();
-        dd($connected);
-        return $this->render('default/base.html.twig', [
+        return $this->render('admin/single-pages/general-page.html.twig', [
             'controller_name' => 'MainController',
         ]);
     }
