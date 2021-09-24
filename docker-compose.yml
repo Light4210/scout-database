@@ -16,14 +16,18 @@ services:
       - ./mysql:/var/lib/mysql
   php:
     container_name: php
+
     build:
       context: ./php
     ports:
       - '8523:8032'
     volumes:
       - ./app:/var/www/scout-database
+      - ./localpath/custom.ini:/usr/local/etc/php/conf.d/custom.ini
     depends_on:
       - database
+    environment:
+      PHP_INI_SCAN_DIR: "/usr/local/etc/php/custom.d:/usr/local/etc/php/conf.d"
   nginx:
     container_name: nginx
     image: nginx:stable-alpine
