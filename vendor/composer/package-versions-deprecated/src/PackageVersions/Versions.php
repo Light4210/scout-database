@@ -75,6 +75,7 @@ final class Versions
   'symfony/http-foundation' => 'v5.3.7@e36c8e5502b4f3f0190c675f1c1f1248a64f04e5',
   'symfony/http-kernel' => 'v5.3.7@a3a78e37935a527b50376c22ac1cec35b57fe787',
   'symfony/orm-pack' => 'v2.1.0@357f6362067b1ebb94af321b79f8939fc9118751',
+  'symfony/password-hasher' => 'v5.3.7@106639b209d0f8b0946394a1108acc9cc20e2216',
   'symfony/polyfill-ctype' => 'v1.23.0@46cd95797e9df938fdd2b03693b5fca5e64b01ce',
   'symfony/polyfill-intl-grapheme' => 'v1.23.1@16880ba9c5ebe3642d1995ab866db29270b36535',
   'symfony/polyfill-intl-normalizer' => 'v1.23.0@8590a5f561694770bdcd3f9b5c69dde6945028e8',
@@ -82,8 +83,15 @@ final class Versions
   'symfony/polyfill-php73' => 'v1.23.0@fba8933c384d6476ab14fb7b8526e5287ca7e010',
   'symfony/polyfill-php80' => 'v1.23.1@1100343ed1a92e3a38f9ae122fc0eb21602547be',
   'symfony/polyfill-php81' => 'v1.23.0@e66119f3de95efc359483f810c4c3e6436279436',
+  'symfony/property-access' => 'v5.3.7@a4bbf09b8f3e2d2c89cc2c8b3d6682bf4c3d5589',
+  'symfony/property-info' => 'v5.3.7@7202b6c93a07df5df83eb58e3757dffb77fc5d90',
   'symfony/proxy-manager-bridge' => 'v5.3.4@76e61f33f6a34a340bf6e02211214f466e8e1dba',
   'symfony/routing' => 'v5.3.7@be865017746fe869007d94220ad3f5297951811b',
+  'symfony/security-bundle' => 'v5.3.7@aed98f8ca60f1fb474a4db3ade066155d2b040f7',
+  'symfony/security-core' => 'v5.3.7@bd3a055d1092a46f6b6599bcda5a7624cd804cb1',
+  'symfony/security-csrf' => 'v5.3.4@94b533195cf7fb21f3fae8ce349861c6401d969e',
+  'symfony/security-guard' => 'v5.3.7@25f8d2a206505514a0ff14b16c4fb4e17a10cf18',
+  'symfony/security-http' => 'v5.3.7@cb3d53b245c38f73e67b1e461ea076ffbb2e6dd7',
   'symfony/service-contracts' => 'v2.4.0@f040a30e04b57fbcc9c6cbcf4dbaa96bd318b9bb',
   'symfony/stopwatch' => 'v5.3.4@b24c6a92c6db316fee69e38c80591e080e41536c',
   'symfony/string' => 'v5.3.7@8d224396e28d30f81969f083a58763b8b9ceb0a5',
@@ -98,7 +106,7 @@ final class Versions
   'symfony/twig-bundle' => 'v5.3.4@345965b40c1847ebdbb2ab0eb98c71a98a5e167b',
   'symfony/web-profiler-bundle' => 'v5.3.5@95fb24b09551688a09cffac95a2ddbb907833f07',
   'twig/twig' => 'v3.3.2@21578f00e83d4a82ecfa3d50752b609f13de6790',
-  '__root__' => 'dev-master@ae52759487d111b4e932e580e6b4ef1c3bc15014',
+  '__root__' => 'dev-master@7a4dab1d0a8cdddd246a4819ca57e346e3ee646f',
 );
 
     private function __construct()

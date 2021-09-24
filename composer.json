@@ -6,6 +6,7 @@
     "require": {
         "symfony/debug": "^4.4",
         "symfony/webpack-encore-bundle": "^1.12",
-        "symfony/orm-pack": "^2.1"
+        "symfony/orm-pack": "^2.1",
+        "symfony/security-bundle": "^5.3"
     }
 }
