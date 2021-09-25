@@ -60,6 +60,16 @@ class Struct
      */
     private $user_id;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created_at;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updated_at;
+
     public function __construct()
     {
         $this->user_id = new ArrayCollection();

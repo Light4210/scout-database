@@ -1,7 +1,7 @@
 {
     "require-dev": {
-        "symfony/profiler-pack": "^1.0",
-        "symfony/maker-bundle": "^1.33"
+        "symfony/maker-bundle": "^1.33",
+        "symfony/profiler-pack": "^1.0"
     },
     "require": {
         "symfony/debug": "^4.4",
