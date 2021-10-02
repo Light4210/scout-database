@@ -1,6 +1,6 @@
 index:
   path: /
-  controller: App\Controller\MainController::index
+  controller: App\Controller\single\MainController::index
   methods: GET
 
 #---------------------------DEBUG---------------------------#
@@ -17,42 +17,42 @@ _profiler:
 
 user:
   path: /user/{id}
-  controller: App\Controller\DefaultController::index
-
-user.edit:
-  path: /user/{id}/edit
-  controller: App\Controller\DefaultController::index
+  controller: App\Controller\user\UserController::show
 
 user.add:
   path: /user/add
-  controller: App\Controller\DefaultController::index
+  controller: App\Controller\user\UserController::add
+
+user.edit:
+  path: /user/{id}/edit
+  controller: App\Controller\user\UserController::edit
 
 user.list:
     path: /user/list
-    controller: App\Controller\DefaultController::index
+    controller: App\Controller\user\UserController::list
 
 #---------------------------STRUCTS---------------------------#
 
-structs:
-  path: /struct/list
-  controller: App\Controller\DefaultController::index
-
 struct:
   path: /struct/{id}
-  controller: App\Controller\DefaultController::index
+  controller: App\Controller\struct\StructController::show
 
 struct.add:
   path: /struct/add
-  controller: App\Controller\DefaultController::index
+  controller: App\Controller\struct\StructController::add
 
 struct.edit:
   path: /struct/{id}/edit
-  controller: App\Controller\DefaultController::index
+  controller: App\Controller\struct\StructController::edit
 
-#---------------------------KARIK---------------------------#
+struct.list:
+  path: /struct/list
+  controller: App\Controller\struct\StructController::list
 
-karik:
-  path: /karik
+#---------------------------SHOP---------------------------#
+
+shop:
+  path: /shop
   controller: App\Controller\DefaultController::index
 
 #---------------------------EVENTS---------------------------#
