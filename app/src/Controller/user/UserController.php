@@ -3,12 +3,12 @@
 namespace App\Controller\user;
 
 use App\Entity\User;
+use App\Service\EditableService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Security;
 
 class UserController extends AbstractController
 {
@@ -20,20 +20,38 @@ class UserController extends AbstractController
     public function show(EntityManagerInterface $entityManager, Request $request): Response
     {
         $id = $request->attributes->get('id');
-        $post = $entityManager->find(User::class, $id);
-        return $this->render('admin/user/user.html.twig', ['post' => $post]);
+        $user = $entityManager->find(User::class, $id);
+        if (!$user) {
+            return $this->render('admin/single/404.html.twig');
+        }
+        return $this->render('admin/user/user.html.twig', ['user' => $user]);
     }
 
-    public function edit(Security $security, EntityManagerInterface $entityManager, Request $request): Response
+    /**
+     * @param EditableService $editableService
+     * @param EntityManagerInterface $entityManager
+     * @param Request $request
+     * @return Response
+     */
+    public function edit(EditableService $editableService, EntityManagerInterface $entityManager, Request $request): Response
     {
         $id = $request->attributes->get('id');
-        $targetUser = $entityManager->find(User::class, $id);
-        if (!$targetUser) {
-            throw $this->createNotFoundException("Not found user with id: $id");
+        $user = $entityManager->find(User::class, $id);
+        //TODO add logic to editable controller, which post you can edit, $editable(true or false)
+        $editable = $editableService->check($user::class);
+        if (!$user) {
+            return $this->render('admin/single/404.html.twig');
+        } elseif (!$editable) {
+            $this->addFlash('fail', "You cant edit this user");
+            $url = $this->generateUrl('user', ['id' => $id]);
+            return $this->redirect($url);
         }
-        $currentUser = $security->getUser();
-        $self = $currentUser->getId() == $targetUser->getId();
-        return $this->render('admin/user/edit-user.html.twig', ['user' => $targetUser, 'self' => $self]);
+
+        $form = $this->createForm($user::class)->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+        }
+        return $this->render('admin/user/edit-user.html.twig', ['user' => $user, 'editable' => $editable]);
     }
 
     public function add(): Response
