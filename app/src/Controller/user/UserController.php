@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Form\AbstractType;
+use Symfony\form\FormBuilderInterface;
 
 class UserController extends AbstractController
 {
@@ -17,8 +19,12 @@ class UserController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function show(EntityManagerInterface $entityManager, Request $request): Response
+    public function show(FormBuilderInterface $builder, EntityManagerInterface $entityManager, Request $request): Response
     {
+        $builder
+            ->add('task', TextType::class)
+            ->add('dueDate', DateType::class)
+            ->add('save', SubmitType::class);
         $id = $request->attributes->get('id');
         $user = $entityManager->find(User::class, $id);
         if (!$user) {
@@ -49,12 +55,17 @@ class UserController extends AbstractController
 
         $form = $this->createForm($user::class)->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager->flush();
         }
-        return $this->render('admin/user/edit-user.html.twig', ['user' => $user, 'editable' => $editable]);
+        return $this->renderForm('admin/user/edit-user.html.twig', [
+            'form' => $form,
+            'user' => $user,
+            'editable' => $editable,
+        ]);
     }
 
-    public function add(): Response
+    public function created(): Response
     {
         return $this->render('admin/user/add-user.html.twig');
     }
@@ -64,4 +75,3 @@ class UserController extends AbstractController
         return $this->render('admin/user/user-list.html.twig');
     }
 }
-

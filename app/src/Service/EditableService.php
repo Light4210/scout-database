@@ -9,7 +9,6 @@ class EditableService extends AbstractController
 {
     public function check(string $entityClass):bool
     {
-        dd($entityClass);
         return false;
     }
 }
