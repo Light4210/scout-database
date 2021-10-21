@@ -1,0 +1,8 @@
+{% extends 'admin/default/default.html.twig' %}
+
+{% block content %}
+    <h1>{{ app.request.get('role') }} list</h1>
+    {% for user in users %}
+        {{ user.name }}
+    {% endfor %}
+{% endblock %}

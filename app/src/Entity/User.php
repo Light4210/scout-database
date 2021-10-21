@@ -1,14 +1,15 @@
 <?php
 
+
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Struct;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use App\Repository\UserRepository;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\OneToOne;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -26,6 +27,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         'wolvies' => 'wolvies',
     ];
 
+    const PRIORITY = [
+        'standard' => 10,
+        'nationalCouncil' => 50,
+    ];
+
+    const MINISTRY = [
+        'troopLeader' => [
+            'name' => 'troopLeader',
+            'access' => self::PRIORITY['standard'],
+            'sheafOf'=> Struct::STRUCT_NAMES['troop'],
+            'membersRole' => self::ROLES['scout']
+        ],
+        'sheaf' => [
+            'name' => 'sheaf',
+            'access' => self::PRIORITY['standard'],
+            'sheafOf'=> Struct::STRUCT_NAMES['circle'],
+            'membersRole' => self::ROLES['traveller']
+        ],
+        'akela' => [
+            'name' => 'akela',
+            'access' => self::PRIORITY['standard'],
+            'sheafOf'=> Struct::STRUCT_NAMES['community'],
+            'membersRole' => self::ROLES['wolvies']
+        ],
+    ];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -34,18 +61,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", length=180, unique=true, nullable=true)
      */
     private $email;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="json", nullable=true)
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $password;
 
@@ -70,7 +97,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $date_of_birth;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="bigint", nullable=true, length=20)
      */
     private $phone_number;
 
@@ -105,11 +132,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $photo;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Struct::class, inversedBy="user_id")
-     */
-    private $struct_id;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $created_at;
@@ -119,9 +141,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $updated_at;
 
-    public function __construct()
+    /**
+     * @OneToOne(targetEntity="Struct", mappedBy="sheaf")
+     */
+    private $sheafOf;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Struct", inversedBy="members")
+     * @ORM\JoinColumn(name="struct_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $struct;
+
+    /**
+     * @return mixed
+     */
+    public function getStruct()
     {
-        $this->struct_id = new ArrayCollection();
+        return $this->struct;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSheafOf()
+    {
+        return $this->sheafOf;
     }
 
     public function getId(): ?int
@@ -148,7 +192,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -156,7 +200,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -345,30 +389,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Struct[]
-     */
-    public function getStructId(): Collection
-    {
-        return $this->struct_id;
-    }
-
-    public function addStructId(Struct $structId): self
-    {
-        if (!$this->struct_id->contains($structId)) {
-            $this->struct_id[] = $structId;
-        }
-
-        return $this;
-    }
-
-    public function removeStructId(Struct $structId): self
-    {
-        $this->struct_id->removeElement($structId);
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->created_at;
@@ -391,5 +411,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->updated_at = $updated_at;
 
         return $this;
+    }
+
+    /**
+     * @param mixed $struct
+     */
+    public function setStruct($struct): void
+    {
+        $this->struct = $struct;
+    }
+
+    /**
+     * @param mixed $sheafOf
+     */
+    public function setSheafOf($sheafOf): void
+    {
+        $this->sheafOf = $sheafOf;
     }
 }

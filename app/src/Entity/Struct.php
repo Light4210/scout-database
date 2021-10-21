@@ -6,17 +6,32 @@ use App\Repository\StructRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OneToOne;
 
 /**
  * @ORM\Entity(repositoryClass=StructRepository::class)
  */
 class Struct
 {
-
-    const TYPE = [
-        'circle' => 'circle',
+    const STRUCT_NAMES = [
         'troop' => 'troop',
         'community' => 'community',
+        'circle' => 'circle'
+    ];
+
+    const STRUCT = [
+        self::STRUCT_NAMES['troop'] => [
+            'name' => 'troops',
+            'sheaf' => User::MINISTRY['troopLeader']
+        ],
+        self::STRUCT_NAMES['community'] => [
+            'name' => 'community',
+            'sheaf' => User::MINISTRY['akela']
+        ],
+        self::STRUCT_NAMES['circle'] => [
+            'name' => 'circle',
+            'sheaf' => User::MINISTRY['sheaf']
+        ]
     ];
 
     /**
@@ -47,12 +62,6 @@ class Struct
     private $adress;
 
     /**
-     * @ORM\Column(type="integer")
-     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="Struct")
-     */
-    private $shef_id;
-
-    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $latitude;
@@ -61,11 +70,6 @@ class Struct
      * @ORM\Column(type="integer", nullable=true)
      */
     private $longitude;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="struct_id")
-     */
-    private $user_id;
 
     /**
      * @ORM\Column(type="datetime")
@@ -77,9 +81,37 @@ class Struct
      */
     private $updated_at;
 
+    /**
+     * @ORM\OneToOne(targetEntity="User", inversedBy="sheafOf")
+     * @ORM\JoinColumn(name="sheaf_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $sheaf;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="User", mappedBy="struct")
+     */
+    private $members;
+
+    /**
+     * @return mixed
+     */
+    public function getSheaf()
+    {
+        return $this->sheaf;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getMembers(): Collection
+    {
+        return $this->members;
+    }
+
     public function __construct()
     {
-        $this->user_id = new ArrayCollection();
+        $this->members = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -135,18 +167,6 @@ class Struct
         return $this;
     }
 
-    public function getShefId(): ?int
-    {
-        return $this->shef_id;
-    }
-
-    public function setShefId(int $shef_id): self
-    {
-        $this->shef_id = $shef_id;
-
-        return $this;
-    }
-
     public function getLatitude(): ?int
     {
         return $this->latitude;
@@ -198,35 +218,25 @@ class Struct
     /**
      * @return mixed
      */
+
     public function getUpdatedAt()
     {
         return $this->updated_at;
     }
 
     /**
-     * @return Collection|User[]
+     * @param mixed $sheaf
      */
-    public function getUserId(): Collection
+    public function setSheaf($sheaf): void
     {
-        return $this->user_id;
+        $this->sheaf = $sheaf;
     }
 
-    public function addUserId(User $userId): self
+    /**
+     * @param mixed $members
+     */
+    public function setMembers($members): void
     {
-        if (!$this->user_id->contains($userId)) {
-            $this->user_id[] = $userId;
-            $userId->addStructId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUserId(User $userId): self
-    {
-        if ($this->user_id->removeElement($userId)) {
-            $userId->removeStructId($this);
-        }
-
-        return $this;
+        $this->members = $members;
     }
 }

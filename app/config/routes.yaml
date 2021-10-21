@@ -18,17 +18,21 @@ _profiler:
 user:
   path: /user/{id}
   controller: App\Controller\user\UserController::show
+  requirements:
+    id: '\d+'
 
-user.add:
-  path: /user/add
-  controller: App\Controller\user\UserController::add
+user.create:
+  path: /user/create
+  controller: App\Controller\user\UserController::create
 
 user.edit:
   path: /user/{id}/edit
   controller: App\Controller\user\UserController::edit
+  requirements:
+    id: '\d+'
 
 user.list:
-    path: /user/list
+    path: /user/list/{role}
     controller: App\Controller\user\UserController::list
 
 #---------------------------STRUCTS---------------------------#
@@ -36,14 +40,18 @@ user.list:
 struct:
   path: /struct/{id}
   controller: App\Controller\struct\StructController::show
+  requirements:
+    id: '\d+'
 
-struct.add:
-  path: /struct/add
-  controller: App\Controller\struct\StructController::add
+struct.create:
+  path: /struct/create
+  controller: App\Controller\struct\StructController::creare
 
 struct.edit:
   path: /struct/{id}/edit
   controller: App\Controller\struct\StructController::edit
+  requirements:
+    id: '\d+'
 
 struct.list:
   path: /struct/list

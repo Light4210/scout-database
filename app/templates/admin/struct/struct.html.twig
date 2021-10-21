@@ -1,0 +1,22 @@
+{% extends 'admin/default/default.html.twig' %}
+
+{% block content %}
+    <h1>Struct</h1>
+    {% for flashMessage in app.session.flashbag.get('fail') %}
+        {{ flashMessage }}
+    {% endfor %}
+    {% set members = struct.getMembers %}
+    {% set shef = struct.getSheaf %}
+    SHEAF IS <strong>{{ shef.name }}</strong>
+    <ul>
+        {% if members is defined and members is not empty%}
+            {% for member in members %}
+                <li>
+                    {{ member.name }}
+                </li>
+            {% endfor %}
+        {% else %}
+            <strong>Here is no members(((</strong>
+        {% endif %}
+            </ul>
+{% endblock %}
