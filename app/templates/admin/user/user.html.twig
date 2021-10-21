@@ -5,4 +5,10 @@
     {% for flashMessage in app.session.flashbag.get('fail') %}
         {{ flashMessage }}
     {% endfor %}
+    <ul>
+        {{ user.name }}
+        {% if editable == true %}
+        <li><a href="{{ path('user.edit', {'id': app.request.get('id')}) }}">edit</a></li>
+        {% endif %}
+    </ul>
 {% endblock %}

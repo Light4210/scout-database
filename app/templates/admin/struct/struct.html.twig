@@ -6,17 +6,25 @@
         {{ flashMessage }}
     {% endfor %}
     {% set members = struct.getMembers %}
-    {% set shef = struct.getSheaf %}
-    SHEAF IS <strong>{{ shef.name }}</strong>
-    <ul>
-        {% if members is defined and members is not empty%}
+    {% set sheaf = struct.getSheaf %}
+    SHEAF IS: <strong><a href="{{ path('user',{'id': sheaf.id}) }}">{{ sheaf.name }}</a></strong>
+    {% if app.user.id == sheaf.id %}
+        <ul>
+            <li><a href="{{ path('user.create') }}">add new member</a></li>
+            <li><a href="{{ path('struct.edit' , {'id': struct.id }) }}">edit {{ struct.name }}</a></li>
+        </ul>
+    {% endif %}
+    {% if members is defined and members is not empty %}
+        <br>
+        members
+        <ul>
             {% for member in members %}
                 <li>
-                    {{ member.name }}
+                    <a href="{{ path('user',{'id': member.id}) }}">{{ member.name }}</a>
                 </li>
             {% endfor %}
-        {% else %}
-            <strong>Here is no members(((</strong>
-        {% endif %}
-            </ul>
+        </ul>
+    {% else %}
+        <strong>Here is no members(((</strong>
+    {% endif %}
 {% endblock %}
