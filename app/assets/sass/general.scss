@@ -26,33 +26,3 @@ img{
 .content-wrap{
   display: flex;
 }
-
-.admin-sidebar{
-  min-height: 100vh;
-  padding: 30px;
-}
-
-.admin-content{
-  width: 100%;
-  background: #e2e2e2;
-  min-height: 100vh;
-}
-
-.logo img{
-  margin: 34px;
-}
-
-.user-wrap img{
-  height: 150px;
-}
-
-.ministry, .sidebar-menu{
-  margin-top: 15px;
-}
-
-.sidebar-menu{
-  padding-top: 15px;
-  border-top: 2px solid;
-  list-style: none;
-  padding-left: 0;
-}

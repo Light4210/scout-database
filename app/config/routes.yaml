@@ -1,48 +1,66 @@
 index:
   path: /
-  controller: App\Controller\MainController::index
+  controller: App\Controller\single\MainController::index
   methods: GET
+
+#---------------------------DEBUG---------------------------#
+
+_wdt:
+  resource: "@WebProfilerBundle/Resources/config/routing/wdt.xml"
+  prefix:   /_wdt
+
+_profiler:
+  resource: "@WebProfilerBundle/Resources/config/routing/profiler.xml"
+  prefix:   /_profiler
 
 #---------------------------USER---------------------------#
 
 user:
   path: /user/{id}
-  controller: App\Controller\DefaultController::index
+  controller: App\Controller\user\UserController::show
+  requirements:
+    id: '\d+'
+
+user.create:
+  path: /user/create
+  controller: App\Controller\user\UserController::create
 
 user.edit:
   path: /user/{id}/edit
-  controller: App\Controller\DefaultController::index
-
-user.add:
-  path: /user/add
-  controller: App\Controller\DefaultController::index
+  controller: App\Controller\user\UserController::edit
+  requirements:
+    id: '\d+'
 
 user.list:
-    path: /user/list
-    controller: App\Controller\DefaultController::index
+    path: /user/list/{role}
+    controller: App\Controller\user\UserController::list
 
 #---------------------------STRUCTS---------------------------#
 
-structs:
-  path: /struct/list
-  controller: App\Controller\DefaultController::index
-
 struct:
   path: /struct/{id}
-  controller: App\Controller\DefaultController::index
+  controller: App\Controller\struct\StructController::show
+  requirements:
+    id: '\d+'
 
-struct.add:
-  path: /struct/add
-  controller: App\Controller\DefaultController::index
+struct.create:
+  path: /struct/create
+  controller: App\Controller\struct\StructController::creare
 
 struct.edit:
   path: /struct/{id}/edit
-  controller: App\Controller\DefaultController::index
+  controller: App\Controller\struct\StructController::edit
+  requirements:
+    id: '\d+'
 
-#---------------------------KARIK---------------------------#
+struct.list:
+  path: /struct/list
+  controller: App\Controller\struct\StructController::list
 
-karik:
-  path: /karik
+#---------------------------SHOP---------------------------#
+
+shop:
+  path: /shop
   controller: App\Controller\DefaultController::index
 
 #---------------------------EVENTS---------------------------#
