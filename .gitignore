@@ -1,3 +1,5 @@
 .idea/
 mysql/
+mysql
+/mysql
 !/mysql/
