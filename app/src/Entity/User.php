@@ -3,11 +3,11 @@
 
 namespace App\Entity;
 
-use App\Entity\Struct;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
-use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\OneToOne;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
@@ -51,6 +51,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             'sheafOf'=> Struct::STRUCT_NAMES['community'],
             'membersRole' => self::ROLES['wolvies']
         ],
+        'president' => [
+            'name' => 'president',
+            'access' => self::PRIORITY['nationalCouncil'],
+            'sheafOf'=> Struct::STRUCT_NAMES['troop'],
+            'membersRole' => self::ROLES['scout']
+        ],
     ];
 
     /**
@@ -61,78 +67,123 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true, nullable=true)
+     * @ORM\Column(type="string", length=62, unique=true, nullable=false)
+     * @Assert\Email
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 62,
+     *      minMessage = "Your email must be at least {{ limit }} characters long",
+     *      maxMessage = "Your email cannot be longer than {{ limit }} characters"
+     * )
      */
-    private $email;
+    private ?string $email;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
+     * @ORM\Column(type="json", nullable=true, length=100)
      */
-    private $roles = [];
+    private array $roles = [];
 
     /**
      * @var string The hashed password
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $password;
+     * @ORM\Column(type="string", nullable=true, length=255)
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 100,
+     *      minMessage = "Your password must be at least {{ limit }} characters long",
+     *      maxMessage = "Your password cannot be longer than {{ limit }} characters"
+     * )
+     */    private string $password;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
+     * @ORM\Column(type="string", length=50, nullable=false)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Your name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your name cannot be longer than {{ limit }} characters"
+     * )
+     */    private ?string $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $surname;
+     * @ORM\Column(type="string", length=50, nullable=false)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Your surname must be at least {{ limit }} characters long",
+     *      maxMessage = "Your surname cannot be longer than {{ limit }} characters"
+     * )
+     */    private ?string $surname;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $middle_name;
+     * @ORM\Column(type="string", length=50, nullable=true)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Your middle name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your middle name cannot be longer than {{ limit }} characters"
+     * )
+     */    private ?string $middle_name;
 
     /**
      * @ORM\Column(type="date", nullable=true)
      */
-    private $date_of_birth;
+    private ?\DateTimeInterface $date_of_birth;
 
     /**
-     * @ORM\Column(type="bigint", nullable=true, length=20)
+     * @ORM\Column(type="string", length=15, nullable=true)
+     * @Assert\Length(
+     *      min = 9,
+     *      max = 15,
+     *      minMessage = "Your phone number must be at least {{ limit }} characters long",
+     *      maxMessage = "Your phone number cannot be longer than {{ limit }} characters"
+     * )
+     */    private ?string $phone_number;
+
+    /**
+     * @ORM\Column(type="string", length=20, nullable=false, options={"default" : "active"})
+     * @Assert\Choice(choices=User::STATUS, message="Choose a valid status.")
      */
-    private $phone_number;
+    private ?string $status;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=50, nullable=true)
+     * @Assert\Choice(choices=User::MINISTRY, message="Choose a valid ministry.")
      */
-    private $status;
+    private ?string $ministry;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $ministry;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @OneToOne(targetEntity="Attachments")
+     * @JoinColumn(name="deal_scan_id", referencedColumnName="id", nullable=true)
+     * @Assert\File( maxSize="1M", mimeTypes={"application/pdf", "application/x-pdf"} )
      */
     private $deal_scan;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=95, nullable=true)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 95,
+     *      minMessage = "Your address must be at least {{ limit }} characters long",
+     *      maxMessage = "Your address cannot be longer than {{ limit }} characters"
+     * )
      */
-    private $adress;
+    private ?string $address;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=50, nullable=false)
+     * @Assert\Choice(choices=User::ROLES, message="Choose a valid role.")
      */
-    private $role;
+    private ?string $role;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @OneToOne(targetEntity="Attachments")
+     * @JoinColumn(name="photo_id", referencedColumnName="id", nullable=true)
+     * @Assert\File( maxSize="4M", mimeTypes={"image/*"} )
      */
     private $photo;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=false)
      */
     private $created_at;
 
@@ -144,7 +195,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @OneToOne(targetEntity="Struct", mappedBy="sheaf")
      */
-    private $sheafOf;
+    private mixed $sheafOf;
 
     /**
      * @ORM\ManyToOne(targetEntity="Struct", inversedBy="members")
@@ -341,26 +392,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getDealScan(): ?string
+    /**
+     * @return mixed
+     */
+    public function getDealScan()
     {
         return $this->deal_scan;
     }
 
-    public function setDealScan(?string $deal_scan): self
+    /**
+     * @param mixed $deal_scan
+     */
+    public function setDealScan($deal_scan)
     {
         $this->deal_scan = $deal_scan;
-
-        return $this;
     }
 
-    public function getAdress(): ?string
+    public function getAddress(): ?string
     {
-        return $this->adress;
+        return $this->address;
     }
 
-    public function setAdress(?string $adress): self
+    public function setAddress(?string $address): self
     {
-        $this->adress = $adress;
+        $this->address = $address;
 
         return $this;
     }
@@ -377,16 +432,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPhoto(): ?string
+    /**
+     * @return mixed
+     */
+    public function getPhoto()
     {
         return $this->photo;
     }
 
-    public function setPhoto(?string $photo): self
+    /**
+     * @param mixed $photo
+     */
+    public function setPhoto($photo)
     {
         $this->photo = $photo;
-
-        return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable
@@ -428,4 +487,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->sheafOf = $sheafOf;
     }
+
+    public function __toString() {
+        return $this->name;
+    }
+
 }

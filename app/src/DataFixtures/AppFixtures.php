@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Struct;
 use App\Entity\User;
+use App\Repository\StructRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -32,11 +33,9 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < $this::LOAD_FIXTURES['TRAVELERS']; $i++) {
             $user = new User();
             $user->setEmail($this->faker->email());
-            $user->setAdress($this->faker->address());
+            $user->setAddress($this->faker->address());
             $user->setPhoneNumber((int)$this->faker->phoneNumber());
-            $user->setPhoto($this->faker->filePath());
             $user->setMinistry($this->faker->randomElement(array_keys(User::MINISTRY)));
-            $user->setDealScan($this->faker->filePath());
             $user->setDateOfBirth($this->faker->dateTimeBetween('--30 years', '++30 years'));
             $user->setPassword($this->PasswordHasherFactoryInterface->getPasswordHasher($user)->hash($this->faker->password()));
             $user->setName($this->faker->firstName());
@@ -52,10 +51,8 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < $this::LOAD_FIXTURES['SCOUTS']; $i++) {
             $user = new User();
             $user->setEmail($this->faker->email());
-            $user->setAdress($this->faker->address());
+            $user->setAddress($this->faker->address());
             $user->setPhoneNumber((int)$this->faker->phoneNumber());
-            $user->setPhoto($this->faker->filePath());
-            $user->setDealScan($this->faker->filePath());
             $user->setDateOfBirth($this->faker->dateTimeBetween('--30 years', '++30 years'));
             $user->setName($this->faker->firstName());
             $user->setSurname($this->faker->lastName());
@@ -70,10 +67,8 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < $this::LOAD_FIXTURES['WOLVIES']; $i++) {
             $user = new User();
             $user->setEmail($this->faker->email());
-            $user->setAdress($this->faker->address());
+            $user->setAddress($this->faker->address());
             $user->setPhoneNumber((int)$this->faker->phoneNumber());
-            $user->setPhoto($this->faker->filePath());
-            $user->setDealScan($this->faker->filePath());
             $user->setDateOfBirth($this->faker->dateTimeBetween('--30 years', '++30 years'));
             $user->setName($this->faker->firstName());
             $user->setSurname($this->faker->lastName());
@@ -88,10 +83,8 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < $this::LOAD_FIXTURES['TRAVELERS']; $i++) {
             $user = new User();
             $user->setEmail($this->faker->email());
-            $user->setAdress($this->faker->address());
+            $user->setAddress($this->faker->address());
             $user->setPhoneNumber((int)$this->faker->phoneNumber());
-            $user->setPhoto($this->faker->filePath());
-            $user->setDealScan($this->faker->filePath());
             $user->setDateOfBirth($this->faker->dateTimeBetween('--30 years', '++30 years'));
             $user->setName($this->faker->firstName());
             $user->setSurname($this->faker->lastName());
@@ -113,7 +106,7 @@ class AppFixtures extends Fixture
             $user = $userWithoutStruct[$i];
             $struct = new Struct();
             $struct->setType(Struct::STRUCT[User::MINISTRY[$user->getMinistry()]['sheafOf']]['name']);
-            $struct->setAdress($this->faker->address());
+            $struct->setAddress($this->faker->address());
             $struct->setName($this->faker->company());
             $struct->setCity($this->faker->city());
             $struct->setSheaf($user);
@@ -136,6 +129,11 @@ class AppFixtures extends Fixture
             $manager->flush();
         }
 
+        $circle = $manager->getRepository(Struct::class)->findOneBy(['type'=>Struct::STRUCT_NAMES['circle']]);
+        $struct = $manager->getRepository(Struct::class)->findOneBy(['type'=>Struct::STRUCT_NAMES['troop']]);
+        if(empty($troop)){
+            $struct = $manager->getRepository(Struct::class)->findOneBy(['type'=>Struct::STRUCT_NAMES['community']]);
+        }
         $user = new User();
         $user->setEmail('admin@test.com');
         $user->setPassword($this->PasswordHasherFactoryInterface->getPasswordHasher($user)->hash('test'));
@@ -144,9 +142,13 @@ class AppFixtures extends Fixture
         $user->setMiddleName('Olegivich');
         $user->setStatus(User::STATUS['active']);
         $user->setRole(User::ROLES['traveller']);
+        $user->setMinistry(Struct::STRUCT[$struct->getType()]['sheaf']['name']);
+        $user->setSheafOf($struct);
+        $user->setStruct($circle);
         $user->setCreatedAt(new \DateTimeImmutable());
+        $struct->setSheaf($user);
         $manager->persist($user);
-
+        $manager->persist($struct);
         $manager->flush();
     }
 }

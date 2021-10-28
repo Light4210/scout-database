@@ -5,6 +5,9 @@
     {% for flashMessage in app.session.flashbag.get('fail') %}
         {{ flashMessage }}
     {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        {{ flashMessage }}
+    {% endfor %}
     {% set members = struct.getMembers %}
     {% set sheaf = struct.getSheaf %}
     SHEAF IS: <strong><a href="{{ path('user',{'id': sheaf.id}) }}">{{ sheaf.name }}</a></strong>

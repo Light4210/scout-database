@@ -6,7 +6,7 @@ use App\Repository\StructRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\OneToOne;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=StructRepository::class)
@@ -21,7 +21,7 @@ class Struct
 
     const STRUCT = [
         self::STRUCT_NAMES['troop'] => [
-            'name' => 'troops',
+            'name' => 'troop',
             'sheaf' => User::MINISTRY['troopLeader']
         ],
         self::STRUCT_NAMES['community'] => [
@@ -42,50 +42,80 @@ class Struct
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=20, nullable=false)
+     * @Assert\Choice(choices=Struct::STRUCT_NAMES, message="Choose a valid struct type.")
      */
-    private $type;
+    private ?string $type;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=50, nullable=false)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Your name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your name cannot be longer than {{ limit }} characters"
+     * )
      */
-    private $name;
+    private ?string $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $city;
+     * @ORM\Column(type="string", length=35, nullable=false)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 35,
+     *      minMessage = "Your city name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your city name cannot be longer than {{ limit }} characters"
+     * )     */
+    private ?string $city;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $adress;
+     * @ORM\Column(type="string", length=95, nullable=false)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 95,
+     *      minMessage = "Your address must be at least {{ limit }} characters long",
+     *      maxMessage = "Your address cannot be longer than {{ limit }} characters"
+     * )     */
+    private ?string $address;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="decimal", nullable=true, length=12)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 12,
+     *      minMessage = "Latitude must be at least {{ limit }} characters long",
+     *      maxMessage = "Latitude be longer than {{ limit }} characters"
+     * )
      */
-    private $latitude;
+    private ?float $latitude;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="decimal", nullable=true, length=12)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 12,
+     *      minMessage = "Longitude must be at least {{ limit }} characters long",
+     *      maxMessage = "Longitude cannot be longer than {{ limit }} characters"
+     * )
+     *
      */
-    private $longitude;
+    private ?float $longitude;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=false)
      */
-    private $created_at;
+    private mixed $created_at;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $updated_at;
+    private mixed $updated_at;
 
     /**
      * @ORM\OneToOne(targetEntity="User", inversedBy="sheafOf")
      * @ORM\JoinColumn(name="sheaf_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    private $sheaf;
+    private mixed $sheaf;
 
 
     /**
@@ -155,14 +185,14 @@ class Struct
         return $this;
     }
 
-    public function getAdress(): ?string
+    public function getAddress(): ?string
     {
-        return $this->adress;
+        return $this->address;
     }
 
-    public function setAdress(string $adress): self
+    public function setAddress(string $address): self
     {
-        $this->adress = $adress;
+        $this->address = $address;
 
         return $this;
     }
@@ -202,7 +232,7 @@ class Struct
     /**
      * @return mixed
      */
-    public function getCreatedAt()
+    public function getCreatedAt(): mixed
     {
         return $this->created_at;
     }
