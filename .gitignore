@@ -1,7 +1,7 @@
 .idea/
 mysql/
 mysql
-/mysql
+!/mysql
 !/mysql/
 /mysql/auto.cnf
 /mysql/ca-key.pem
@@ -13,3 +13,5 @@ mysql
 /mysql/ibtmp1
 /mysql/private_key.pem
 /mysql/server-key.pem
+!/app/public/images/photos/
+/app/public/images/photos/
