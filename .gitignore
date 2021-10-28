@@ -3,3 +3,13 @@ mysql/
 mysql
 /mysql
 !/mysql/
+/mysql/auto.cnf
+/mysql/ca-key.pem
+/mysql/client-key.pem
+/mysql/ib_buffer_pool
+/mysql/ib_logfile0
+/mysql/ib_logfile1
+/mysql/ibdata1
+/mysql/ibtmp1
+/mysql/private_key.pem
+/mysql/server-key.pem
