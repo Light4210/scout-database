@@ -124,6 +124,16 @@ class Struct
     private $members;
 
     /**
+     * @ORM\OneToMany(targetEntity=TransferUser::class, mappedBy="target_struct", orphanRemoval=true)
+     */
+    private $transfersOnPending;
+
+    /**
+     * @ORM\OneToMany(targetEntity=TransferUser::class, mappedBy="current_struct", orphanRemoval=true)
+     */
+    private $transfers;
+
+    /**
      * @return mixed
      */
     public function getSheaf()
@@ -142,6 +152,8 @@ class Struct
     public function __construct()
     {
         $this->members = new ArrayCollection();
+        $this->transfersOnPending = new ArrayCollection();
+        $this->transfers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -268,5 +280,65 @@ class Struct
     public function setMembers($members): void
     {
         $this->members = $members;
+    }
+
+    /**
+     * @return Collection|TransferUser[]
+     */
+    public function getTransfersOnPending(): Collection
+    {
+        return $this->transfersOnPending;
+    }
+
+    public function addTransfersOnPending(TransferUser $transfersOnPending): self
+    {
+        if (!$this->transfersOnPending->contains($transfersOnPending)) {
+            $this->transfersOnPending[] = $transfersOnPending;
+            $transfersOnPending->setTargetStruct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransfersOnPending(TransferUser $transfersOnPending): self
+    {
+        if ($this->transfersOnPending->removeElement($transfersOnPending)) {
+            // set the owning side to null (unless already changed)
+            if ($transfersOnPending->getTargetStruct() === $this) {
+                $transfersOnPending->setTargetStruct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TransferUser[]
+     */
+    public function getTransfers(): Collection
+    {
+        return $this->transfers;
+    }
+
+    public function addTransfer(TransferUser $transfer): self
+    {
+        if (!$this->transfers->contains($transfer)) {
+            $this->transfers[] = $transfer;
+            $transfer->setCurrentStruct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransfer(TransferUser $transfer): self
+    {
+        if ($this->transfers->removeElement($transfer)) {
+            // set the owning side to null (unless already changed)
+            if ($transfer->getCurrentStruct() === $this) {
+                $transfer->setCurrentStruct(null);
+            }
+        }
+
+        return $this;
     }
 }

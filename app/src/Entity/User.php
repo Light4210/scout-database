@@ -3,6 +3,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping\OneToOne;
@@ -141,13 +143,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=20, nullable=false, options={"default" : "active"})
-     * @Assert\Choice(choices=User::STATUS, message="Choose a valid status.")
+     * @Assert\Choice(choices=User::STATUS, message="Choose a valid status")
      */
     private ?string $status;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
-     * @Assert\Choice(choices=User::MINISTRY, message="Choose a valid ministry.")
+     * @Assert\Choice(choices=User::MINISTRY, message="Choose a valid ministry")
      */
     private ?string $ministry;
 
@@ -171,7 +173,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=50, nullable=false)
-     * @Assert\Choice(choices=User::ROLES, message="Choose a valid role.")
+     * @Assert\Choice(choices=User::ROLES, message="Choose a valid role")
      */
     private ?string $role;
 
@@ -202,6 +204,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\JoinColumn(name="struct_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $struct;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Notifications::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $notifications;
+
+    public function __construct()
+    {
+        $this->notifications = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -492,4 +504,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->name;
     }
 
+    /**
+     * @return Collection|Notifications[]
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notifications $notification): self
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications[] = $notification;
+            $notification->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notifications $notification): self
+    {
+        if ($this->notifications->removeElement($notification)) {
+            // set the owning side to null (unless already changed)
+            if ($notification->getUser() === $this) {
+                $notification->setUser(null);
+            }
+        }
+
+        return $this;
+    }
 }
