@@ -1,3 +1,4 @@
+
 index:
   path: /
   controller: App\Controller\single\MainController::index
@@ -35,6 +36,12 @@ user.list:
     path: /user/list/{role}
     controller: App\Controller\user\UserController::list
 
+user.promote.wolvies:
+    path: /user/promote/wolviews/{id}
+    controller: App\Controller\user\UserController::promoteWolvies
+    requirements:
+      id: '\d+'
+
 #---------------------------STRUCTS---------------------------#
 
 struct:
@@ -45,7 +52,7 @@ struct:
 
 struct.create:
   path: /struct/create
-  controller: App\Controller\struct\StructController::creare
+  controller: App\Controller\struct\StructController::create
 
 struct.edit:
   path: /struct/{id}/edit

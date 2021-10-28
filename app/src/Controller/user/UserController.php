@@ -2,19 +2,20 @@
 
 namespace App\Controller\user;
 
-use App\Entity\Struct;
 use App\Entity\User;
-use App\Form\UserCreateType;
+use App\Entity\Struct;
 use App\Form\UserEditType;
+use App\Form\UserCreateType;
 use App\Service\EditableService;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Stopwatch\Section;
+use App\Service\RedirectService;
+use App\Service\AttachmentService;
 use Symfony\form\FormBuilderInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 class UserController extends AbstractController
 {
@@ -40,10 +41,12 @@ class UserController extends AbstractController
     /**
      * @param EditableService $editableService
      * @param EntityManagerInterface $entityManager
+     * @param AttachmentService $attachmentService ,
      * @param Request $request
      * @return Response
      */
-    public function edit(Security $security, EditableService $editableService, EntityManagerInterface $entityManager, Request $request): Response
+    public function edit(Security $security, EditableService $editableService, EntityManagerInterface $entityManager, AttachmentService $attachmentService, Request $request, RedirectService $redirectService
+    ): Response
     {
         $currentUser = $security->getUser();
 
@@ -55,13 +58,27 @@ class UserController extends AbstractController
 
         $editable = $editableService->checkUser($user, $currentUser);
         if (!$editable) {
-            $this->addFlash('fail', "You cant edit this user");
-            $url = $this->generateUrl('user', ['id' => $id]);
-            return $this->redirect($url);
+            return $redirectService->redirectWithPopup(
+                RedirectService::MESSAGE_TYPE['fail'],
+                RedirectService::MESSAGE_TEXT['USER_EDIT_DENIED'],
+                'user',
+                [
+                    'id' => $id
+                ]
+            );
         }
 
         $form = $this->createForm(UserEditType::class, $user)->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->has('photo') && $form->get('photo')->getData() !== null) {
+                $photo = $attachmentService->createAttachment($form->get('photo')->getData(), $form->get('photo')->getName());
+                $user->setPhoto($photo);
+            }
+            if ($form->has('dealScan') && $form->get('dealScan')->getData() !== null) {
+                $dealScan = $attachmentService->createAttachment($form->get('dealScan')->getData(), $form->get('dealScan')->getName());
+                $user->setDealScan($dealScan);
+            }
+            $entityManager->persist($user);
             $entityManager->flush();
         }
         return $this->renderForm('admin/user/edit-user.html.twig', [
@@ -71,28 +88,42 @@ class UserController extends AbstractController
     }
 
     /**
+     * @param AttachmentService $attachmentService ,
      * @param Security $security
      * @param EntityManagerInterface $entityManager
      * @param Request $request
      * @return Response
      */
-    public function create(Security $security, EntityManagerInterface $entityManager, Request $request): Response
+    public function create(AttachmentService $attachmentService, Security $security, EntityManagerInterface $entityManager, Request $request, RedirectService $redirectService): Response
     {
         $currentUser = $security->getUser();
         $id = $currentUser->getId();
         $sheafStruct = $entityManager->getRepository(Struct::class)->findOneBy(['sheaf' => $id]);
         if (!$sheafStruct) {
-            $this->addFlash('fail', "You cant create new users without your own structure");
-            $url = $this->generateUrl('user', ['id' => $id]);
-            return $this->redirect($url);
+            return $redirectService->redirectWithPopup(
+                RedirectService::MESSAGE_TYPE['fail'],
+                RedirectService::MESSAGE_TEXT['CREATE_USER_WITH_NO_STRUCT'],
+                'user',
+                [
+                    'id' => $id
+                ]
+            );
         }
 
         $form = $this->createForm(UserCreateType::class)->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
-            $entityManager->persist($user);
+            if ($form->has('photo') && $form->get('photo')->getData() !== null) {
+                $photo = $attachmentService->createAttachment($form->get('photo')->getData(), $form->get('photo')->getName());
+                $user->setPhoto($photo);
+            }
+            if ($form->has('dealScan') && $form->get('dealScan')->getData() !== null) {
+                $dealScan = $attachmentService->createAttachment($form->get('dealScan')->getData(), $form->get('dealScan')->getName());
+                $user->setDealScan($dealScan);
+            }
             $user->setCreatedAt(new \DateTimeImmutable());
+            $entityManager->persist($user);
             $entityManager->flush();
         }
 
@@ -102,19 +133,41 @@ class UserController extends AbstractController
         ]);
     }
 
-    public function list(Security $security, EntityManagerInterface $entityManager, Request $request): Response
+    public function list(Security $security, EntityManagerInterface $entityManager, Request $request, RedirectService $redirectService): Response
     {
         $currentUser = $security->getUser();
 
         $role = $request->attributes->get('role');
 
-        if(User::MINISTRY_PRIORITY[$currentUser->getMinistry()] < User::PRIORITY['nationalCouncil']){
-            $this->addFlash('fail', "Access denied");
-            $url = $this->generateUrl('index');
-            return $this->redirect($url);
+        if (User::MINISTRY[$currentUser->getMinistry()]['access'] < User::PRIORITY['nationalCouncil']) {
+            return $redirectService->redirectWithPopup(
+                RedirectService::MESSAGE_TYPE['fail'],
+                RedirectService::MESSAGE_TEXT['ACCESS_DENIED'],
+                'index',
+                []
+            );
         }
 
-        $users = $entityManager->getRepository(User::class)->findBy(['role'=>User::ROLES[$role]]);
+        $users = $entityManager->getRepository(User::class)->findBy(['role' => User::ROLES[$role]]);
         return $this->render('admin/user/user-list.html.twig', ['users' => $users]);
+    }
+
+    public function promoteWolvies(Security $security, EntityManagerInterface $entityManager, Request $request, User $wolviews, EditableService $editableService, RedirectService $redirectService): Response
+    {
+        $currentUser = $security->getUser();
+
+        if (!$editableService->checkWolviewsPromotion($wolviews, $currentUser)) {
+            return $redirectService->redirectWithPopup(
+                RedirectService::MESSAGE_TYPE['fail'],
+                RedirectService::MESSAGE_TEXT['ACCESS_DENIED'],
+                'index',
+                []
+            );
+        }
+        $wolviews->setRole(User::ROLES['scout']);
+        $entityManager->persist($wolviews);
+        $entityManager->flush();
+        $url = $this->generateUrl('user', ['id' => $wolviews->getId()]);
+        return $this->redirect($url);
     }
 }

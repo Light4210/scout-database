@@ -3,17 +3,16 @@
 namespace App\Controller\struct;
 
 use App\Entity\Struct;
-use App\Entity\User;
 use App\Form\StructCreateType;
 use App\Form\StructEditType;
-use App\Form\UserCreateType;
+use App\Service\CreatableService;
 use App\Service\EditableService;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use App\Service\RedirectService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
-use function Symfony\Component\String\s;
 
 class StructController extends AbstractController
 {
@@ -27,7 +26,7 @@ class StructController extends AbstractController
         return $this->render('admin/struct/struct.html.twig', ['struct' => $struct]);
     }
 
-    public function edit(EditableService $editableService, EntityManagerInterface $entityManager, Security $security, Request $request): Response
+    public function edit(EditableService $editableService, EntityManagerInterface $entityManager, Security $security, Request $request, RedirectService $redirectService): Response
     {
         $currentUser = $security->getUser();
 
@@ -39,9 +38,14 @@ class StructController extends AbstractController
 
         $editable = $editableService->checkStruct($struct, $currentUser);
         if (!$editable) {
-            $this->addFlash('fail', "You cant edit this struct");
-            $url = $this->generateUrl('struct', ['id' => $id]);
-            return $this->redirect($url);
+            return $redirectService->redirectWithPopup(
+                RedirectService::MESSAGE_TYPE['fail'],
+                RedirectService::MESSAGE_TEXT['STRUCT_EDIT_DENIED'],
+                'struct',
+                [
+                    'id' => $id
+                ]
+            );
         }
 
         $form = $this->createForm(StructEditType::class, $struct)->handleRequest($request);
@@ -55,19 +59,42 @@ class StructController extends AbstractController
         ]);
     }
 
-    public function create(Security $security, Request $request, EntityManagerInterface $entityManager): Response
+    public function create(Security $security, Request $request, EntityManagerInterface $entityManager, CreatableService $creatableService, RedirectService $redirectService): Response
     {
+
         $currentUser = $security->getUser();
-        if($currentUser->get)
+        $creatable = $creatableService->checkUserStructCreateResponsibility($currentUser);
+
+        if (!$creatable) {
+            return $redirectService->redirectWithPopup(
+                RedirectService::MESSAGE_TYPE['fail'],
+                RedirectService::MESSAGE_TEXT['STRUCT_EDIT_DENIED'],
+                'user',
+                [
+                    'id' => $currentUser->getId()
+                ]
+            );
+        }
+
         $form = $this->createForm(StructCreateType::class)->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $struct = $form->getData();
             $entityManager->persist($struct);
             $entityManager->flush();
+            return $redirectService->redirectWithPopup(
+                RedirectService::MESSAGE_TYPE['success'],
+                RedirectService::MESSAGE_TEXT['USER_EDIT_DENIED'],
+                'user',
+                [
+                    'id' => $currentUser->getId()
+                ]
+            );
+            $this->addFlash('success', "Congratulation now you have your own struct :)");
+            $url = $this->generateUrl('struct', ['id' => $struct->getId()]);
+            return $this->redirect($url);
         }
-
-        return $this->render('admin/user/create-user.html.twig', [
+        return $this->render('admin/struct/create-struct.html.twig', [
             'form' => $form->createView(),
         ]);
     }
