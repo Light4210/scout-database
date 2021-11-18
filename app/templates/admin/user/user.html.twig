@@ -8,7 +8,10 @@
     <ul>
         {{ user.name }}
         {% if editable == true %}
-        <li><a href="{{ path('user.edit', {'id': app.request.get('id')}) }}">edit</a></li>
+        <li>
+            <a href="{{ path('user.edit', {'id': app.request.get('id')}) }}">edit</a>
+            <a href="{{ path('user.promote.' . user.type ) }}"></a>
+        </li>
         {% endif %}
     </ul>
 {% endblock %}

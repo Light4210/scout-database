@@ -36,12 +36,6 @@ user.list:
     path: /user/list/{role}
     controller: App\Controller\user\UserController::list
 
-user.promote.wolvies:
-    path: /user/promote/wolviews/{id}
-    controller: App\Controller\user\UserController::promoteWolvies
-    requirements:
-      id: '\d+'
-
 #---------------------------STRUCTS---------------------------#
 
 struct:
@@ -75,3 +69,11 @@ shop:
 events:
   path: /events
   controller: App\Controller\DefaultController::index
+
+#---------------------------AJAX---------------------------#
+
+ajax.user.promote:
+  path: /ajax/user/{id}/promote/
+  controller: App\Controller\user\UserController::promote
+  requirements:
+    id: '\d+'

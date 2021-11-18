@@ -9,6 +9,9 @@ use App\Form\UserCreateType;
 use App\Service\EditableService;
 use App\Service\RedirectService;
 use App\Service\AttachmentService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\form\FormBuilderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -152,22 +155,14 @@ class UserController extends AbstractController
         return $this->render('admin/user/user-list.html.twig', ['users' => $users]);
     }
 
-    public function promoteWolvies(Security $security, EntityManagerInterface $entityManager, Request $request, User $wolviews, EditableService $editableService, RedirectService $redirectService): Response
+    /**
+     * @Route("/ajax/user/{id}/promote/", name="ajax.user.promote", methods={"GET","POST"}, requirements={"id"="\d+"})
+     * @ParamConverter("id", class="User",       options={"id": "id"})
+     */
+    public function promote(Security $security, EntityManagerInterface $entityManager, Request $request, User $targetUser, EditableService $editableService, RedirectService $redirectService)
     {
         $currentUser = $security->getUser();
 
-        if (!$editableService->checkWolviewsPromotion($wolviews, $currentUser)) {
-            return $redirectService->redirectWithPopup(
-                RedirectService::MESSAGE_TYPE['fail'],
-                RedirectService::MESSAGE_TEXT['ACCESS_DENIED'],
-                'index',
-                []
-            );
-        }
-        $wolviews->setRole(User::ROLES['scout']);
-        $entityManager->persist($wolviews);
-        $entityManager->flush();
-        $url = $this->generateUrl('user', ['id' => $wolviews->getId()]);
-        return $this->redirect($url);
+        return new JsonResponse(array('name' => 'vitalii'));
     }
 }

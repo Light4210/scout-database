@@ -42,32 +42,9 @@ class EditableService extends AbstractController
      * @param User $currentUser
      * @return bool
      */
-    public function checkWolviewsPromotion(User $targetScout, UserInterface $currentUser): bool
+    public function checkPromotion(User $targetScout, UserInterface $currentUser): bool
     {
-        $editable = false;
-
-        $targetUserStruct = $targetWolviews->getStruct();
-        $targetUserSheafId = $targetUserStruct->getSheaf()->getId();
-        if ($currentUser->getId() === $targetUserSheafId && $targetWolviews->getRole() == User::ROLES['wolvies'] && $targetWolviews ) {
-            $editable = true;
-        }
-        return $editable;
-    }
-
-    /**
-     * @param User $targetScout
-     * @param UserInterface $currentUser
-     * @return bool
-     */
-    public function checkScoutPromotion(User $targetScout, UserInterface $currentUser): bool
-    {
-        $editable = false;
-
-        $targetUserStruct = $targetScout->getStruct();
-        $targetUserSheafId = $targetUserStruct->getSheaf()->getId();
-        if ($currentUser->getId() === $targetUserSheafId && $targetWolviews->getRole() == User::ROLES['scout']) {
-            $editable = true;
-        }
+        $editable = true;
         return $editable;
     }
 
