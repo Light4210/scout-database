@@ -2,12 +2,11 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Struct;
-use App\Entity\User;
-use App\Repository\StructRepository;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use App\Entity\User;
+use App\Entity\Struct;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
 class AppFixtures extends Fixture
@@ -129,10 +128,10 @@ class AppFixtures extends Fixture
             $manager->flush();
         }
 
-        $circle = $manager->getRepository(Struct::class)->findOneBy(['type'=>Struct::STRUCT_NAMES['circle']]);
-        $struct = $manager->getRepository(Struct::class)->findOneBy(['type'=>Struct::STRUCT_NAMES['troop']]);
-        if(empty($troop)){
-            $struct = $manager->getRepository(Struct::class)->findOneBy(['type'=>Struct::STRUCT_NAMES['community']]);
+        $circle = $manager->getRepository(Struct::class)->findOneBy(['type' => Struct::STRUCT_NAMES['circle']]);
+        $struct = $manager->getRepository(Struct::class)->findOneBy(['type' => Struct::STRUCT_NAMES['troop']]);
+        if (empty($troop)) {
+            $struct = $manager->getRepository(Struct::class)->findOneBy(['type' => Struct::STRUCT_NAMES['community']]);
         }
         $user = new User();
         $user->setEmail('admin@test.com');

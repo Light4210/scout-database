@@ -9,8 +9,8 @@ RUN apt update \
     && docker-php-ext-enable apcu \
     && docker-php-ext-configure zip \
     && docker-php-ext-install zip \
-    && chown -R www-data /var/www/scout-database/public/images/deals \
-    && chown -R www-data /var/www/scout-database/public/images/photos \
+#    && chown -R root:users /var/www/scout-database/app/public/images/deals \
+#    && chown -R root:users /var/www/scout-database/app/public/images/photos \
 
 
 
