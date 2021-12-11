@@ -99,8 +99,9 @@ class StructController extends AbstractController
         ]);
     }
 
-    public function list(): Response
+    public function list(EntityManagerInterface $entityManager): Response
     {
-        return $this->render('admin/struct/struct-list.html.twig');
+        $structs = $entityManager->getRepository(Struct::class)->findAll();
+        return $this->render('admin/struct/struct-list.html.twig', ['structs' => $structs]);
     }
 }

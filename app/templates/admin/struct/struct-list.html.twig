@@ -1,0 +1,20 @@
+{% extends 'admin/default/default.html.twig' %}
+
+{% block content %}
+    <!-- // TODO add filter -->
+    {% if app.request.get('type') != 'all' %}
+        <h1>{{ app.request.get('type') }} list</h1>
+    {% else %}
+        <h1>General struct list</h1>
+    {% endif %}
+    <ul>
+        {% for struct in structs %}
+            <li>
+                <a href="{{ path('struct',{'id': struct.id}) }}">{{ struct.name }}</a>
+                {% if app.request.get('type') == 'all' %}
+                    -  <span>{{ struct.type }}</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -19,6 +19,7 @@ class RedirectService extends AbstractController
         'ACCESS_DENIED' => 'Access denied',
         'STRUCT_EDIT_DENIED' => 'You cant edit this struct',
         'NEW_STRUCT' => 'Congratulation now you have your own struct :)',
+        'WRONG_ROLE_NAME' => 'Wrong role name',
     ];
     private $router;
 

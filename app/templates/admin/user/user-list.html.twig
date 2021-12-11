@@ -1,8 +1,20 @@
 {% extends 'admin/default/default.html.twig' %}
 
 {% block content %}
-    <h1>{{ app.request.get('role') }} list</h1>
-    {% for user in users %}
-        {{ user.name }}
-    {% endfor %}
+    <!-- // TODO add filter -->
+    {% if app.request.get('role') != 'all' %}
+        <h1>{{ app.request.get('role') }} list</h1>
+    {% else %}
+        <h1>General user list</h1>
+    {% endif %}
+    <ul>
+        {% for user in users %}
+            <li>
+                <a href="{{ path('user',{'id': user.id}) }}">{{ user.name }}</a>
+                {% if app.request.get('role') == 'all' %}
+                    -  <span>{{ user.role }}</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}

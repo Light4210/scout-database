@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use function Symfony\Component\String\u;
 
 
 class UserController extends AbstractController
@@ -29,7 +30,6 @@ class UserController extends AbstractController
         $id = $request->attributes->get('id');
         $currentUser = $security->getUser();
         $user = $entityManager->find(User::class, $id);
-        $editable = false;
         if (!$user) {
             return $this->render('admin/single/404.html.twig');
         }
@@ -147,8 +147,19 @@ class UserController extends AbstractController
                 []
             );
         }
+        if ($role == 'all') {
+            $users = $entityManager->getRepository(User::class)->findAll();
+        } else if (array_key_exists($role, User::ROLES)) {
+            $users = $entityManager->getRepository(User::class)->findBy(['role' => User::ROLES[$role]]);
+        } else {
+            return $redirectService->redirectWithPopup(
+                RedirectService::MESSAGE_TYPE['fail'],
+                RedirectService::MESSAGE_TEXT['WRONG_ROLE_NAME'],
+                'index',
+                []
+            );
+        }
 
-        $users = $entityManager->getRepository(User::class)->findBy(['role' => User::ROLES[$role]]);
         return $this->render('admin/user/user-list.html.twig', ['users' => $users]);
     }
 
