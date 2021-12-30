@@ -31,41 +31,7 @@ class EditableService extends AbstractController
         }
 
         $targetUserSheafId = $targetUserStruct->getSheaf()->getId();
-        if ($currentUser->getId() === $targetUserSheafId && ($targetUser->getRole() == User::ROLES['scout'] || $targetUser->getRole() == User::ROLES['wolvies'])) {
-            $editable = true;
-        }
-        return $editable;
-    }
-
-    /**
-     * @param User $targetScout
-     * @param User $currentUser
-     * @return bool
-     */
-    public function checkWolviewsPromotion(User $targetScout, UserInterface $currentUser): bool
-    {
-        $editable = false;
-
-        $targetUserStruct = $targetWolviews->getStruct();
-        $targetUserSheafId = $targetUserStruct->getSheaf()->getId();
-        if ($currentUser->getId() === $targetUserSheafId && $targetWolviews->getRole() == User::ROLES['wolvies'] && $targetWolviews ) {
-            $editable = true;
-        }
-        return $editable;
-    }
-
-    /**
-     * @param User $targetScout
-     * @param UserInterface $currentUser
-     * @return bool
-     */
-    public function checkScoutPromotion(User $targetScout, UserInterface $currentUser): bool
-    {
-        $editable = false;
-
-        $targetUserStruct = $targetScout->getStruct();
-        $targetUserSheafId = $targetUserStruct->getSheaf()->getId();
-        if ($currentUser->getId() === $targetUserSheafId && $targetWolviews->getRole() == User::ROLES['scout']) {
+        if ($currentUser->getId() === $targetUserSheafId && ($targetUser->getRole() == User::ROLE_SCOUT || $targetUser->getRole() == User::ROLE_WOLVES)) {
             $editable = true;
         }
         return $editable;

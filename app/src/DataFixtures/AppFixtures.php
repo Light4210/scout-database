@@ -8,13 +8,14 @@ use App\Entity\Struct;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
+use function Symfony\Component\String\u;
 
 class AppFixtures extends Fixture
 {
     const LOAD_FIXTURES = [
         'TRAVELERS' => 10,
         'SCOUTS' => 35,
-        'WOLVIES' => 40,
+        'WOLVES' => 40,
         'STRUCTS' => 10
     ];
 
@@ -34,14 +35,14 @@ class AppFixtures extends Fixture
             $user->setEmail($this->faker->email());
             $user->setAddress($this->faker->address());
             $user->setPhoneNumber((int)$this->faker->phoneNumber());
-            $user->setMinistry($this->faker->randomElement(array_keys(User::MINISTRY)));
+            $user->setMinistry($this->faker->randomElement(array_keys(User::ACTIVE_MINISTRY)));
             $user->setDateOfBirth($this->faker->dateTimeBetween('--30 years', '++30 years'));
             $user->setPassword($this->PasswordHasherFactoryInterface->getPasswordHasher($user)->hash($this->faker->password()));
             $user->setName($this->faker->firstName());
             $user->setSurname($this->faker->lastName());
             $user->setMiddleName($this->faker->firstName());
-            $user->setStatus(User::STATUS['active']);
-            $user->setRole(User::ROLES['traveller']);
+            $user->setStatus(User::STATUS_ACTIVE);
+            $user->setRole(User::ROLE_TRAVELLER);
             $user->setCreatedAt(new \DateTimeImmutable());
             $manager->persist($user);
             echo "generated $i user \n";
@@ -56,14 +57,14 @@ class AppFixtures extends Fixture
             $user->setName($this->faker->firstName());
             $user->setSurname($this->faker->lastName());
             $user->setMiddleName($this->faker->firstName());
-            $user->setStatus(User::STATUS['active']);
-            $user->setRole(User::ROLES['scout']);
+            $user->setStatus(User::STATUS_ACTIVE);
+            $user->setRole(User::ROLE_SCOUT);
             $user->setCreatedAt(new \DateTimeImmutable());
             $manager->persist($user);
             echo "generated $i user \n";
         }
 
-        for ($i = 0; $i < $this::LOAD_FIXTURES['WOLVIES']; $i++) {
+        for ($i = 0; $i < $this::LOAD_FIXTURES['WOLVES']; $i++) {
             $user = new User();
             $user->setEmail($this->faker->email());
             $user->setAddress($this->faker->address());
@@ -72,8 +73,8 @@ class AppFixtures extends Fixture
             $user->setName($this->faker->firstName());
             $user->setSurname($this->faker->lastName());
             $user->setMiddleName($this->faker->firstName());
-            $user->setStatus(User::STATUS['active']);
-            $user->setRole(User::ROLES['wolvies']);
+            $user->setStatus(User::STATUS_ACTIVE);
+            $user->setRole(User::ROLE_WOLVES);
             $user->setCreatedAt(new \DateTimeImmutable());
             $manager->persist($user);
             echo "generated $i user \n";
@@ -88,8 +89,8 @@ class AppFixtures extends Fixture
             $user->setName($this->faker->firstName());
             $user->setSurname($this->faker->lastName());
             $user->setMiddleName($this->faker->firstName());
-            $user->setStatus(User::STATUS['passive']);
-            $user->setRole($this->faker->randomElement(User::ROLES));
+            $user->setStatus(User::STATUS_PASSIVE);
+            $user->setRole($this->faker->randomElement([User::ROLE_SCOUT, User::ROLE_TRAVELLER, User::ROLE_WOLVES]));
             $user->setCreatedAt(new \DateTimeImmutable());
             $manager->persist($user);
             echo "generated $i user \n";
@@ -98,13 +99,14 @@ class AppFixtures extends Fixture
         $manager->flush();
 
         $userRepository = $manager->getRepository(User::class);
-        $userWithoutStruct = $userRepository->findBy(['role' => User::ROLES['traveller'], 'status' => User::STATUS['active']], [], self::LOAD_FIXTURES['STRUCTS']);
-
+        $userWithoutStruct = $userRepository->findBy(['role' => User::ROLE_TRAVELLER, 'status' => User::STATUS_ACTIVE], [], self::LOAD_FIXTURES['STRUCTS']);
 
         for ($i = 0; $i < $this::LOAD_FIXTURES['STRUCTS']; $i++) {
+            /** @var User $user */
             $user = $userWithoutStruct[$i];
             $struct = new Struct();
-            $struct->setType(Struct::STRUCT[User::MINISTRY[$user->getMinistry()]['sheafOf']]['name']);
+            $val = User::ACTIVE_MINISTRY[$user->getMinistry()]['struct_slug'];
+            $struct->setType($val);
             $struct->setAddress($this->faker->address());
             $struct->setName($this->faker->company());
             $struct->setCity($this->faker->city());
@@ -120,7 +122,7 @@ class AppFixtures extends Fixture
         $usersWithStruct = $userWithoutStruct;
 
         foreach ($usersWithStruct as $user) {
-            $members = $userRepository->findBy(['role' => User::ROLES[User::MINISTRY[$user->getMinistry()]['membersRole']], 'struct' => null, 'status' => User::STATUS['active']], [], 20);
+            $members = $userRepository->findBy(['role' => User::ACTIVE_MINISTRY[$user->getMinistry()], 'struct' => null, 'status' => User::STATUS_ACTIVE], [], 20);
             foreach ($members as $member) {
                 $member->setStruct($user->getSheafOf());
                 $manager->persist($member);
@@ -128,10 +130,10 @@ class AppFixtures extends Fixture
             $manager->flush();
         }
 
-        $circle = $manager->getRepository(Struct::class)->findOneBy(['type' => Struct::STRUCT_NAMES['circle']]);
-        $struct = $manager->getRepository(Struct::class)->findOneBy(['type' => Struct::STRUCT_NAMES['troop']]);
+        $circle = $manager->getRepository(Struct::class)->findOneBy(['type' => Struct::STRUCT['circle']['slug']]);
+        $struct = $manager->getRepository(Struct::class)->findOneBy(['type' => Struct::STRUCT['troop']['slug']]);
         if (empty($troop)) {
-            $struct = $manager->getRepository(Struct::class)->findOneBy(['type' => Struct::STRUCT_NAMES['community']]);
+            $struct = $manager->getRepository(Struct::class)->findOneBy(['type' => Struct::STRUCT['community']['slug']]);
         }
         $user = new User();
         $user->setEmail('admin@test.com');
@@ -139,13 +141,14 @@ class AppFixtures extends Fixture
         $user->setName('Vitali');
         $user->setSurname('Tarnavskyi');
         $user->setMiddleName('Olegivich');
-        $user->setStatus(User::STATUS['active']);
-        $user->setRole(User::ROLES['traveller']);
-        $user->setMinistry(Struct::STRUCT[$struct->getType()]['sheaf']['name']);
+        $user->setStatus(User::STATUS_ACTIVE);
+        $user->setRole(User::ROLE_TRAVELLER);
+        $user->setMinistry(Struct::STRUCT[$struct->getType()]['sheaf']['slug']);
         $user->setSheafOf($struct);
         $user->setStruct($circle);
         $user->setCreatedAt(new \DateTimeImmutable());
         $struct->setSheaf($user);
+        $struct->setName($this->faker->company());
         $manager->persist($user);
         $manager->persist($struct);
         $manager->flush();

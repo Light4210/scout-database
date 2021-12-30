@@ -4,16 +4,17 @@ namespace App\Form;
 
 use App\Entity\User;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use function Symfony\Component\String\u;
 
 class UserCreateType extends AbstractType
 {
@@ -41,17 +42,17 @@ class UserCreateType extends AbstractType
                 'data_class' => null,
                 'required' => false
             ])
-            ->add('Change', SubmitType::class);
-
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-            $uuidGenerator = Uuid::uuid4();
-            $currentUser = $this->security->getUser();
-            $user = $event->getData();
-            $user->setEmail($uuidGenerator . '@email.com');
-            $user->setStatus(User::STATUS['active']);
-            $user->setStruct($currentUser->getSheafOf());
-            $user->setRole(User::ROLES[User::MINISTRY[$currentUser->getMinistry()]['membersRole']]);
-        });
+            ->add('Change', SubmitType::class)
+            ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+                $uuidGenerator = Uuid::uuid4();
+                $currentUser = $this->security->getUser();
+                $user = $event->getData();
+                $user->setEmail($uuidGenerator . '@email.com');
+                $user->setStatus(User::STATUS_ACTIVE);
+                $user->setStruct($currentUser->getSheafOf());
+                $user->setRole(User::ACTIVE_MINISTRY[$currentUser->getMinistry()]['membersRole']);
+                $event->setData($user);
+            });
     }
 
     public function configureOptions(OptionsResolver $resolver)

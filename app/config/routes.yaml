@@ -18,53 +18,47 @@ _profiler:
 
 user:
   path: /user/{id}
-  controller: App\Controller\user\UserController::show
+  controller: App\Controller\user\ShowUserController
   requirements:
     id: '\d+'
 
 user.create:
   path: /user/create
-  controller: App\Controller\user\UserController::create
+  controller: App\Controller\user\CreateUserController
 
 user.edit:
   path: /user/{id}/edit
-  controller: App\Controller\user\UserController::edit
+  controller: App\Controller\user\EditUserController
   requirements:
     id: '\d+'
 
 user.list:
     path: /user/list/{role}
     defaults: { role: all }
-    controller: App\Controller\user\UserController::list
-
-user.promote.wolvies:
-    path: /user/promote/wolviews/{id}
-    controller: App\Controller\user\UserController::promoteWolvies
-    requirements:
-      id: '\d+'
+    controller: App\Controller\user\ListUserController
 
 #---------------------------STRUCTS---------------------------#
 
 struct:
   path: /struct/{id}
-  controller: App\Controller\struct\StructController::show
+  controller: App\Controller\struct\ShowStructController
   requirements:
     id: '\d+'
 
 struct.create:
   path: /struct/create
-  controller: App\Controller\struct\StructController::create
+  controller: App\Controller\struct\CreateStructController
 
 struct.edit:
   path: /struct/{id}/edit
-  controller: App\Controller\struct\StructController::edit
+  controller: App\Controller\struct\EditStructController
   requirements:
     id: '\d+'
 
 struct.list:
   path: /struct/list/{type}
   defaults: { type: all }
-  controller: App\Controller\struct\StructController::list
+  controller: App\Controller\struct\ListStructController
 
 #---------------------------SHOP---------------------------#
 
