@@ -34,7 +34,7 @@ class StructCreateType extends AbstractType
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
             $currentUser = $this->security->getUser();
             $struct = $event->getData();
-            $struct->setType(User::MINISTRY[$currentUser->getMinistry()]['sheafOf']);
+            $struct->setType(User::ACTIVE_MINISTRY[$currentUser->getMinistry()]['struct_slug']);
             $struct->setSheaf($currentUser);
             $struct->setCreatedAt(new \DateTimeImmutable());
         });

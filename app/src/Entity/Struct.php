@@ -2,35 +2,39 @@
 
 namespace App\Entity;
 
-use App\Repository\StructRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\StructRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use App\Entity\User;
 /**
  * @ORM\Entity(repositoryClass=StructRepository::class)
  */
 class Struct
 {
-    const STRUCT_NAMES = [
-        'troop' => 'troop',
-        'community' => 'community',
-        'circle' => 'circle'
-    ];
+    const TROOP_SLUG = 'troop';
+    const CIRCLE_SLUG = 'troop';
+    const COMMUNITY_SLUG = 'troop';
 
     const STRUCT = [
-        self::STRUCT_NAMES['troop'] => [
-            'name' => 'troop',
-            'sheaf' => User::MINISTRY['troopLeader']
+        'troop' => [
+            'name' => 'Troop',
+            'slug' => self::TROOP_SLUG,
+            'sheaf' => User::ACTIVE_MINISTRY['troopLeader'],
+            'membersRole' => User::ROLE_SCOUT,
         ],
-        self::STRUCT_NAMES['community'] => [
-            'name' => 'community',
-            'sheaf' => User::MINISTRY['akela']
+        'community' => [
+            'name' => 'Community',
+            'slug' => self::COMMUNITY_SLUG,
+            'sheaf' => User::ACTIVE_MINISTRY['akela'],
+            'membersRole' => User::ROLE_SCOUT,
         ],
-        self::STRUCT_NAMES['circle'] => [
-            'name' => 'circle',
-            'sheaf' => User::MINISTRY['sheaf']
+        'circle' => [
+            'name' => 'Circle',
+            'slug' => self::CIRCLE_SLUG,
+            'sheaf' => User::ACTIVE_MINISTRY['sheaf'],
+            'membersRole' => User:: ROLE_SCOUT,
         ]
     ];
 
@@ -42,19 +46,12 @@ class Struct
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=20, nullable=false)
-     * @Assert\Choice(choices=Struct::STRUCT_NAMES, message="Choose a valid struct type.")
+     * @ORM\Column(type="string", nullable=false)
      */
     private ?string $type;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=false)
-     * @Assert\Length(
-     *      min = 2,
-     *      max = 50,
-     *      minMessage = "Your name must be at least {{ limit }} characters long",
-     *      maxMessage = "Your name cannot be longer than {{ limit }} characters"
-     * )
+     * @ORM\Column(type="string", nullable=false)
      */
     private ?string $name;
 
@@ -65,7 +62,8 @@ class Struct
      *      max = 35,
      *      minMessage = "Your city name must be at least {{ limit }} characters long",
      *      maxMessage = "Your city name cannot be longer than {{ limit }} characters"
-     * )     */
+     * )
+     */
     private ?string $city;
 
     /**
@@ -75,7 +73,8 @@ class Struct
      *      max = 95,
      *      minMessage = "Your address must be at least {{ limit }} characters long",
      *      maxMessage = "Your address cannot be longer than {{ limit }} characters"
-     * )     */
+     * )
+     */
     private ?string $address;
 
     /**
@@ -149,7 +148,7 @@ class Struct
         return $this->id;
     }
 
-    public function getType(): ?string
+    public function getType(): string
     {
         return $this->type;
     }

@@ -29,11 +29,6 @@ class StructEditType extends AbstractType
             ->add('city', TextType::class, ['required' => true, 'attr' => ['maxlength' => 65, 'minlength' => 2, 'placeholder' => 'City in which located struct']])
             ->add('address', TextType::class, ['required' => true, 'attr' => ['maxlength' => 100, 'minlength' => 2, 'placeholder' => 'Adress of residence']])
             ->add('Change', SubmitType::class);
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-            $currentUser = $this->security->getUser();
-            $struct = $event->getData();
-        });
-
     }
 
     public function configureOptions(OptionsResolver $resolver)

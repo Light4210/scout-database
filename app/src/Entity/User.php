@@ -16,46 +16,46 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    const STATUS = [
-        'active' => 'active',
-        'passive' => 'passive',
-    ];
+    const STATUS_ACTIVE = 'active';
+    const STATUS_PASSIVE = 'passive';
 
-    const ROLES = [
-        'traveller' => 'traveller',
-        'scout' => 'scout',
-        'wolvies' => 'wolvies',
-    ];
+    const PRIORITY_STANDARD = 'standart';
+    const PRIORITY_NATIONAL_COUNCIL = 'council';
 
-    const PRIORITY = [
-        'standard' => 10,
-        'nationalCouncil' => 50,
-    ];
+    const ROLE_TRAVELLER = 'traveller';
+    const ROLE_SCOUT = 'scout';
+    const ROLE_WOLVES = 'wolves';
 
-    const MINISTRY = [
+    const ROLES = [];
+
+    const ACTIVE_MINISTRY = [
         'troopLeader' => [
-            'name' => 'troopLeader',
-            'access' => self::PRIORITY['standard'],
-            'sheafOf'=> Struct::STRUCT_NAMES['troop'],
-            'membersRole' => self::ROLES['scout']
-        ],
-        'sheaf' => [
-            'name' => 'sheaf',
-            'access' => self::PRIORITY['standard'],
-            'sheafOf'=> Struct::STRUCT_NAMES['circle'],
-            'membersRole' => self::ROLES['traveller']
-        ],
-        'akela' => [
-            'name' => 'akela',
-            'access' => self::PRIORITY['standard'],
-            'sheafOf'=> Struct::STRUCT_NAMES['community'],
-            'membersRole' => self::ROLES['wolvies']
+            'name' => 'Troop leader',
+            'slug' => 'troopLeader',
+            'struct_slug' => Struct::TROOP_SLUG,
+            'access' => self::PRIORITY_STANDARD,
+            'membersRole' => self::ROLE_SCOUT,
         ],
         'president' => [
-            'name' => 'president',
-            'access' => self::PRIORITY['nationalCouncil'],
-            'sheafOf'=> Struct::STRUCT_NAMES['troop'],
-            'membersRole' => self::ROLES['scout']
+            'name' => 'President',
+            'slug' => 'president',
+            'struct_slug' => 'none',
+            'access' => self::PRIORITY_NATIONAL_COUNCIL,
+            'membersRole' => 'none',
+        ],
+        'sheaf' => [
+            'name' => 'Sheaf',
+            'slug' => 'sheaf',
+            'struct_slug' => Struct::CIRCLE_SLUG,
+            'access' => self::PRIORITY_STANDARD,
+            'membersRole' => self::ROLE_TRAVELLER,
+        ],
+        'akela' => [
+            'name' => 'Akela',
+            'struct_slug' => Struct::COMMUNITY_SLUG,
+            'slug' => 'akela',
+            'access' => self::PRIORITY_STANDARD,
+            'membersRole' => self::ROLE_WOLVES,
         ],
     ];
 
@@ -92,7 +92,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *      minMessage = "Your password must be at least {{ limit }} characters long",
      *      maxMessage = "Your password cannot be longer than {{ limit }} characters"
      * )
-     */    private string $password;
+     */
+    private string $password;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=false)
@@ -102,7 +103,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *      minMessage = "Your name must be at least {{ limit }} characters long",
      *      maxMessage = "Your name cannot be longer than {{ limit }} characters"
      * )
-     */    private ?string $name;
+     */
+    private ?string $name;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=false)
@@ -112,7 +114,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *      minMessage = "Your surname must be at least {{ limit }} characters long",
      *      maxMessage = "Your surname cannot be longer than {{ limit }} characters"
      * )
-     */    private ?string $surname;
+     */
+    private ?string $surname;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
@@ -122,7 +125,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *      minMessage = "Your middle name must be at least {{ limit }} characters long",
      *      maxMessage = "Your middle name cannot be longer than {{ limit }} characters"
      * )
-     */    private ?string $middle_name;
+     */
+    private ?string $middle_name;
 
     /**
      * @ORM\Column(type="date", nullable=true)
@@ -137,17 +141,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *      minMessage = "Your phone number must be at least {{ limit }} characters long",
      *      maxMessage = "Your phone number cannot be longer than {{ limit }} characters"
      * )
-     */    private ?string $phone_number;
+     */
+    private ?string $phone_number;
 
     /**
-     * @ORM\Column(type="string", length=20, nullable=false, options={"default" : "active"})
-     * @Assert\Choice(choices=User::STATUS, message="Choose a valid status.")
+     * @ORM\Column(type="string", nullable=false)
      */
     private ?string $status;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=true)
-     * @Assert\Choice(choices=User::MINISTRY, message="Choose a valid ministry.")
+     * @ORM\Column(type="string", nullable=true)
      */
     private ?string $ministry;
 
@@ -170,8 +173,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $address;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=false)
-     * @Assert\Choice(choices=User::ROLES, message="Choose a valid role.")
+     * @ORM\Column(type="string", nullable=false)
      */
     private ?string $role;
 
@@ -361,14 +363,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->phone_number;
     }
 
-    public function setPhoneNumber(?int $phone_number): self
+    public function setPhoneNumber(int $phone_number): self
     {
         $this->phone_number = $phone_number;
 
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): string
     {
         return $this->status;
     }
@@ -408,19 +410,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->deal_scan = $deal_scan;
     }
 
-    public function getAddress(): ?string
+    public function getAddress(): string
     {
         return $this->address;
     }
 
-    public function setAddress(?string $address): self
+    public function setAddress(string $address): self
     {
         $this->address = $address;
 
         return $this;
     }
 
-    public function getRole(): ?string
+    public function getRole(): string
     {
         return $this->role;
     }
@@ -488,7 +490,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->sheafOf = $sheafOf;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->name;
     }
 

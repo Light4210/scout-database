@@ -3,16 +3,29 @@
 namespace App\Form;
 
 use App\Entity\User;
+use Ramsey\Uuid\Uuid;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class UserEditType extends AbstractType
 {
+
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -29,6 +42,13 @@ class UserEditType extends AbstractType
             ->add('dealScan', FileType::class, [
                 'data_class' => null,
                 'required' => false
+            ])
+            ->add('status', ChoiceType::class, [
+                'choices' =>[
+                    User::STATUS_PASSIVE,
+                    User::STATUS_ACTIVE
+                ],
+                'required' => true,
             ])
             ->add('Change', SubmitType::class);
     }

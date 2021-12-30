@@ -11,7 +11,7 @@ class CreatableService
     {
         $creatable = false;
 
-        if (empty($user->getSheafOf()) && ($user->getMinistry() == User::MINISTRY['troopLeader']['name'] || $user->getMinistry() == User::MINISTRY['sheaf']['name'] || $user->getMinistry() == User::MINISTRY['akela']['name'])) {
+        if (empty($user->getSheafOf()) && ($user->getMinistry() == User::ACTIVE_MINISTRY['troopLeader']['slug'] || $user->getMinistry() == User::ACTIVE_MINISTRY['sheaf']['slug'] || $user->getMinistry() == User::ACTIVE_MINISTRY['akela']['slug'])) {
             $creatable = true;
             return $creatable;
         }
