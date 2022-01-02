@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Struct;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,32 +20,8 @@ class StructRepository extends ServiceEntityRepository
         parent::__construct($registry, Struct::class);
     }
 
-    // /**
-    //  * @return Struct[] Returns an array of Struct objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Struct
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+   public function getDataForPromotion(string $structSlug){
+       $query = $this->createQueryBuilder('s')->select('s.id', 's.name', 's.city')->where('s.type = :type')->setParameter('type', $structSlug);
+       return $query->getQuery()->getResult();
+   }
 }

@@ -5,13 +5,16 @@
   src: url("/assets/fonts/Roboto-Black.ttf");
 }
 
+ul li{
+  list-style: none;
+}
+
 body {
   margin: 0;
   background: #e2e2e2;
 }
 
 p , a, span{
-  font-family: S-font;
   margin: 0;
 }
 
@@ -25,4 +28,15 @@ img{
 
 .content-wrap{
   display: flex;
+}
+
+.message-text{
+  font-weight: bold;
+  font-family: system-ui;
+  &.success-text{
+    color: #2cd10e;
+  }
+  &.error-text{
+    color: #ff4646;
+  }
 }

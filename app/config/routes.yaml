@@ -37,6 +37,16 @@ user.list:
     defaults: { role: all }
     controller: App\Controller\user\ListUserController
 
+#--------USER-AJAX--------#
+
+ajax.get.promotion.structs:
+  path: /ajax/promotion/{target_user}/structs
+  controller: App\Controller\user\promotions\GetPromotionData
+
+ajax.send.promotion.request:
+    path: /ajax/promotion/{struct}/{target_user}
+    controller: App\Controller\user\promotions\SendPromotionRequest
+
 #---------------------------STRUCTS---------------------------#
 
 struct:

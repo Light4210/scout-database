@@ -17,6 +17,7 @@ class CreateUserController extends AbstractController
     {
         $currentUser = $security->getUser();
         $id = $currentUser->getId();
+
         $sheafStruct = $entityManager->getRepository(Struct::class)->findOneBy(['sheaf' => $id]);
         if (!$sheafStruct) {
             return $redirectService->redirectWithPopup(

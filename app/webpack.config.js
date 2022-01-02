@@ -6,10 +6,9 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
     Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
 }
 
-Encore.enableSassLoader()
 
 Encore
-    //React
+    //Vue
     .enableVueLoader()
     // directory where compiled assets will be stored
     .setOutputPath('public/build/')
@@ -61,7 +60,7 @@ Encore
     })
 
     // enables Sass/SCSS support
-    //.enableSassLoader()
+    .enableSassLoader()
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()

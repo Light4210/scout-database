@@ -23,6 +23,7 @@ class EditableService extends AbstractController
     {
         $editable = false;
         $targetUserStruct = $targetUser->getStruct();
+
         if ($currentUser->getId() == $targetUser->getId()) {
             $editable = true;
             return $editable;
