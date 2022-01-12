@@ -4,7 +4,6 @@ namespace App\Controller\user;
 
 use App\Entity\User;
 use App\Form\UserEditType;
-use App\Form\UserCreateType;
 use App\Service\RedirectService;
 use App\Service\EditableService;
 use App\Service\AttachmentService;
@@ -51,9 +50,11 @@ class EditUserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
         }
+
         return $this->renderForm('admin/user/edit-user.html.twig', [
             'form' => $form,
             'user' => $user,
+            'currentUser' => $currentUser,
         ]);
     }
 }

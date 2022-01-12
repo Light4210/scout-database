@@ -6,10 +6,8 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
     Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
 }
 
-Encore.enableSassLoader()
-
 Encore
-    //React
+    //Vue
     .enableVueLoader()
     // directory where compiled assets will be stored
     .setOutputPath('public/build/')
@@ -24,8 +22,9 @@ Encore
      * Each entry will result in one JavaScript file (e.g. scss.js)
      * and one CSS file (e.g. general.scss) if your JavaScript imports CSS.
      */
-    .addEntry('scss', './assets/scss.js')
-    .addEntry('js', './assets/js.js')
+    .addEntry('generalCss', './assets/sass/general.scss')
+    .addEntry('generalJs', './assets/js/general.js')
+    .addEntry('promoteModal', './assets/js/promote.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
@@ -61,7 +60,7 @@ Encore
     })
 
     // enables Sass/SCSS support
-    //.enableSassLoader()
+    .enableSassLoader()
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()

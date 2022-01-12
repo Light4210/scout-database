@@ -26,6 +26,7 @@ class ListUserController extends AbstractController
                 []
             );
         }
+
         if ($role == 'all') {
             $users = $entityManager->getRepository(User::class)->findAll();
         } else if (array_key_exists($role, [User::ROLE_SCOUT, User::ROLE_TRAVELLER, User::ROLE_WOLVES])) {

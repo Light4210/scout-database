@@ -5,13 +5,24 @@
   src: url("/assets/fonts/Roboto-Black.ttf");
 }
 
+.d-none {
+  display: none !important;
+}
+
+.d-block {
+  display: block !important;
+}
+
+ul li {
+  list-style: none;
+}
+
 body {
   margin: 0;
   background: #e2e2e2;
 }
 
-p , a, span{
-  font-family: S-font;
+p, a, span {
   margin: 0;
 }
 
@@ -19,10 +30,21 @@ header, footer, .content-wrap {
   background: #fff;
 }
 
-img{
+img {
   height: 60px;
 }
 
-.content-wrap{
+.content-wrap {
   display: flex;
 }
+
+.message-text {
+  &.success-text {
+    color: #2cd10e;
+  }
+
+  &.error-text {
+    color: #ff4646;
+  }
+}
+

@@ -14,8 +14,8 @@ use App\Entity\User;
 class Struct
 {
     const TROOP_SLUG = 'troop';
-    const CIRCLE_SLUG = 'troop';
-    const COMMUNITY_SLUG = 'troop';
+    const CIRCLE_SLUG = 'circle';
+    const COMMUNITY_SLUG = 'community';
 
     const STRUCT = [
         'troop' => [
@@ -28,15 +28,17 @@ class Struct
             'name' => 'Community',
             'slug' => self::COMMUNITY_SLUG,
             'sheaf' => User::ACTIVE_MINISTRY['akela'],
-            'membersRole' => User::ROLE_SCOUT,
+            'membersRole' => User::ROLE_WOLVES,
         ],
         'circle' => [
             'name' => 'Circle',
             'slug' => self::CIRCLE_SLUG,
             'sheaf' => User::ACTIVE_MINISTRY['sheaf'],
-            'membersRole' => User:: ROLE_SCOUT,
+            'membersRole' => User:: ROLE_TRAVELLER,
         ]
     ];
+
+    const SELECTED_STATUS_DISABLED = 'disabled';
 
     /**
      * @ORM\Id
@@ -268,4 +270,5 @@ class Struct
     {
         $this->members = $members;
     }
+
 }
