@@ -5,7 +5,6 @@ namespace App\Controller\user\promotions;
 use App\Entity\User;
 use App\Entity\Struct;
 use App\Entity\Notification;
-use App\Service\RedirectService;
 use App\Service\EditableService;
 use App\Repository\UserRepository;
 use App\Repository\StructRepository;
@@ -70,11 +69,10 @@ class SendPromotionRequest extends AbstractController
             );
         }
 
-        $structType = Struct::STRUCT[$targetStruct->getType()]['name'];
-        $structName = $targetStruct->getName();
-        $username = $targetUser->getName();
-        $existingRequest = $notificationRepository->findBy(['targetUser'=>$targetUserId, 'fromUser'=>$fromUser, 'toUser'=>$toUser, 'type' => Notification::TYPE_TRANSFER]);
+        $existingRequest = $notificationRepository->isExistRequestByNewStruct($fromUser, $targetUser, $targetStruct);
         if ($existingRequest) {
+            $structName = $targetStruct->getName();
+            $username = $targetUser->getName();
             return new Response(
                 "You have already sent a request for $username(id: $targetUserId) to $structName(id: $targetStructId)",
                 Response::HTTP_CONFLICT,
@@ -82,6 +80,7 @@ class SendPromotionRequest extends AbstractController
             );
         }
 
+        $structType = Struct::STRUCT[$targetStruct->getType()]['name'];
         $requestNotification = new Notification(
             "You have new user suggestion to your $structType",
             'Transfer request',

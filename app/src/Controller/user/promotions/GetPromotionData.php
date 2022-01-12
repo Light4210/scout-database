@@ -5,8 +5,10 @@ namespace App\Controller\user\promotions;
 use App\Entity\User;
 use App\Entity\Struct;
 use App\Service\EditableService;
+use App\Service\PromotionService;
 use App\Repository\UserRepository;
 use App\Repository\StructRepository;
+use App\Repository\NotificationRepository;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class GetPromotionData extends AbstractController
 {
-    public function __invoke(EditableService $editableService, Security $security, Request $request, UserRepository $userRepository, StructRepository $structRepository): Response
+    public function __invoke(PromotionService $promotionService, NotificationRepository $notificationRepository, EditableService $editableService, Security $security, Request $request, UserRepository $userRepository, StructRepository $structRepository): Response
     {
         /** @var User $targetUser */
         $targetUser = $userRepository->find($request->attributes->get('target_user'));
@@ -39,16 +41,7 @@ class GetPromotionData extends AbstractController
 
         /** @var Struct $currentStruct */
         $currentStructType = $targetUser->getStruct()->getType();
-        $structSlug = null;
-        switch ($currentStructType) {
-            case Struct::COMMUNITY_SLUG:
-                $structSlug = Struct::TROOP_SLUG;
-                break;
-            case Struct::TROOP_SLUG:
-                $structSlug = Struct::CIRCLE_SLUG;
-                break;
-        }
-
+        $structSlug = $promotionService->getFutureStructSlug($currentStructType);
         if ($structSlug === null) {
             return new Response(
                 'Something went wrong, maybe user struct has bad slug',
@@ -57,7 +50,7 @@ class GetPromotionData extends AbstractController
             );
         }
 
-        $possibleStructs = $structRepository->getDataForPromotion($structSlug);
+        $possibleStructs = $structRepository->getDataForPromotion($currentUser, $targetUser);
         if (empty($possibleStructs)) {
             return new Response(
                 "Possible structs for user with slug: $structSlug, was not found",

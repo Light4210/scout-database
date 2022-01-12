@@ -38,6 +38,8 @@ class Struct
         ]
     ];
 
+    const SELECTED_STATUS_DISABLED = 'disabled';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -268,4 +270,5 @@ class Struct
     {
         $this->members = $members;
     }
+
 }
