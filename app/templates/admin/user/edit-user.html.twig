@@ -5,15 +5,18 @@
 {% endblock %}
 {% block js %}
     {{ parent() }}
+    <script>
+        window.targetUserId = '{{ user.id }}';
+    </script>
     {{ encore_entry_script_tags('promoteModal') }}
 {% endblock %}
 {% block content %}
     <h1>Edit profile</h1>
     {{ form(form) }}
     {% if user.role == constant('App\\Entity\\User::ROLE_SCOUT') or user.role == constant('App\\Entity\\User::ROLE_WOLVES') %}
-        <button id="call-modal-promote" data-target="{{ user.id }}">Promote</button>
-        <div id="promote-modal" class="d-none">
-            <promote></promote>
+        <div id="promotion">
+            <promote-modal></promote-modal>
+            <promote-btn></promote-btn>
         </div>
     {% endif %}
 {% endblock %}
