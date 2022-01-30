@@ -2,21 +2,24 @@
   <transition name="fade">
     <div class="modal-mask" v-if="this.$root.$data.displayModal===1">
       <div class="modal-content">
-        <div @click="closeModal" class="crossbar">
-          <div class="cross-1"></div>
-          <div class="cross-2"></div>
+        <div class="select-promote">
+          <div @click="closeModal" class="crossbar">
+            <div class="cross-1"></div>
+            <div class="cross-2"></div>
+          </div>
+          <select required @change="selectedStructId = $event.target.value">
+            <option value="" selected>Select new user struct</option>
+            <option v-for="struct in structs" :value="struct.id">
+              {{ struct.name }}
+            </option>
+          </select>
+          <button type="button" @click="submitPromotion">Promote</button>
         </div>
-        <select @change="selectedStructId = $event.target.value">
-          <option value="" selected>Select new user struct</option>
-          <option v-for="struct in structs" :value="struct.id">
-            {{ struct.name }}
-          </option>
-        </select>
-        <button @click="submitPromotion">Promote</button>
         <div class="modal-text" v-if="this.modalText !== ''">
-          <p v>{{ this.modalText }}</p>
+          <p>{{ this.modalText }}</p>
         </div>
       </div>
+
     </div>
   </transition>
 </template>
@@ -40,16 +43,20 @@ export default {
   methods: {
     closeModal: function () {
       this.$root.$data.displayModal = false
+      this.modalText = ''
     },
     textType: function () {
       this.$root.$data.displayModal = false
     },
     submitPromotion: function () {
-      axios({method: "GET", "url": "/ajax/promotion/" + this.selectedStructId + "/" + targetUserId}).then((response) => {
+      axios({
+        method: "GET",
+        "url": "/ajax/promotion/" + this.selectedStructId + "/" + targetUserId
+      }).then((response) => {
         console.log(response.data)
         this.modalText = response.data
         this.modalTextType = this.successText
-      }).catch((error)=>{
+      }).catch((error) => {
         console.log(error.response.data)
         this.modalText = error.response.data
         this.modalTextType = this.errorText
@@ -108,6 +115,10 @@ export default {
   transition: opacity 0.3s ease;
 }
 
+.select-promote{
+  display: flex;
+}
+
 .modal-content {
   border-radius: 10px;
   position: relative;
@@ -127,5 +138,9 @@ export default {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
 {
   opacity: 0;
+}
+
+select {
+  height: 40px;
 }
 </style>

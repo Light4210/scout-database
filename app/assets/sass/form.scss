@@ -1,0 +1,101 @@
+@import "variables.scss";
+
+h1 {
+  margin-bottom: 40px;
+}
+
+.form-photo {
+  display: flex;
+}
+
+.user-form {
+  margin-top: 10px;
+
+  .form-date-address-phone label, .form-name label, .form-photo label {
+    color: $grey-color;
+    font-size: 13px;
+  }
+
+  .form-block {
+    display: flex;
+    margin: 0 10px 40px 0;
+
+
+    input, button, label, {
+      margin: 0 40px 0 0;
+    }
+
+    &.form-photo label {
+      margin: 0 40px 0 0;
+      cursor: pointer;
+      width: 167px;
+      border: 2px solid $grey-color;
+      color: $grey-color;
+      padding: 10px;
+      border-radius: 5px;
+      text-align: center;
+      transition: .3s;
+      &:hover{
+        background-color: $grey-color;
+        border-color: $grey-color;
+        color: #fff;
+      }
+    }
+
+    select {
+      margin: 0 10px 0 0;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    button[type="submit"], button[type="button"] {
+      cursor: pointer;
+      width: 167px;
+      border: 2px solid $grey-color;
+      color: $grey-color;
+      padding: 10px;
+      border-radius: 5px;
+      text-align: center;
+      transition: .3s;
+      &:hover{
+        background-color: $scout-color;
+        border-color: $scout-color;
+        color: #fff;
+      }
+    }
+
+    .data-of-birth-fields select {
+      width: 56px;
+      min-width: unset;
+    }
+
+    .field-label{
+      width: 33%;
+    }
+
+    input[type="text"], input[type="file"], select {
+      border: none;
+      border-bottom: 2px solid $grey-color;
+      transition: .3s;
+      width: 190px;
+      outline: none;
+      &:focus-visible, &:hover {
+        border-bottom: 2px solid $scout-color;
+      }
+    }
+
+    button[type="submit"], button[type="button"] {
+      width: 191px;
+    }
+  }
+
+  .form-date-address-phone {
+    display: flex;
+  }
+}
+
+.title-promote {
+  display: flex;
+}

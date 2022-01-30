@@ -150,7 +150,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *      maxMessage = "Your phone number cannot be longer than {{ limit }} characters"
      * )
      */
-    private ?string $phone_number;
+    private ?string $phoneNumber;
 
     /**
      * @ORM\Column(type="string", nullable=false)
@@ -376,14 +376,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPhoneNumber(): ?int
+    public function getPhoneNumber(): ?string
     {
-        return $this->phone_number;
+        return $this->phoneNumber;
     }
 
-    public function setPhoneNumber(int $phone_number): self
+    public function setPhoneNumber(?string $phoneNumber): self
     {
-        $this->phone_number = $phone_number;
+        $this->phoneNumber = $phoneNumber;
 
         return $this;
     }

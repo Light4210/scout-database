@@ -24,6 +24,8 @@ Encore
      */
     //CSS
     .addEntry('generalCss', './assets/sass/general.scss')
+    .addEntry('header', './assets/sass/header.scss')
+    .addEntry('createEditForm', './assets/sass/form.scss')
     .addEntry('structList', './assets/sass/structList.scss')
     //JS
     .addEntry('generalJs', './assets/js/general.js')

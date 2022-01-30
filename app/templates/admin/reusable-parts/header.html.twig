@@ -1,25 +1,28 @@
-<ul>
-    {% if app.user.sheafOf.id is defined and not null %}
-        <li>
-            <a href="{{ path('struct', {'id': app.user.sheafOf.id}) }}">My {{ app.user.sheafOf.type }}</a>
-        </li>
-    {% endif %}
-    {% if app.user.struct.id is defined and not null %}
-        <li>
-            <a href="{{ path('struct', {'id': app.user.struct.id}) }}">My {{ app.user.struct.type }}</a>
-        </li>
-    {% endif %}
-    {% if app.user.id is defined and not null %}
-        <li>
-            <a href="{{ path('user', {'id': app.user.id}) }}">My profile</a>
-        </li>
-        <li>
-            <a href="{{ path('struct.list') }}">General struct list</a>
-        </li>
-        {% if constant('App\\Entity\\User::ACTIVE_MINISTRY')[app.user.ministry]['access'] >= constant('App\\Entity\\User::ACTIVE_MINISTRY')['president']['access'] %}
+<div class="header">
+    <ul class="menu-list">
+        {% if app.user.sheafOf.id is defined and not null %}
             <li>
-                <a href="{{ path('user.list') }}">General user list</a>
+                <a href="{{ path('struct', {'id': app.user.sheafOf.id}) }}">My {{ app.user.sheafOf.type }}</a>
             </li>
         {% endif %}
-    {% endif %}
-</ul>
+        {% if app.user.struct.id is defined and not null %}
+            <li>
+                <a href="{{ path('struct', {'id': app.user.struct.id}) }}">My {{ app.user.struct.type }}</a>
+            </li>
+        {% endif %}
+        {% if app.user.id is defined and not null %}
+            <li>
+                <a href="{{ path('struct.list') }}">General struct list</a>
+            </li>
+            {% if constant('App\\Entity\\User::ACTIVE_MINISTRY')[app.user.ministry]['access'] >= constant('App\\Entity\\User::ACTIVE_MINISTRY')['president']['access'] %}
+                <li>
+                    <a href="{{ path('user.list') }}">General user list</a>
+                </li>
+            {% endif %}
+
+            <li class="profile-menu-item">
+                <a href="{{ path('user', {'id': app.user.id}) }}">My profile</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>

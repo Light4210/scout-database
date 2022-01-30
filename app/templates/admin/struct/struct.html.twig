@@ -1,7 +1,10 @@
 {% extends 'admin/default/default.html.twig' %}
 
 {% block content %}
-    <h1>Struct</h1>
+    <div class="title-edit">
+    <h1>{{ struct.name }}</h1>
+    <a href="{{ path('struct.edit' , {'id': struct.id }) }}">edit {{ struct.name }}</a>
+    </div>
     {% for flashMessage in app.session.flashbag.get('fail') %}
         {{ flashMessage }}
     {% endfor %}
@@ -10,13 +13,14 @@
     {% endfor %}
     {% set members = struct.getMembers %}
     {% set sheaf = struct.getSheaf %}
-    SHEAF IS: <strong><a href="{{ path('user',{'id': sheaf.id}) }}">{{ sheaf.name }}</a></strong>
-    {% if app.user.id == sheaf.id %}
-        <ul>
-            <li><a href="{{ path('user.create') }}">add new member</a></li>
-            <li><a href="{{ path('struct.edit' , {'id': struct.id }) }}">edit {{ struct.name }}</a></li>
-        </ul>
-    {% endif %}
+    <div class="sheaf-block">
+        SHEAF IS: <strong><a href="{{ path('user',{'id': sheaf.id}) }}">{{ sheaf.name }}</a></strong>
+    </div>
+    <div class="members">
+        {% if app.user.id == sheaf.id %}
+            <a href="{{ path('user.create') }}">add new member</a>
+        {% endif %}
+    </div>
     {% if promotionRequests is not empty and app.user.id == sheaf.id %}
         <div class="struct-promotion-request-list">
             <h2>New request to your struct</h2>
@@ -24,8 +28,12 @@
                 {% for request in promotionRequests %}
                     <li>
                         <a href="{{ path('user',{'id': request.targetUser.id}) }}">{{ request.targetUser.name }}</a>
-                        <a href="{{ path('user.promote.approve',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}"><button>Accept</button></a>
-                        <a href="{{ path('user.promote.decline',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}"><button>Decline</button></a>
+                        <a href="{{ path('user.promote.approve',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}">
+                            <button>Accept</button>
+                        </a>
+                        <a href="{{ path('user.promote.decline',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}">
+                            <button>Decline</button>
+                        </a>
                     </li>
                 {% endfor %}
             </ul>
@@ -47,6 +55,6 @@
 {% endblock %}
 
 {% block css %}
-{{ parent() }}
+    {{ parent() }}
     {{ encore_entry_link_tags('structList') }}
 {% endblock %}

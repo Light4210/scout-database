@@ -1,0 +1,16 @@
+.menu-list {
+  display: flex;
+  margin: 35px;
+
+  .profile-menu-item {
+    margin: 0 0 0 auto;
+  }
+
+  li {
+    &:first-child {
+      margin-left: 0;
+    }
+
+    margin-left: 35px;
+  }
+}

@@ -1,5 +1,5 @@
 <template>
-  <button @click="displayModal">Promote</button>
+  <button type="button" @click="displayModal">Promote </button>
 </template>
 
 <script>
