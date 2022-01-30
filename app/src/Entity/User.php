@@ -3,6 +3,8 @@
 
 namespace App\Entity;
 
+use App\Trait\CreatedAtTrait;
+use App\Trait\UpdatedAtTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,6 +20,10 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+
+    use CreatedAtTrait;
+    use UpdatedAtTrait;
+
     const STATUS_ACTIVE = 'active';
     const STATUS_PASSIVE = 'passive';
 
@@ -460,30 +466,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhoto($photo)
     {
         $this->photo = $photo;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $created_at): self
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(?\DateTimeImmutable $updated_at): self
-    {
-        $this->updated_at = $updated_at;
-
-        return $this;
     }
 
     /**

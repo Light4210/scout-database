@@ -2,17 +2,23 @@
 
 namespace App\Entity;
 
+use App\Entity\User;
+use App\Trait\CreatedAtTrait;
+use App\Trait\UpdatedAtTrait;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\StructRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Entity\User;
 /**
  * @ORM\Entity(repositoryClass=StructRepository::class)
  */
 class Struct
 {
+
+    use CreatedAtTrait;
+    use UpdatedAtTrait;
+
     const TROOP_SLUG = 'troop';
     const CIRCLE_SLUG = 'circle';
     const COMMUNITY_SLUG = 'community';
@@ -220,39 +226,6 @@ class Struct
         $this->longitude = $longitude;
 
         return $this;
-    }
-
-    /**
-     * @param mixed $created_at
-     */
-    public function setCreatedAt($created_at): void
-    {
-        $this->created_at = $created_at;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCreatedAt(): mixed
-    {
-        return $this->created_at;
-    }
-
-    /**
-     * @param mixed $updated_at
-     */
-    public function setUpdatedAt($updated_at): void
-    {
-        $this->updated_at = $updated_at;
-    }
-
-    /**
-     * @return mixed
-     */
-
-    public function getUpdatedAt()
-    {
-        return $this->updated_at;
     }
 
     /**

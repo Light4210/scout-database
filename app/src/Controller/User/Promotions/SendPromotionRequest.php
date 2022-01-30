@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\user\promotions;
+namespace App\Controller\User\Promotions;
 
 use App\Entity\User;
 use App\Entity\Struct;

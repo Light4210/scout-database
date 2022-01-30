@@ -22,7 +22,10 @@ Encore
      * Each entry will result in one JavaScript file (e.g. scss.js)
      * and one CSS file (e.g. general.scss) if your JavaScript imports CSS.
      */
+    //CSS
     .addEntry('generalCss', './assets/sass/general.scss')
+    .addEntry('structList', './assets/sass/structList.scss')
+    //JS
     .addEntry('generalJs', './assets/js/general.js')
     .addEntry('promoteModal', './assets/js/promote.js')
 

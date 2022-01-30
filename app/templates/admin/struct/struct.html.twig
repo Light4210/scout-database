@@ -17,6 +17,20 @@
             <li><a href="{{ path('struct.edit' , {'id': struct.id }) }}">edit {{ struct.name }}</a></li>
         </ul>
     {% endif %}
+    {% if promotionRequests is not empty and app.user.id == sheaf.id %}
+        <div class="struct-promotion-request-list">
+            <h2>New request to your struct</h2>
+            <ul>
+                {% for request in promotionRequests %}
+                    <li>
+                        <a href="{{ path('user',{'id': request.targetUser.id}) }}">{{ request.targetUser.name }}</a>
+                        <a href="{{ path('user.promote.approve',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}"><button>Accept</button></a>
+                        <a href="{{ path('user.promote.decline',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}"><button>Decline</button></a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
     {% if members is defined and members is not empty %}
         <br>
         members
@@ -30,4 +44,9 @@
     {% else %}
         <strong>-Here is no members(((</strong>
     {% endif %}
+{% endblock %}
+
+{% block css %}
+{{ parent() }}
+    {{ encore_entry_link_tags('structList') }}
 {% endblock %}

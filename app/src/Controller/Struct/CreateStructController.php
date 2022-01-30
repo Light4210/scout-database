@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\struct;
+namespace App\Controller\Struct;
 
 use App\Form\StructCreateType;
 use App\Service\RedirectService;
