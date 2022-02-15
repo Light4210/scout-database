@@ -35,16 +35,20 @@ class CreateUserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
             if ($form->has('photo') && $form->get('photo')->getData() !== null) {
-                $photo = $attachmentService->createAttachment($form->get('photo')->getData(), $form->get('photo')->getName());
+                $photo = $attachmentService->createPhoto($form->get('photo')->getData());
                 $user->setPhoto($photo);
             }
             if ($form->has('dealScan') && $form->get('dealScan')->getData() !== null) {
-                $dealScan = $attachmentService->createAttachment($form->get('dealScan')->getData(), $form->get('dealScan')->getName());
+                $dealScan = $attachmentService->createDealScan($form->get('dealScan')->getData());
                 $user->setDealScan($dealScan);
             }
             $user->setCreatedAt(new \DateTimeImmutable());
             $entityManager->persist($user);
             $entityManager->flush();
+
+            return $this->redirectToRoute('struct', [
+                'id' => $sheafStruct->getId()
+            ]);
         }
 
         return $this->render('admin/user/create-user.html.twig', [

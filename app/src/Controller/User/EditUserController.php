@@ -10,7 +10,9 @@ use App\Service\AttachmentService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use function Symfony\Component\String\u;
 
 class EditUserController extends AbstractController
 {
@@ -37,19 +39,39 @@ class EditUserController extends AbstractController
             );
         }
 
-        $form = $this->createForm(UserEditType::class, $user)->handleRequest($request);
+        $form = $this->createForm(UserEditType::class, $user);
+        $photo = $user->getPhoto();
+        $dealScan = $user->getDealScan();
+
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->has('photo') && $form->get('photo')->getData() !== null) {
-                $photo = $attachmentService->createAttachment($form->get('photo')->getData(), $form->get('photo')->getName());
+            if ($form->has('photo')) {
+                $file = $form->get('photo')->getData();
+                if ($file) {
+                    $photo = $attachmentService->createPhoto($file);
+                }
                 $user->setPhoto($photo);
             }
-            if ($form->has('dealScan') && $form->get('dealScan')->getData() !== null) {
-                $dealScan = $attachmentService->createAttachment($form->get('dealScan')->getData(), $form->get('dealScan')->getName());
+//            dd($form->get('photo')->getData(), $form->get('dealScan')->getData());
+            if ($form->has('dealScan')) {
+                $file = $form->get('dealScan')->getData();
+                if ($file) {
+                    $dealScan = $attachmentService->createDealScan($file);
+                }
                 $user->setDealScan($dealScan);
             }
+
             $entityManager->persist($user);
             $entityManager->flush();
         }
+
+        if ($user->getPhoto() instanceof UploadedFile || $user->getPhoto() === null) {
+            $user->setPhoto($photo);
+        }
+        if ($user->getDealScan() instanceof UploadedFile|| $user->getPhoto() === null) {
+            $user->setDealScan($dealScan);
+        }
+
 
         return $this->renderForm('admin/user/edit-user.html.twig', [
             'form' => $form,

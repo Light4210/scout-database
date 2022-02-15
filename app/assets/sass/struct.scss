@@ -1,0 +1,9 @@
+@import "variables.scss";
+
+.members a{
+  display: flex;
+  align-items: center;
+  svg{
+    display: block;
+  }
+}

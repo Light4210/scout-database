@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\User;
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
@@ -44,7 +43,7 @@ class UserEditType extends AbstractType
                 'required' => false
             ])
             ->add('status', ChoiceType::class, [
-                'choices' =>[
+                'choices' => [
                     User::STATUS_PASSIVE => User::STATUS_PASSIVE,
                     User::STATUS_ACTIVE => User::STATUS_ACTIVE
                 ],
@@ -53,7 +52,25 @@ class UserEditType extends AbstractType
             ->add('submit', SubmitType::class, [
                 'label' => 'Change'
             ]);
+
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+            // Retrieve submitted data
+            $form = $event->getForm();
+            $user = $form->getData();
+
+            // Test if upload image is null (maybe adapt it to work with your code)
+            if ($form->get('photo')->getData() !== null) {
+                $user->setPhoto($form->get('photo')->getData());
+            }
+
+            if ($form->get('dealScan')->getData()  !== null) {
+                $user->setDealScan($form->get('dealScan')->getData());
+            }
+
+            $event->setData($user);
+        });
     }
+
 
     public function configureOptions(OptionsResolver $resolver)
     {

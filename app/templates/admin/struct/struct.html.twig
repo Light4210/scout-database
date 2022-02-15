@@ -1,9 +1,23 @@
 {% extends 'admin/default/default.html.twig' %}
-
+{% block css %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('struct') }}
+{% endblock %}
 {% block content %}
-    <div class="title-edit">
-    <h1>{{ struct.name }}</h1>
-    <a href="{{ path('struct.edit' , {'id': struct.id }) }}">edit {{ struct.name }}</a>
+    {% set members = struct.getMembers %}
+    {% set sheaf = struct.getSheaf %}
+    <div class="title-actions">
+        <h1>{{ struct.name }}</h1>
+        <div class="actions">
+            {% if app.user.id == sheaf.id %}
+                <a class="create" href="{{ path('user.create') }}">
+                    {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['ADD_USER'])|raw }}
+                </a>
+            {% endif %}
+            <a class="edit" href="{{ path('struct.edit' , {'id': struct.id }) }}">
+             {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['EDIT'])|raw }}
+            </a>
+        </div>
     </div>
     {% for flashMessage in app.session.flashbag.get('fail') %}
         {{ flashMessage }}
@@ -11,15 +25,11 @@
     {% for flashMessage in app.session.flashbag.get('success') %}
         {{ flashMessage }}
     {% endfor %}
-    {% set members = struct.getMembers %}
-    {% set sheaf = struct.getSheaf %}
     <div class="sheaf-block">
-        SHEAF IS: <strong><a href="{{ path('user',{'id': sheaf.id}) }}">{{ sheaf.name }}</a></strong>
+        <span>{{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[struct.sheaf.ministry]['name'] }}: </span><strong><a href="{{ path('user',{'id': sheaf.id}) }}">{{ sheaf.name }}</a></strong>
     </div>
     <div class="members">
-        {% if app.user.id == sheaf.id %}
-            <a href="{{ path('user.create') }}">add new member</a>
-        {% endif %}
+
     </div>
     {% if promotionRequests is not empty and app.user.id == sheaf.id %}
         <div class="struct-promotion-request-list">
@@ -52,9 +62,4 @@
     {% else %}
         <strong>-Here is no members(((</strong>
     {% endif %}
-{% endblock %}
-
-{% block css %}
-    {{ parent() }}
-    {{ encore_entry_link_tags('structList') }}
 {% endblock %}

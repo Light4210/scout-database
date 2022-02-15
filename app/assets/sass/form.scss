@@ -6,96 +6,128 @@ h1 {
 
 .form-photo {
   display: flex;
+
+  form {
+    width: 70%;
+
+    .form-submit {
+      margin: 0 30px 15px 0;
+      min-width: 155px;
+      width: 28%;
+
+      button[type="submit"] {
+        font-size: 15px;
+        display: block;
+        width: 100%;
+        padding: 8px 0 5px 0;
+        text-align: center;
+        border-radius: 5px;
+        cursor: pointer;
+        border: 2px solid #7b7c7c;
+        min-width: 161px;
+        max-width: 202px;
+      }
+    }
+
+    .form-fields {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+
+      & > div {
+        margin: 0 30px 15px 0;
+        width: 28%;
+        min-width: 155px;
+      }
+
+      label {
+        color: $grey-color;
+        font-size: 13px;
+      }
+
+      input {
+        width: 100%;
+      }
+
+      .form-select {
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: column;
+      }
+
+      .form-upload {
+        input[type="file"] {
+          display: none;
+        }
+
+        label {
+          font-size: 15px;
+          display: block;
+          width: 100%;
+          padding: 8px 0 5px 0;
+          text-align: center;
+          border-radius: 5px;
+          cursor: pointer;
+          border: 2px solid #7b7c7c;
+        }
+      }
+
+      select, input[type="text"] {
+        border: unset;
+        border-bottom: 2px solid $grey-color;
+      }
+
+      .form-date div select {
+        margin-left: 2%;
+
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+
+  .user-photo {
+    width: 30%;
+
+    img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    svg {
+      width: 100%;
+    }
+  }
+
 }
 
-.user-form {
-  margin-top: 10px;
+@media (max-width: $mobile-width) {
+  .content-wrap {
+    .form-photo {
+      display: block;
 
-  .form-date-address-phone label, .form-name label, .form-photo label {
-    color: $grey-color;
-    font-size: 13px;
-  }
+      .user-photo {
+        width: 100%;
+      }
 
-  .form-block {
-    display: flex;
-    margin: 0 10px 40px 0;
+      form {
+        width: 100%;
 
+        .form-fields > div {
+          min-width: 155px;
+          width: 100%;
+          margin-right: 0;
+        }
 
-    input, button, label, {
-      margin: 0 40px 0 0;
-    }
+        .form-submit {
+          width: 100%;
 
-    &.form-photo label {
-      margin: 0 40px 0 0;
-      cursor: pointer;
-      width: 167px;
-      border: 2px solid $grey-color;
-      color: $grey-color;
-      padding: 10px;
-      border-radius: 5px;
-      text-align: center;
-      transition: .3s;
-      &:hover{
-        background-color: $grey-color;
-        border-color: $grey-color;
-        color: #fff;
+          button {
+            max-width: unset;
+          }
+        }
       }
     }
-
-    select {
-      margin: 0 10px 0 0;
-    }
-
-    input[type="file"] {
-      display: none;
-    }
-
-    button[type="submit"], button[type="button"] {
-      cursor: pointer;
-      width: 167px;
-      border: 2px solid $grey-color;
-      color: $grey-color;
-      padding: 10px;
-      border-radius: 5px;
-      text-align: center;
-      transition: .3s;
-      &:hover{
-        background-color: $scout-color;
-        border-color: $scout-color;
-        color: #fff;
-      }
-    }
-
-    .data-of-birth-fields select {
-      width: 56px;
-      min-width: unset;
-    }
-
-    .field-label{
-      width: 33%;
-    }
-
-    input[type="text"], input[type="file"], select {
-      border: none;
-      border-bottom: 2px solid $grey-color;
-      transition: .3s;
-      width: 190px;
-      outline: none;
-      &:focus-visible, &:hover {
-        border-bottom: 2px solid $scout-color;
-      }
-    }
-
-    button[type="submit"], button[type="button"] {
-      width: 191px;
-    }
   }
-
-  .form-date-address-phone {
-    display: flex;
-  }
-}
-
-.title-promote {
-  display: flex;
 }

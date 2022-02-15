@@ -32,6 +32,12 @@ user.edit:
   requirements:
     id: '\d+'
 
+user.remove.from.struct:
+  path: /user/{id}/remove
+  controller: App\Controller\User\RemoveFromStructUserController
+  requirements:
+    id: '\d+'
+
 user.list:
     path: /user/list/{role}
     defaults: { role: all }

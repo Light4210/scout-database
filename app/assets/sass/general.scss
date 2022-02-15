@@ -33,13 +33,20 @@ ul {
 
 body {
   margin: 0 auto;
-  max-width: 1140px;
+  max-width: $desktop-wrapper-width;
   background: #e2e2e2;
 }
 
 .content-wrap {
-  padding: 35px;
+  padding: 40px;
+  margin: 40px;
   border-radius: 10px;
+}
+
+@media (max-width: $mobile-width) {
+  .content-wrap {
+    margin: 20px;
+  }
 }
 
 p, a, span {
@@ -52,18 +59,12 @@ header, footer, .content-wrap {
   background: #fff;
 }
 
-img {
-  height: 60px;
+.success-text p {
+  color: #2cd10e !important;
 }
 
-.message-text {
-  &.success-text {
-    color: #2cd10e;
-  }
-
-  &.error-text {
-    color: #ff4646;
-  }
+.error-text p {
+  color: #ff4646 !important;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -71,18 +72,87 @@ h1, h2, h3, h4, h5, h6 {
   font-family: S-font, serif;
 }
 
-select op
-
 input, select {
   margin: 0;
   padding: 0;
-  &:focus-visible{
+
+  &:focus-visible {
     outline: none;
   }
 }
 
-button, select, input, label{
+button, select, input, label {
   font-family: S-font, serif;
   font-size: 15px;
 }
 
+.title-actions {
+  display: flex;
+
+  .actions {
+    margin: 0 0 0 auto;
+    display: flex;
+
+    & > a, & > div {
+      height: 30px;
+      width: 30px;
+      margin-right: 20px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    .delete {
+      &:hover {
+        transition: .3s;
+        fill: $traveller-color;
+      }
+    }
+
+    .edit {
+      &:hover {
+        fill: $orange-color;
+      }
+    }
+
+    .create {
+      transition: .3s;
+
+      &:hover {
+        fill: $scout-color;
+      }
+    }
+
+    .promote {
+
+      svg g {
+        transition: .3s;
+      }
+
+      &:hover {
+        svg g {
+          fill: $scout-color;
+        }
+      }
+    }
+
+    .download {
+      transition: .3s;
+
+      &:hover {
+        fill: $orange-color;
+      }
+    }
+  }
+
+}
+
+.form-errors {
+  margin-bottom: 40px;
+  margin-left: 15px;
+
+  li {
+    list-style: disc;
+  }
+}

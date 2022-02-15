@@ -18,3 +18,5 @@ RUN curl -sS https://get.symfony.com/cli/installer | bash
 RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
 RUN git config --global user.email "tarnavskij2002@gmail.com" \
     && git config --global user.name "Light" \
+COPY config/php.ini c71a14abdbf2_php_c:/usr/local/etc/php
+

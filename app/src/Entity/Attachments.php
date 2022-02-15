@@ -11,8 +11,10 @@ use JetBrains\PhpStorm\Pure;
  */
 class Attachments
 {
-    const DEAL = ['dealScan' => 'images/deals'];
-    const AVATAR = ['photo' => 'images/photos'];
+    const DEAL_PATH =  'images/deals';
+    const DEAL_TYPE = 'deal';
+    const PHOTO_TYPE = 'photo';
+    const PHOTO_PATH = 'images/photos';
 
     /**
      * @var int

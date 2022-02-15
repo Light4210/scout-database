@@ -9,16 +9,16 @@
     {% endblock %}
 </head>
 <body>
-{% block header %}
-{% endblock %}
-<div class="page-wrap" id="app">
+<div class="page-wrap">
+    {% block header %}
+    {% endblock %}
     <div class="content-wrap">
         {% block content %}
         {% endblock %}
     </div>
+    {% block footer %}
+    {% endblock %}
 </div>
-{% block footer %}
-{% endblock %}
 {% block js %}
     {{ encore_entry_script_tags('generalJs') }}
 {% endblock %}

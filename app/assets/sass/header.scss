@@ -1,6 +1,9 @@
+.header{
+  margin: 40px 80px;
+}
+
 .menu-list {
   display: flex;
-  margin: 35px;
 
   .profile-menu-item {
     margin: 0 0 0 auto;
@@ -11,6 +14,6 @@
       margin-left: 0;
     }
 
-    margin-left: 35px;
+    margin-left: 40px;
   }
 }

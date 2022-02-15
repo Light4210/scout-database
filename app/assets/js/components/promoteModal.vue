@@ -15,7 +15,9 @@
           </select>
           <button type="button" @click="submitPromotion">Promote</button>
         </div>
-        <div class="modal-text" v-if="this.modalText !== ''">
+        <div v-if="this.modalText !== ''"
+             v-bind:class="(this.modalTextType === this.errorText)?'error-text':'success-text'"
+             class="message-text modal-text">
           <p>{{ this.modalText }}</p>
         </div>
       </div>
@@ -49,18 +51,22 @@ export default {
       this.$root.$data.displayModal = false
     },
     submitPromotion: function () {
-      axios({
-        method: "GET",
-        "url": "/ajax/promotion/" + this.selectedStructId + "/" + targetUserId
-      }).then((response) => {
-        console.log(response.data)
-        this.modalText = response.data
-        this.modalTextType = this.successText
-      }).catch((error) => {
-        console.log(error.response.data)
-        this.modalText = error.response.data
+      if (this.selectedStructId != '') {
+        axios({
+          method: "GET",
+          "url": "/ajax/promotion/" + this.selectedStructId + "/" + targetUserId
+        }).then((response) => {
+          this.modalText = response.data
+          this.modalTextType = this.successText
+          console.log( this.modalTextType)
+        }).catch((error) => {
+          this.modalText = error.response.data
+          this.modalTextType = this.errorText
+        })
+      } else {
         this.modalTextType = this.errorText
-      })
+        this.modalText = 'Please select struct'
+      }
     }
   },
   created() {
@@ -72,11 +78,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "/assets/sass/variables.scss";
 
 .crossbar {
   position: absolute;
   top: 5px;
   right: 5px;
+  margin-right: 0 !important;
   cursor: pointer;
   height: 25px;
   width: 25px;
@@ -108,23 +116,23 @@ export default {
   z-index: 9998;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
   background-color: rgba(0, 0, 0, 0.5);
   display: table;
   transition: opacity 0.3s ease;
 }
 
-.select-promote{
+.select-promote {
   display: flex;
 }
 
 .modal-content {
   border-radius: 10px;
   position: relative;
-  width: 300px;
-  margin: 200px auto;
-  padding: 20px 30px;
+  width: 400px !important;
+  margin: 200px auto !important;
+  padding: 40px 30px;
   background-color: #fff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
@@ -141,6 +149,41 @@ export default {
 }
 
 select {
-  height: 40px;
+  border: unset;
+  border-bottom: 2px solid #7b7c7c;
+}
+
+button {
+  font-size: 15px;
+  display: block;
+  width: 100%;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 2px solid #7b7c7c;
+  min-width: 140px;
+  margin-left: 20px;
+}
+
+.modal-text {
+  width: 100% !important;
+  height: auto !important;
+}
+
+@media (max-width: $mobile-width) {
+  .select-promote {
+    width: 100% !important;
+    display: block;
+
+    select {
+      margin-bottom: 15px;
+    }
+  }
+  .modal-content {
+    width: 242px !important;
+  }
+  button {
+    margin-left: 0 !important;
+  }
 }
 </style>

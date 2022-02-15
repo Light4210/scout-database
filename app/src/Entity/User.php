@@ -165,7 +165,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @OneToOne(targetEntity="Attachments")
      * @JoinColumn(name="deal_scan_id", referencedColumnName="id", nullable=true)
-     * @Assert\File( maxSize="1M", mimeTypes={"application/pdf", "application/x-pdf"} )
+     * @Assert\File( maxSize="5M", mimeTypes={"application/pdf", "application/x-pdf"} )
      */
     private $deal_scan;
 
@@ -188,7 +188,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @OneToOne(targetEntity="Attachments")
      * @JoinColumn(name="photo_id", referencedColumnName="id", nullable=true)
-     * @Assert\File( maxSize="4M", mimeTypes={"image/*"} )
+     * @Assert\File( maxSize="5M", mimeTypes={"image/*"} )
      */
     private $photo;
 
@@ -516,6 +516,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             }
         }
 
+        return $this;
+    }
+
+    public function removeUserFromStruct() :User{
+        $this->setStruct(null);
+        $this->setStatus(User::STATUS_PASSIVE);
         return $this;
     }
 

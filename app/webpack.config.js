@@ -25,10 +25,11 @@ Encore
     //CSS
     .addEntry('generalCss', './assets/sass/general.scss')
     .addEntry('header', './assets/sass/header.scss')
+    .addEntry('struct', './assets/sass/struct.scss')
     .addEntry('createEditForm', './assets/sass/form.scss')
-    .addEntry('structList', './assets/sass/structList.scss')
     //JS
     .addEntry('generalJs', './assets/js/general.js')
+    .addEntry('imagePreview', './assets/js/imagePreview.js')
     .addEntry('promoteModal', './assets/js/promote.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
