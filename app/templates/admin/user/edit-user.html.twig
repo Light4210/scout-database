@@ -10,6 +10,7 @@
                 window.targetUserId = '{{ user.id }}';
             </script>
             {{ encore_entry_script_tags('imagePreview') }}
+            {{ encore_entry_script_tags('generalJs') }}
             {{ encore_entry_script_tags('promoteModal') }}
         {% endblock %}
         {% block content %}
@@ -28,7 +29,7 @@
                         </div>
                     {% endif %}
                     {% if user.dealScan is not null %}
-                        <a title="Download deal scan" target="_blank" class="download-deal-scan download"
+                        <a id="deal-scan" title="Download deal scan" target="_blank" class="download-deal-scan download"
                            href="{{ attachmentDeal(user.dealScan) }}">
                             {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['DOWNLOAD_DEAL_SCAN'])|raw }}
                         </a>
@@ -90,11 +91,14 @@
                 </div>
                 {{ form_end(form) }}
                 <div class="user-photo">
-                    {% if user.photo is not null %}
-                        <img id="user-photo" src="{{ attachmentPhoto(user.photo) }}"/>
-                    {% else %}
-                        {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['USER_BLANK'])|raw }}
-                    {% endif %}
+                    <img alt="User photo" id="user-photo"
+                            {% if user.photo is not null %}
+                                src="{{ attachmentPhoto(user.photo) }}"
+                            {% else %}
+                         src="{{ svgPath( constant('App\\Helper\\SvgHelper::SVG_NAMES')['USER_BLANK'])|raw }}"
+                            {% endif %}
+                    />
+
                 </div>
             </div>
         {% endblock %}

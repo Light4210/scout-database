@@ -17,7 +17,18 @@ class DisplaySvg extends AbstractExtension
     {
         return [
             new TwigFunction('svg', [$this, 'svg']),
+            new TwigFunction('svgPath', [$this, 'svgPath']),
         ];
+    }
+
+    public function svgPath(string $svgName): ?string
+    {
+        if(!$svgName && in_array($svgName, SvgHelper::SVG_NAMES)){
+            return null;
+        }
+        $svgPath = SvgHelper::SVG_PATH;
+        $svgPath = "/$svgPath/$svgName.svg";
+        return $svgPath;
     }
 
     public function svg(string $svgName): ?string

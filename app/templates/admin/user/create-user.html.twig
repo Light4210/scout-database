@@ -1,8 +1,14 @@
 {% extends 'admin/default/default.html.twig' %}
+
 {% block css %}
     {{ parent() }}
     {{ encore_entry_link_tags('createEditForm') }}
 {% endblock %}
+
+{% block js %}
+    {{ encore_entry_script_tags('imagePreview') }}
+{% endblock %}
+
 {% block content %}
     <div class="title-actions">
         <h1>New user for {{ struct.name }}</h1>
@@ -60,7 +66,8 @@
         </div>
         {{ form_end(form) }}
         <div class="user-photo">
-            {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['USER_BLANK'])|raw }}
+            <img alt="User photo" id="user-photo"
+                 src="{{ svgPath( constant('App\\Helper\\SvgHelper::SVG_NAMES')['USER_BLANK'])|raw }}"/>
         </div>
     </div>
 {% endblock %}

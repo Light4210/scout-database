@@ -1,4 +1,4 @@
-var loadFile = function(event) {
+var loadPhoto = function(event, dw) {
     var reader = new FileReader();
     reader.onload = function(){
         var output = document.getElementById('user-photo');
@@ -7,4 +7,12 @@ var loadFile = function(event) {
     reader.readAsDataURL(event.target.files[0]);
 };
 
-document.getElementById("user_edit_photo").onchange = loadFile;
+function createPreviewById(elementId){
+    let editPhotoField = document.getElementById(elementId)
+    if(editPhotoField){
+        editPhotoField.onchange = loadPhoto;
+    }
+}
+
+createPreviewById("user_edit_photo")
+createPreviewById("user_create_photo")

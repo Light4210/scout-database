@@ -58,7 +58,6 @@ export default {
         }).then((response) => {
           this.modalText = response.data
           this.modalTextType = this.successText
-          console.log( this.modalTextType)
         }).catch((error) => {
           this.modalText = error.response.data
           this.modalTextType = this.errorText

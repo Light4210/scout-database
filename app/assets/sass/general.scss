@@ -1,8 +1,15 @@
 @import "variables.scss";
+@import "notification.scss";
 
 @font-face {
   font-family: "S-font";
   src: url("/assets/fonts/Roboto-Black.ttf");
+}
+
+body {
+  margin: 0 auto;
+  max-width: $desktop-wrapper-width;
+  background: #e2e2e2;
 }
 
 a {
@@ -29,12 +36,6 @@ ul {
   li {
     list-style: none;
   }
-}
-
-body {
-  margin: 0 auto;
-  max-width: $desktop-wrapper-width;
-  background: #e2e2e2;
 }
 
 .content-wrap {
