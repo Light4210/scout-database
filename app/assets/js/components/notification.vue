@@ -55,7 +55,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.notifications {
-  position: absolute;
-}
+
 </style>

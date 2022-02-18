@@ -11,7 +11,7 @@ h1 {
     width: 70%;
 
     .form-submit {
-      margin: 0 30px 15px 0;
+      margin: 0 0 15px 30px;
       min-width: 155px;
       width: 28%;
 
@@ -35,7 +35,7 @@ h1 {
       justify-content: flex-start;
 
       & > div {
-        margin: 0 30px 15px 0;
+        margin: 0 0 15px 30px;
         width: 28%;
         min-width: 155px;
       }
@@ -93,6 +93,7 @@ h1 {
     img {
       width: 100%;
       border-radius: 10px;
+      box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
     }
 
     svg {
@@ -113,15 +114,17 @@ h1 {
 
       form {
         width: 100%;
+        margin-top: 20px;
 
         .form-fields > div {
           min-width: 155px;
           width: 100%;
-          margin-right: 0;
+          margin-left: 0;
         }
 
         .form-submit {
           width: 100%;
+          margin-left: 0;
 
           button {
             max-width: unset;

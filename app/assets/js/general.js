@@ -16,16 +16,18 @@ var alert = function (title, message, notificationType) {
     })
 }
 
-function createNotificationType(changeableElementId, event,title, message, type){
+export function createNotificationType(changeableElementId, event,title, message, type){
     let element = document.getElementById(changeableElementId)
     if (element) {
         element.addEventListener(event, function (){
-            console.log(message)
             alert(title, message, type);
         })
+    } else {
+        console.warn('Field with id: "' + changeableElementId + '" was not found')
     }
 }
-createNotificationType('user_edit_dealScan', 'change', 'Success', 'Deal scan was successfully uploaded', notification.data().success)
+
+
 
 
 

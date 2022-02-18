@@ -7,12 +7,11 @@ var loadPhoto = function(event, dw) {
     reader.readAsDataURL(event.target.files[0]);
 };
 
-function createPreviewById(elementId){
+export function createPreviewById(elementId){
     let editPhotoField = document.getElementById(elementId)
     if(editPhotoField){
         editPhotoField.onchange = loadPhoto;
+    } else {
+        console.warn('Field with id: "' + elementId + '" was not found')
     }
 }
-
-createPreviewById("user_edit_photo")
-createPreviewById("user_create_photo")

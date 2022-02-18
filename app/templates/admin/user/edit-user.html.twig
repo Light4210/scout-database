@@ -10,8 +10,10 @@
                 window.targetUserId = '{{ user.id }}';
             </script>
             {{ encore_entry_script_tags('imagePreview') }}
-            {{ encore_entry_script_tags('generalJs') }}
-            {{ encore_entry_script_tags('promoteModal') }}
+            {{ encore_entry_script_tags('editUser') }}
+            {% if user.id != app.user.id %}
+                {{ encore_entry_script_tags('promoteModal') }}
+            {% endif %}
         {% endblock %}
         {% block content %}
             <div class="title-actions">
@@ -47,6 +49,15 @@
                 </ul>
             {% endif %}
             <div class="form-photo">
+                <div class="user-photo">
+                    <img alt="User photo" id="user-photo"
+                            {% if user.photo is not null %}
+                                src="{{ attachmentPhoto(user.photo) }}"
+                            {% else %}
+                                src="{{ svgPath( constant('App\\Helper\\SvgHelper::SVG_NAMES')['USER_BLANK'])|raw }}"
+                            {% endif %}
+                    />
+                </div>
                 {{ form_start(form) }}
                 <div class="form-fields">
                     <div>
@@ -90,15 +101,5 @@
                     {{ form_widget(form.submit) }}
                 </div>
                 {{ form_end(form) }}
-                <div class="user-photo">
-                    <img alt="User photo" id="user-photo"
-                            {% if user.photo is not null %}
-                                src="{{ attachmentPhoto(user.photo) }}"
-                            {% else %}
-                         src="{{ svgPath( constant('App\\Helper\\SvgHelper::SVG_NAMES')['USER_BLANK'])|raw }}"
-                            {% endif %}
-                    />
-
-                </div>
             </div>
         {% endblock %}
