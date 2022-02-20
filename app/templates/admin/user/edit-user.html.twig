@@ -1,7 +1,9 @@
 {% extends 'admin/default/default.html.twig' %}
         {% block css %}
             {{ parent() }}
-            {{ encore_entry_link_tags('promoteModal') }}
+            {% if user.id != app.user.id and editable == true %}
+                {{ encore_entry_link_tags('promoteModal') }}
+            {% endif %}
             {{ encore_entry_link_tags('createEditForm') }}
         {% endblock %}
         {% block js %}
@@ -11,7 +13,7 @@
             </script>
             {{ encore_entry_script_tags('imagePreview') }}
             {{ encore_entry_script_tags('editUser') }}
-            {% if user.id != app.user.id %}
+            {% if user.id != app.user.id and editable == true %}
                 {{ encore_entry_script_tags('promoteModal') }}
             {% endif %}
         {% endblock %}

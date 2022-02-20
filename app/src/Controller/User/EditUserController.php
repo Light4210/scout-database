@@ -75,6 +75,7 @@ class EditUserController extends AbstractController
 
         return $this->renderForm('admin/user/edit-user.html.twig', [
             'form' => $form,
+            'editable' => $editable,
             'user' => $user,
             'currentUser' => $currentUser,
         ]);

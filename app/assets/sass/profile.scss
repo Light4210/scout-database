@@ -1,0 +1,55 @@
+@import "variables.scss";
+
+h1 {
+  margin-bottom: 40px;
+}
+
+.profile {
+  display: flex;
+
+  .photo {
+    width: 30%;
+    min-width: 300px;
+    img {
+      border-radius: 10px;
+      width: 100%;
+    }
+  }
+
+  .info {
+    margin-left: 20px;
+
+    p {
+      margin-top: 10px;
+      &:first-child {
+        margin-top: 0;
+      }
+      span {
+        color: #000;
+      }
+      a{
+        color: #5eb5e0;
+      }
+    }
+  }
+}
+
+@media (max-width: $mobile-width) {
+  .profile{
+    display: block;
+    .photo{
+      margin: 0 auto 20px auto;
+      width: unset;
+      max-width: 300px;
+      min-width: unset;
+      box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
+      border-radius: 10px;
+      img{
+        margin-left: 10px;
+      }
+    }
+    .info{
+      text-align: center;
+    }
+  }
+}

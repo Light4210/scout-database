@@ -8,7 +8,7 @@ new Vue({
     components: {notification},
 });
 
-var alert = function (title, message, notificationType) {
+var toastAlert = function (title, message, notificationType) {
     eventBus.$emit('notify', {
         title,
         message,
@@ -20,15 +20,19 @@ export function createNotificationType(changeableElementId, event,title, message
     let element = document.getElementById(changeableElementId)
     if (element) {
         element.addEventListener(event, function (){
-            alert(title, message, type);
+            toastAlert(title, message, type);
         })
     } else {
         console.warn('Field with id: "' + changeableElementId + '" was not found')
     }
 }
 
+let deleteBtn = document.getElementsByClassName('delete')
 
-
-
-
-
+for (const btn of deleteBtn) {
+    btn.addEventListener('click', function (e){
+        if( ! confirm("Do you really want to delete ?") ){
+            e.preventDefault(); // ! => don't want to do this
+        }
+    })
+}

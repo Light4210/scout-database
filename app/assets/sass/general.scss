@@ -6,6 +6,38 @@
   src: url("/assets/fonts/Roboto-Black.ttf");
 }
 
+.black-text{
+  color: #000 !important;
+}
+
+.troop{
+  color: $scout-color
+}
+
+.circle{
+  color: $traveller-color
+}
+
+.community{
+  color: $wolves-color
+}
+
+.green-color{
+  color: $scout-color
+}
+
+.orange-color{
+  color: $orange-color
+}
+
+.yellow-color{
+  color: $wolves-color
+}
+
+.orange-color{
+  color: $orange-color
+}
+
 body {
   margin: 0 auto;
   max-width: $desktop-wrapper-width;
@@ -29,7 +61,7 @@ a {
   display: block !important;
 }
 
-ul {
+ul, ol{
   margin: 0;
   padding: 0;
 
@@ -88,6 +120,30 @@ button, select, input, label {
   font-size: 15px;
 }
 
+.delete {
+  &:hover {
+    transition: .3s;
+    fill: $traveller-color;
+    color: $traveller-color;
+  }
+}
+
+.edit {
+  &:hover {
+    fill: $orange-color;
+    color: $orange-color;
+  }
+}
+
+.create {
+  transition: .3s;
+
+  &:hover {
+    fill: $scout-color;
+    color: $scout-color;
+  }
+}
+
 .title-actions {
   display: flex;
 
@@ -102,27 +158,6 @@ button, select, input, label {
 
       &:last-child {
         margin-right: 0;
-      }
-    }
-
-    .delete {
-      &:hover {
-        transition: .3s;
-        fill: $traveller-color;
-      }
-    }
-
-    .edit {
-      &:hover {
-        fill: $orange-color;
-      }
-    }
-
-    .create {
-      transition: .3s;
-
-      &:hover {
-        fill: $scout-color;
       }
     }
 

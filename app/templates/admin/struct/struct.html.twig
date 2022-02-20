@@ -1,10 +1,12 @@
 {% extends 'admin/default/default.html.twig' %}
 {% block css %}
     {{ parent() }}
-    {{ encore_entry_link_tags('struct') }}
+    {{ encore_entry_link_tags('structCss') }}
+{% endblock %}
+{% block js %}
+    {{ encore_entry_script_tags('structJs') }}
 {% endblock %}
 {% block content %}
-    {% set members = struct.getMembers %}
     {% set sheaf = struct.getSheaf %}
     <div class="title-actions">
         <h1>{{ struct.name }}</h1>
@@ -14,9 +16,11 @@
                     {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['ADD_USER'])|raw }}
                 </a>
             {% endif %}
-            <a class="edit" href="{{ path('struct.edit' , {'id': struct.id }) }}">
-             {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['EDIT'])|raw }}
-            </a>
+            {% if editable == true %}
+                <a class="edit" href="{{ path('struct.edit' , {'id': struct.id }) }}">
+                    {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['EDIT'])|raw }}
+                </a>
+            {% endif %}
         </div>
     </div>
     {% for flashMessage in app.session.flashbag.get('fail') %}
@@ -26,10 +30,8 @@
         {{ flashMessage }}
     {% endfor %}
     <div class="sheaf-block">
-        <span>{{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[struct.sheaf.ministry]['name'] }}: </span><strong><a href="{{ path('user',{'id': sheaf.id}) }}">{{ sheaf.name }}</a></strong>
-    </div>
-    <div class="members">
-
+        <span class="black-text">{{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[struct.sheaf.ministry]['name'] }}: </span><strong><a
+                    href="{{ path('user',{'id': sheaf.id}) }}">{{ sheaf.name }}</a></strong>
     </div>
     {% if promotionRequests is not empty and app.user.id == sheaf.id %}
         <div class="struct-promotion-request-list">
@@ -49,17 +51,70 @@
             </ul>
         </div>
     {% endif %}
-    {% if members is defined and members is not empty %}
-        <br>
-        members
-        <ul>
-            {% for member in members %}
-                <li>
-                    <a href="{{ path('user',{'id': member.id}) }}">{{ member.name }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <strong>-Here is no members(((</strong>
-    {% endif %}
+    <div class="members">
+        {% if (struct.getActiveMembers is defined and struct.getActiveMembers is not empty) or (struct.getPassiveMembers is defined and struct.getPassiveMembers is not empty) %}
+            {% if struct.getActiveMembers is defined and struct.getActiveMembers is not empty %}
+                <br>
+                <p class="black-text">Active members({{ struct.getActiveMembers|length }})</p>
+                <ul {% if editable == false %} class="not-editable" {% endif %}>
+                    {% for member in struct.getActiveMembers %}
+                        <li>
+                            <a href="{{ path('user',{'id': member.id}) }}">{{ member.surname|capitalize }} {{ member.name|capitalize }}</a>
+                            {% if editable == true %}
+                                <div>
+                                    <div class="three-dots-block">
+                                        {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['THREE_DOTS'])|raw }}
+                                        <div class="menu hide-anim">
+                                            <ul>
+                                                <li><a class="edit"
+                                                       href="{{ path('user.edit', {'id': app.request.get('id')}) }}">
+                                                        Edit
+                                                    </a></li>
+                                                <li><a class="delete"
+                                                       href="{{ path('user.remove.from.struct', {'id': member.id}) }}">
+                                                        Delete
+                                                    </a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% if struct.getPassiveMembers is defined and struct.getPassiveMembers is not empty %}
+                <br>
+                <p class="black-text">Passive members({{ struct.getPassiveMembers|length }})</p>
+                <ul {% if editable == false %} class="not-editable" {% endif %}>
+                    {% for member in struct.getPassiveMembers %}
+                        <li>
+                            <a href="{{ path('user',{'id': member.id}) }}">{{ member.surname|capitalize }} {{ member.name|capitalize }}</a>
+                            <div>
+                                {% if editable == true %}
+                                    <div class="three-dots-block">
+                                        {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['THREE_DOTS'])|raw }}
+                                        <div class="menu hide-anim">
+                                            <ul>
+                                                <li><a class="edit"
+                                                       href="{{ path('user.edit', {'id': app.request.get('id')}) }}">
+                                                        Edit
+                                                    </a></li>
+                                                <li><a class="delete"
+                                                       href="{{ path('user.remove.from.struct', {'id': member.id}) }}">
+                                                        Delete
+                                                    </a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% else %}
+            <p class="black-text">-Here is no members(((</p>
+        {% endif %}
+    </div>
 {% endblock %}

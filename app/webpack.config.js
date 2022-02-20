@@ -25,11 +25,12 @@ Encore
     //CSS
     .addEntry('generalCss', './assets/sass/general.scss')
     .addEntry('header', './assets/sass/header.scss')
-    .addEntry('struct', './assets/sass/struct.scss')
+    .addEntry('structCss', './assets/sass/struct.scss')
     .addEntry('profile', './assets/sass/profile.scss')
     .addEntry('createEditForm', './assets/sass/form.scss')
     //JS
     .addEntry('generalJs', './assets/js/general.js')
+    .addEntry('structJs', './assets/js/struct.js')
     .addEntry('createUser', './assets/js/createUser.js')
     .addEntry('editUser', './assets/js/editUser.js')
     .addEntry('imagePreview', './assets/js/imagePreview.js')

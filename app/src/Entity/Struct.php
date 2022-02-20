@@ -2,14 +2,15 @@
 
 namespace App\Entity;
 
-use App\Entity\User;
 use App\Trait\CreatedAtTrait;
 use App\Trait\UpdatedAtTrait;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
 use App\Repository\StructRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Entity(repositoryClass=StructRepository::class)
  */
@@ -130,6 +131,11 @@ class Struct
      */
     private $members;
 
+    public function __construct()
+    {
+        $this->members = new ArrayCollection();
+    }
+
     /**
      * @return mixed
      */
@@ -144,11 +150,6 @@ class Struct
     public function getMembers(): Collection
     {
         return $this->members;
-    }
-
-    public function __construct()
-    {
-        $this->members = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -244,4 +245,49 @@ class Struct
         $this->members = $members;
     }
 
+    /**
+     * @return ArrayCollection
+     */
+    public function getActiveMembers(): array
+    {
+        $members =  $this->members;
+        $activeMembers = [];
+        foreach ($members as $member){
+            if($member->getStatus() == User::STATUS_ACTIVE){
+                $activeMembers[] = $member;
+            }
+        }
+        return $activeMembers;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getPassiveMembers(): array
+    {
+        $members =  $this->members;
+        $activeMembers = [];
+        foreach ($members as $member){
+            if($member->getStatus() == User::STATUS_PASSIVE){
+                $activeMembers[] = $member;
+            }
+        }
+        return $activeMembers;
+    }
+
+    /**
+     * @param ArrayCollection $activeMembers
+     */
+    public function setActiveMembers(ArrayCollection $activeMembers): void
+    {
+        $this->activeMembers = $activeMembers;
+    }
+
+    /**
+     * @param ArrayCollection $passiveMembers
+     */
+    public function setPassiveMembers(ArrayCollection $passiveMembers): void
+    {
+        $this->passiveMembers = $passiveMembers;
+    }
 }

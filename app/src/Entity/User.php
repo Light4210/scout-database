@@ -428,12 +428,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->deal_scan = $deal_scan;
     }
 
-    public function getAddress(): string
+    public function getAddress(): ?string
     {
         return $this->address;
     }
 
-    public function setAddress(string $address): self
+    public function setAddress(?string $address): self
     {
         $this->address = $address;
 

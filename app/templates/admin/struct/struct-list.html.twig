@@ -1,5 +1,11 @@
 {% extends 'admin/default/default.html.twig' %}
-
+{% block css %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('structCss') }}
+{% endblock %}
+{% block js %}
+    {{ encore_entry_script_tags('structJs') }}
+{% endblock %}
 {% block content %}
     <!-- // TODO add filter -->
     {% if app.request.get('type') != 'all' %}
@@ -7,14 +13,18 @@
     {% else %}
         <h1>General struct list</h1>
     {% endif %}
+    <div class="members">
+        <ul class="not-editable">
+            {% for struct in structs %}
+                <li>
+                    <a href="{{ path('struct',{'id': struct.id}) }}">{{ struct.name }} </a>
+                    {% if app.request.get('type') == 'all' %}<span class="{{ struct.type }}">({{ struct.type }})</span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
     <ul>
-        {% for struct in structs %}
-            <li>
-                <a href="{{ path('struct',{'id': struct.id}) }}">{{ struct.name }}</a>
-                {% if app.request.get('type') == 'all' %}
-                    -  <span>{{ struct.type }}</span>
-                {% endif %}
-            </li>
-        {% endfor %}
+
     </ul>
 {% endblock %}

@@ -14,7 +14,7 @@
             <li>
                 <a href="{{ path('struct.list') }}">General struct list</a>
             </li>
-            {% if constant('App\\Entity\\User::ACTIVE_MINISTRY')[app.user.ministry]['access'] >= constant('App\\Entity\\User::ACTIVE_MINISTRY')['president']['access'] %}
+            {% if app.user.ministry is not null and constant('App\\Entity\\User::ACTIVE_MINISTRY')[app.user.ministry]['access'] >= constant('App\\Entity\\User::ACTIVE_MINISTRY')['president']['access'] %}
                 <li>
                     <a href="{{ path('user.list') }}">General user list</a>
                 </li>
