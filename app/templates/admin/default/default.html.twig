@@ -1,4 +1,17 @@
 {% extends 'base.html.twig' %}
+{% block css %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('header') }}
+{% endblock %}
+{% block js %}
+    {{ parent() }}
+{% endblock %}
 {% block header %}
     {% include 'admin/reusable-parts/header.html.twig' %}
+{% endblock %}
+{% block footer %}
+    {% include 'admin/reusable-parts/footer.html.twig' %}
+{% endblock %}
+{% block notification %}
+    {% include 'admin/reusable-parts/notification.html.twig' %}
 {% endblock %}

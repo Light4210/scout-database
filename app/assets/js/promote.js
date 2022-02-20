@@ -1,10 +1,13 @@
-import Vue from 'vue';
-import promote from './components/promote'
+import Vue from 'vue/dist/vue.common.js';
+import promoteBtn from "./components/promoteBtn";
+import promoteModal from "./components/promoteModal";
 
-let promoteModal = new Vue({
-    el: '#promote-modal',
-    components: {promote},
+new Vue({
+    el: '#promotion',
+    components: {promoteModal, promoteBtn},
+    data() {
+        return {
+            displayModal: false,
+        }
+    },
 });
-
-let callModalBtn = document.getElementById('call-modal-promote')
-callModalBtn.addEventListener('click', promote.display, false)

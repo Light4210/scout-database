@@ -1,7 +1,7 @@
 
 index:
   path: /
-  controller: App\Controller\single\MainController::index
+  controller: App\Controller\Single\MainController::index
   methods: GET
 
 #---------------------------DEBUG---------------------------#
@@ -18,57 +18,77 @@ _profiler:
 
 user:
   path: /user/{id}
-  controller: App\Controller\user\ShowUserController
+  controller: App\Controller\User\ShowUserController
   requirements:
     id: '\d+'
 
 user.create:
   path: /user/create
-  controller: App\Controller\user\CreateUserController
+  controller: App\Controller\User\CreateUserController
 
 user.edit:
   path: /user/{id}/edit
-  controller: App\Controller\user\EditUserController
+  controller: App\Controller\User\EditUserController
+  requirements:
+    id: '\d+'
+
+user.remove.from.struct:
+  path: /user/{id}/remove
+  controller: App\Controller\User\RemoveFromStructUserController
   requirements:
     id: '\d+'
 
 user.list:
     path: /user/list/{role}
     defaults: { role: all }
-    controller: App\Controller\user\ListUserController
+    controller: App\Controller\User\ListUserController
+
+#--------USER-PROMOTION--------#
+
+user.promote.decline:
+  path: /user/promote/decline/{struct_id}/{user_id}
+  controller: App\Controller\User\Promotions\PromoteDeclineController
+  requirements:
+    id: '\d+'
+
+user.promote.approve:
+  path: /user/promote/approve/{struct_id}/{user_id}
+  controller: App\Controller\User\Promotions\PromoteApproveController
+  requirements:
+    id: '\d+'
 
 #--------USER-AJAX--------#
 
 ajax.get.promotion.structs:
   path: /ajax/promotion/{target_user}/structs
-  controller: App\Controller\user\promotions\GetPromotionData
+  controller: App\Controller\User\Promotions\GetPromotionData
 
 ajax.send.promotion.request:
     path: /ajax/promotion/{struct}/{target_user}
-    controller: App\Controller\user\promotions\SendPromotionRequest
+    controller: App\Controller\User\Promotions\SendPromotionRequest
 
 #---------------------------STRUCTS---------------------------#
 
 struct:
   path: /struct/{id}
-  controller: App\Controller\struct\ShowStructController
+  controller: App\Controller\Struct\ShowStructController
   requirements:
     id: '\d+'
 
 struct.create:
   path: /struct/create
-  controller: App\Controller\struct\CreateStructController
+  controller: App\Controller\Struct\CreateStructController
 
 struct.edit:
   path: /struct/{id}/edit
-  controller: App\Controller\struct\EditStructController
+  controller: App\Controller\Struct\EditStructController
   requirements:
     id: '\d+'
 
 struct.list:
   path: /struct/list/{type}
   defaults: { type: all }
-  controller: App\Controller\struct\ListStructController
+  controller: App\Controller\Struct\ListStructController
 
 #---------------------------SHOP---------------------------#
 

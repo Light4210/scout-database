@@ -3,15 +3,25 @@
 
 namespace App\Service;
 
-use App\Entity\Struct;
 use App\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Routing\RouterInterface;
+use App\Entity\Struct;
+use App\Entity\Notification;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\NotificationRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PromotionService extends AbstractController
 {
+
+    private EntityManagerInterface $entityManager;
+    private NotificationRepository $notificationRepository;
+
+    public function __construct(EntityManagerInterface $entityManager, NotificationRepository $notificationRepository)
+    {
+        $this->entityManager = $entityManager;
+        $this->notificationRepository = $notificationRepository;
+    }
 
     public function getFutureStructSlug($currentStructType): string
     {
@@ -22,5 +32,28 @@ class PromotionService extends AbstractController
                 return Struct::CIRCLE_SLUG;
         }
         return $currentStructType;
+    }
+
+    public function promoteUserToStruct(UserInterface|User $user, Struct $struct)
+    {
+        $user->setRole(Struct::STRUCT[$struct->getType()]['membersRole']);
+        $user->setStruct($struct);
+        $this->entityManager->flush($user);
+    }
+
+    public function approveRequest(UserInterface|User $user, Struct $struct)
+    {
+        /** @var Notification $approvedNotification */
+        $approvedNotification = $this->notificationRepository->findOneBy(['targetUser' => $user, 'toUser' => $struct->getSheaf(), 'type' => Notification::TYPE_TRANSFER, 'status' => Notification::STATUS_PENDING]);
+        $approvedNotification->setStatus(Notification::STATUS_APPROVED);
+        $this->entityManager->flush($approvedNotification);
+    }
+
+    public function declineRequest(UserInterface|User $user, Struct $struct)
+    {
+        /** @var Notification $approvedNotification */
+        $approvedNotification = $this->notificationRepository->findOneBy(['targetUser' => $user, 'toUser' => $struct->getSheaf(), 'type' => Notification::TYPE_TRANSFER, 'status' => Notification::STATUS_PENDING]);
+        $approvedNotification->setStatus(Notification::STATUS_DECLINED);
+        $this->entityManager->flush($approvedNotification);
     }
 }

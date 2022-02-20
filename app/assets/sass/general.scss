@@ -1,8 +1,56 @@
-@import url(variables.scss);
+@import "variables.scss";
+@import "notification.scss";
 
 @font-face {
   font-family: "S-font";
   src: url("/assets/fonts/Roboto-Black.ttf");
+}
+
+.black-text{
+  color: #000 !important;
+}
+
+.troop{
+  color: $scout-color
+}
+
+.circle{
+  color: $traveller-color
+}
+
+.community{
+  color: $wolves-color
+}
+
+.green-color{
+  color: $scout-color
+}
+
+.orange-color{
+  color: $orange-color
+}
+
+.yellow-color{
+  color: $wolves-color
+}
+
+.orange-color{
+  color: $orange-color
+}
+
+body {
+  margin: 0 auto;
+  max-width: $desktop-wrapper-width;
+  background: #e2e2e2;
+}
+
+a {
+  text-decoration: none;
+  transition: .3s;
+
+  &:hover {
+    color: #000;
+  }
 }
 
 .d-none {
@@ -13,38 +61,135 @@
   display: block !important;
 }
 
-ul li {
-  list-style: none;
+ul, ol{
+  margin: 0;
+  padding: 0;
+
+  li {
+    list-style: none;
+  }
 }
 
-body {
-  margin: 0;
-  background: #e2e2e2;
+.content-wrap {
+  padding: 40px;
+  margin: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
+}
+
+@media (max-width: $mobile-width) {
+  .content-wrap {
+    margin: 20px;
+  }
 }
 
 p, a, span {
   margin: 0;
+  font-family: S-font, serif;
+  color: $grey-color;
 }
 
 header, footer, .content-wrap {
   background: #fff;
 }
 
-img {
-  height: 60px;
+.success-text p {
+  color: #2cd10e !important;
 }
 
-.content-wrap {
+.error-text p {
+  color: #ff4646 !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-family: S-font, serif;
+}
+
+input, select {
+  margin: 0;
+  padding: 0;
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+button, select, input, label {
+  font-family: S-font, serif;
+  font-size: 15px;
+}
+
+.delete {
+  &:hover {
+    transition: .3s;
+    fill: $traveller-color;
+    color: $traveller-color;
+  }
+}
+
+.edit {
+  &:hover {
+    fill: $orange-color;
+    color: $orange-color;
+  }
+}
+
+.create {
+  transition: .3s;
+
+  &:hover {
+    fill: $scout-color;
+    color: $scout-color;
+  }
+}
+
+.title-actions {
   display: flex;
-}
 
-.message-text {
-  &.success-text {
-    color: #2cd10e;
+  .actions {
+    margin: 0 0 0 auto;
+    display: flex;
+
+    & > a, & > div {
+      height: 30px;
+      width: 30px;
+      margin-right: 20px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    .promote {
+
+      svg g {
+        transition: .3s;
+      }
+
+      &:hover {
+        svg g {
+          fill: $scout-color;
+        }
+      }
+    }
+
+    .download {
+      transition: .3s;
+
+      &:hover {
+        fill: $orange-color;
+      }
+    }
   }
 
-  &.error-text {
-    color: #ff4646;
-  }
 }
 
+.form-errors {
+  margin-bottom: 40px;
+  margin-left: 15px;
+
+  li {
+    list-style: disc;
+  }
+}

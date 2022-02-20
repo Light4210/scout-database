@@ -1,19 +1,107 @@
 {% extends 'admin/default/default.html.twig' %}
-{% block css %}
-    {{ parent() }}
-    {{ encore_entry_link_tags('promoteModal') }}
-{% endblock %}
-{% block js %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('promoteModal') }}
-{% endblock %}
-{% block content %}
-    <h1>Edit profile</h1>
-    {{ form(form) }}
-    {% if user.role == constant('App\\Entity\\User::ROLE_SCOUT') or user.role == constant('App\\Entity\\User::ROLE_WOLVES') %}
-        <button id="call-modal-promote" data-target="{{ user.id }}">Promote</button>
-        <div id="promote-modal" class="d-none">
-            <promote></promote>
-        </div>
-    {% endif %}
-{% endblock %}
+        {% block css %}
+            {{ parent() }}
+            {% if user.id != app.user.id and editable == true %}
+                {{ encore_entry_link_tags('promoteModal') }}
+            {% endif %}
+            {{ encore_entry_link_tags('createEditForm') }}
+        {% endblock %}
+        {% block js %}
+            {{ parent() }}
+            <script>
+                window.targetUserId = '{{ user.id }}';
+            </script>
+            {{ encore_entry_script_tags('imagePreview') }}
+            {{ encore_entry_script_tags('editUser') }}
+            {% if user.id != app.user.id and editable == true %}
+                {{ encore_entry_script_tags('promoteModal') }}
+            {% endif %}
+        {% endblock %}
+        {% block content %}
+            <div class="title-actions">
+                <h1>Edit profile</h1>
+                <div class="actions">
+                    {% if user.id != app.user.id %}
+                        <a class="delete" href="{{ path('user.remove.from.struct', {'id': user.id}) }}">
+                            {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['DELETE_USER'])|raw }}
+                        </a>
+                    {% endif %}
+                    {% if user.role == constant('App\\Entity\\User::ROLE_SCOUT') or user.role == constant('App\\Entity\\User::ROLE_WOLVES') %}
+                        <div id="promotion">
+                            <promote-modal></promote-modal>
+                            <promote-btn></promote-btn>
+                        </div>
+                    {% endif %}
+                    {% if user.dealScan is not null %}
+                        <a id="deal-scan" title="Download deal scan" target="_blank" class="download-deal-scan download"
+                           href="{{ attachmentDeal(user.dealScan) }}">
+                            {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['DOWNLOAD_DEAL_SCAN'])|raw }}
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% set formErrors = form.vars.errors.form.getErrors(true) %}
+
+            {# If there are errors in the form, display them in this unorganized list #}
+            {% if formErrors|length %}
+                <ul class="form-errors">
+                    {% for error in formErrors %}
+                        <li class="error-text"><p>{{ error.message }}</p></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <div class="form-photo">
+                <div class="user-photo">
+                    <img alt="User photo" id="user-photo"
+                            {% if user.photo is not null %}
+                                src="{{ attachmentPhoto(user.photo) }}"
+                            {% else %}
+                                src="{{ svgPath( constant('App\\Helper\\SvgHelper::SVG_NAMES')['USER_BLANK'])|raw }}"
+                            {% endif %}
+                    />
+                </div>
+                {{ form_start(form) }}
+                <div class="form-fields">
+                    <div>
+                        {{ form_label(form.name, 'Name') }}
+                        {{ form_widget(form.name) }}
+                    </div>
+                    <div>
+                        {{ form_label(form.surname, 'Surname') }}
+                        {{ form_widget(form.surname) }}
+                    </div>
+                    <div>
+                        {{ form_label(form.middleName, 'Middle name') }}
+                        {{ form_widget(form.middleName) }}
+                    </div>
+                    <div>
+                        {{ form_label(form.address, 'Address') }}
+                        {{ form_widget(form.address) }}
+                    </div>
+                    <div>
+                        {{ form_label(form.phoneNumber, 'Phone number') }}
+                        {{ form_widget(form.phoneNumber) }}
+                    </div>
+                    <div class="form-date">
+                        {{ form_label(form.dateOfBirth, 'Date of birth') }}
+                        {{ form_widget(form.dateOfBirth) }}
+                    </div>
+                    <div class="form-upload">
+                        {{ form_label(form.photo, 'Upload photo') }}
+                        {{ form_widget(form.photo) }}
+                    </div>
+                    <div class="form-upload">
+                        {{ form_label(form.dealScan, 'Upload deal') }}
+                        {{ form_widget(form.dealScan) }}
+                    </div>
+                    <div class="form-select">
+                        {{ form_label(form.status, 'Status') }}
+                        {{ form_widget(form.status) }}
+                    </div>
+                </div>
+                <div class="form-submit">
+                    {{ form_widget(form.submit) }}
+                </div>
+                {{ form_end(form) }}
+            </div>
+        {% endblock %}

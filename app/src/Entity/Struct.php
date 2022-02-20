@@ -2,17 +2,24 @@
 
 namespace App\Entity;
 
+use App\Trait\CreatedAtTrait;
+use App\Trait\UpdatedAtTrait;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
 use App\Repository\StructRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Entity\User;
+
 /**
  * @ORM\Entity(repositoryClass=StructRepository::class)
  */
 class Struct
 {
+
+    use CreatedAtTrait;
+    use UpdatedAtTrait;
+
     const TROOP_SLUG = 'troop';
     const CIRCLE_SLUG = 'circle';
     const COMMUNITY_SLUG = 'community';
@@ -124,6 +131,11 @@ class Struct
      */
     private $members;
 
+    public function __construct()
+    {
+        $this->members = new ArrayCollection();
+    }
+
     /**
      * @return mixed
      */
@@ -138,11 +150,6 @@ class Struct
     public function getMembers(): Collection
     {
         return $this->members;
-    }
-
-    public function __construct()
-    {
-        $this->members = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -223,39 +230,6 @@ class Struct
     }
 
     /**
-     * @param mixed $created_at
-     */
-    public function setCreatedAt($created_at): void
-    {
-        $this->created_at = $created_at;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCreatedAt(): mixed
-    {
-        return $this->created_at;
-    }
-
-    /**
-     * @param mixed $updated_at
-     */
-    public function setUpdatedAt($updated_at): void
-    {
-        $this->updated_at = $updated_at;
-    }
-
-    /**
-     * @return mixed
-     */
-
-    public function getUpdatedAt()
-    {
-        return $this->updated_at;
-    }
-
-    /**
      * @param mixed $sheaf
      */
     public function setSheaf($sheaf): void
@@ -271,4 +245,49 @@ class Struct
         $this->members = $members;
     }
 
+    /**
+     * @return ArrayCollection
+     */
+    public function getActiveMembers(): array
+    {
+        $members =  $this->members;
+        $activeMembers = [];
+        foreach ($members as $member){
+            if($member->getStatus() == User::STATUS_ACTIVE){
+                $activeMembers[] = $member;
+            }
+        }
+        return $activeMembers;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getPassiveMembers(): array
+    {
+        $members =  $this->members;
+        $activeMembers = [];
+        foreach ($members as $member){
+            if($member->getStatus() == User::STATUS_PASSIVE){
+                $activeMembers[] = $member;
+            }
+        }
+        return $activeMembers;
+    }
+
+    /**
+     * @param ArrayCollection $activeMembers
+     */
+    public function setActiveMembers(ArrayCollection $activeMembers): void
+    {
+        $this->activeMembers = $activeMembers;
+    }
+
+    /**
+     * @param ArrayCollection $passiveMembers
+     */
+    public function setPassiveMembers(ArrayCollection $passiveMembers): void
+    {
+        $this->passiveMembers = $passiveMembers;
+    }
 }

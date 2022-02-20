@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Trait\CreatedAtTrait;
+use App\Trait\UpdatedAtTrait;
 use App\Repository\NotificationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -11,6 +13,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class Notification
 {
+
+    use CreatedAtTrait;
+    use UpdatedAtTrait;
+
     const TYPE_TRANSFER = 'transfer';
 
     const STATUS_APPROVED = 'approved';
@@ -203,30 +209,4 @@ class Notification
     {
         $this->status = $status;
     }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $created_at): self
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(?\DateTimeImmutable $updated_at): self
-    {
-        $this->updated_at = $updated_at;
-
-        return $this;
-    }
-
-
 }

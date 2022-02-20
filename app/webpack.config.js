@@ -22,8 +22,18 @@ Encore
      * Each entry will result in one JavaScript file (e.g. scss.js)
      * and one CSS file (e.g. general.scss) if your JavaScript imports CSS.
      */
+    //CSS
     .addEntry('generalCss', './assets/sass/general.scss')
+    .addEntry('header', './assets/sass/header.scss')
+    .addEntry('structCss', './assets/sass/struct.scss')
+    .addEntry('profile', './assets/sass/profile.scss')
+    .addEntry('createEditForm', './assets/sass/form.scss')
+    //JS
     .addEntry('generalJs', './assets/js/general.js')
+    .addEntry('structJs', './assets/js/struct.js')
+    .addEntry('createUser', './assets/js/createUser.js')
+    .addEntry('editUser', './assets/js/editUser.js')
+    .addEntry('imagePreview', './assets/js/imagePreview.js')
     .addEntry('promoteModal', './assets/js/promote.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)

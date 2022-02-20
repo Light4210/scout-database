@@ -1,0 +1,19 @@
+.header{
+  margin: 40px 80px;
+}
+
+.menu-list {
+  display: flex;
+
+  .profile-menu-item {
+    margin: 0 0 0 auto;
+  }
+
+  li {
+    &:first-child {
+      margin-left: 0;
+    }
+
+    margin-left: 40px;
+  }
+}

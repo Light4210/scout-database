@@ -1,0 +1,136 @@
+@import "variables.scss";
+
+h1 {
+  margin-bottom: 40px;
+}
+
+.form-photo {
+  display: flex;
+
+  form {
+    width: 70%;
+
+    .form-submit {
+      margin: 0 0 15px 30px;
+      min-width: 155px;
+      width: 28%;
+
+      button[type="submit"] {
+        font-size: 15px;
+        display: block;
+        width: 100%;
+        padding: 8px 0 5px 0;
+        text-align: center;
+        border-radius: 5px;
+        cursor: pointer;
+        border: 2px solid #7b7c7c;
+        min-width: 161px;
+        max-width: 202px;
+      }
+    }
+
+    .form-fields {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+
+      & > div {
+        margin: 0 0 15px 30px;
+        width: 28%;
+        min-width: 155px;
+      }
+
+      label {
+        color: $grey-color;
+        font-size: 13px;
+      }
+
+      input {
+        width: 100%;
+      }
+
+      .form-select {
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: column;
+      }
+
+      .form-upload {
+        input[type="file"] {
+          display: none;
+        }
+
+        label {
+          font-size: 15px;
+          display: block;
+          width: 100%;
+          padding: 8px 0 5px 0;
+          text-align: center;
+          border-radius: 5px;
+          cursor: pointer;
+          border: 2px solid #7b7c7c;
+        }
+      }
+
+      select, input[type="text"] {
+        border: unset;
+        border-bottom: 2px solid $grey-color;
+      }
+
+      .form-date div select {
+        margin-left: 2%;
+
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+
+  .user-photo {
+    width: 30%;
+
+    img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
+    }
+
+    svg {
+      width: 100%;
+    }
+  }
+
+}
+
+@media (max-width: $mobile-width) {
+  .content-wrap {
+    .form-photo {
+      display: block;
+
+      .user-photo {
+        width: 100%;
+      }
+
+      form {
+        width: 100%;
+        margin-top: 20px;
+
+        .form-fields > div {
+          min-width: 155px;
+          width: 100%;
+          margin-left: 0;
+        }
+
+        .form-submit {
+          width: 100%;
+          margin-left: 0;
+
+          button {
+            max-width: unset;
+          }
+        }
+      }
+    }
+  }
+}

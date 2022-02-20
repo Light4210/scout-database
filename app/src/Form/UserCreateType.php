@@ -33,7 +33,7 @@ class UserCreateType extends AbstractType
             ->add('middleName', TextType::class, ['required' => false, 'attr' => ['maxlength' => 50, 'minlength' => 2, 'placeholder' => 'Middle name']])
             ->add('dateOfBirth', DateType::class, ['required' => false,])
             ->add('address', TextType::class, ['required' => false, 'attr' => ['maxlength' => 95, 'minlength' => 2, 'placeholder' => 'address']])
-            ->add('phone_number', TextType::class, ['required' => false, 'attr' => ['maxlength' => 15, 'minlength' => 9, 'placeholder' => 'phone number']])
+            ->add('phoneNumber', TextType::class, ['required' => false, 'attr' => ['maxlength' => 15, 'minlength' => 9, 'placeholder' => 'phone number']])
             ->add('photo', FileType::class, [
                 'data_class' => null,
                 'required' => false
@@ -42,7 +42,9 @@ class UserCreateType extends AbstractType
                 'data_class' => null,
                 'required' => false
             ])
-            ->add('Change', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                'label' => 'Add member'
+            ])
             ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
                 $uuidGenerator = Uuid::uuid4();
                 $currentUser = $this->security->getUser();

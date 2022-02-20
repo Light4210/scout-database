@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\User;
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
@@ -34,7 +33,7 @@ class UserEditType extends AbstractType
             ->add('middleName', TextType::class, ['required' => false, 'attr' => ['maxlength' => 50, 'minlength' => 2, 'placeholder' => 'Middle name']])
             ->add('dateOfBirth', DateType::class, ['required' => false,])
             ->add('address', TextType::class, ['required' => false, 'attr' => ['maxlength' => 95, 'minlength' => 2, 'placeholder' => 'address']])
-            ->add('phone_number', TextType::class, ['required' => false, 'attr' => ['maxlength' => 15, 'minlength' => 9, 'placeholder' => 'phone number']])
+            ->add('phoneNumber', TextType::class, ['required' => false, 'attr' => ['maxlength' => 15, 'minlength' => 9, 'placeholder' => 'phone number']])
             ->add('photo', FileType::class, [
                 'data_class' => null,
                 'required' => false
@@ -44,14 +43,34 @@ class UserEditType extends AbstractType
                 'required' => false
             ])
             ->add('status', ChoiceType::class, [
-                'choices' =>[
-                    User::STATUS_PASSIVE,
-                    User::STATUS_ACTIVE
+                'choices' => [
+                    User::STATUS_PASSIVE => User::STATUS_PASSIVE,
+                    User::STATUS_ACTIVE => User::STATUS_ACTIVE
                 ],
                 'required' => true,
             ])
-            ->add('Change', SubmitType::class);
+            ->add('submit', SubmitType::class, [
+                'label' => 'Change'
+            ]);
+
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+            // Retrieve submitted data
+            $form = $event->getForm();
+            $user = $form->getData();
+
+            // Test if upload image is null (maybe adapt it to work with your code)
+            if ($form->get('photo')->getData() !== null) {
+                $user->setPhoto($form->get('photo')->getData());
+            }
+
+            if ($form->get('dealScan')->getData()  !== null) {
+                $user->setDealScan($form->get('dealScan')->getData());
+            }
+
+            $event->setData($user);
+        });
     }
+
 
     public function configureOptions(OptionsResolver $resolver)
     {

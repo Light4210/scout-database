@@ -6,18 +6,21 @@
     <title>{% block title %}UIGSE{% endblock %}</title>
     {% block css %}
         {{ encore_entry_link_tags('generalCss') }}
+        <link href="https://unpkg.com/vue-simple-notify/dist/vue-simple-notify.min.css" rel="stylesheet">
     {% endblock %}
 </head>
 <body>
-{% block header %}
-{% endblock %}
-<div class="page-wrap" id="app">
+<div class="page-wrap">
+    {% block header %}
+    {% endblock %}
     <div class="content-wrap">
         {% block content %}
         {% endblock %}
     </div>
+    {% block footer %}
+    {% endblock %}
 </div>
-{% block footer %}
+{% block notification %}
 {% endblock %}
 {% block js %}
     {{ encore_entry_script_tags('generalJs') }}

@@ -3,6 +3,8 @@
 
 namespace App\Entity;
 
+use App\Trait\CreatedAtTrait;
+use App\Trait\UpdatedAtTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,6 +20,10 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+
+    use CreatedAtTrait;
+    use UpdatedAtTrait;
+
     const STATUS_ACTIVE = 'active';
     const STATUS_PASSIVE = 'passive';
 
@@ -144,7 +150,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *      maxMessage = "Your phone number cannot be longer than {{ limit }} characters"
      * )
      */
-    private ?string $phone_number;
+    private ?string $phoneNumber;
 
     /**
      * @ORM\Column(type="string", nullable=false)
@@ -159,7 +165,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @OneToOne(targetEntity="Attachments")
      * @JoinColumn(name="deal_scan_id", referencedColumnName="id", nullable=true)
-     * @Assert\File( maxSize="1M", mimeTypes={"application/pdf", "application/x-pdf"} )
+     * @Assert\File( maxSize="5M", mimeTypes={"application/pdf", "application/x-pdf"} )
      */
     private $deal_scan;
 
@@ -182,7 +188,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @OneToOne(targetEntity="Attachments")
      * @JoinColumn(name="photo_id", referencedColumnName="id", nullable=true)
-     * @Assert\File( maxSize="4M", mimeTypes={"image/*"} )
+     * @Assert\File( maxSize="5M", mimeTypes={"image/*"} )
      */
     private $photo;
 
@@ -370,14 +376,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPhoneNumber(): ?int
+    public function getPhoneNumber(): ?string
     {
-        return $this->phone_number;
+        return $this->phoneNumber;
     }
 
-    public function setPhoneNumber(int $phone_number): self
+    public function setPhoneNumber(?string $phoneNumber): self
     {
-        $this->phone_number = $phone_number;
+        $this->phoneNumber = $phoneNumber;
 
         return $this;
     }
@@ -422,12 +428,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->deal_scan = $deal_scan;
     }
 
-    public function getAddress(): string
+    public function getAddress(): ?string
     {
         return $this->address;
     }
 
-    public function setAddress(string $address): self
+    public function setAddress(?string $address): self
     {
         $this->address = $address;
 
@@ -460,30 +466,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhoto($photo)
     {
         $this->photo = $photo;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $created_at): self
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(?\DateTimeImmutable $updated_at): self
-    {
-        $this->updated_at = $updated_at;
-
-        return $this;
     }
 
     /**
@@ -534,6 +516,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             }
         }
 
+        return $this;
+    }
+
+    public function removeUserFromStruct() :User{
+        $this->setStruct(null);
+        $this->setStatus(User::STATUS_PASSIVE);
         return $this;
     }
 

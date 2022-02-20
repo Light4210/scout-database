@@ -1,17 +1,90 @@
 {% extends 'admin/default/default.html.twig' %}
+{% block css %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('profile') }}
+    {% if user.id != app.user.id and editable == true %}
+        {{ encore_entry_link_tags('promoteModal') }}
+    {% endif %}
+{% endblock %}
 
+{% block js %}
+    {{ parent() }}
+    <script>
+        window.targetUserId = '{{ user.id }}';
+    </script>
+    {% if user.id != app.user.id and editable == true %}
+        {{ encore_entry_script_tags('promoteModal') }}
+    {% endif %}
+{% endblock %}
 {% block content %}
-    <h1>Profile</h1>
     {% for flashMessage in app.session.flashbag.get('fail') %}
         {{ flashMessage }}
     {% endfor %}
-    <ul>
-        {{ user.name }}
-        {% if user.photo is not null %}
-        <img src = "{{ asset('images/photos/' ~ user.photo.title ~ '.' ~ user.photo.extension) }}">
-        {% endif %}
-        {% if editable == true %}
-        <li><a href="{{ path('user.edit', {'id': app.request.get('id')}) }}">edit</a></li>
-        {% endif %}
-    </ul>
+    <div class="title-actions">
+        <h1>Profile</h1>
+        <div class="actions">
+            {% if editable == true %}
+                <a class="edit" href="{{ path('user.edit', {'id': app.request.get('id')}) }}">
+                    {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['EDIT'])|raw }}
+                </a>
+                {% if user.id != app.user.id %}
+                    <a class="delete" href="{{ path('user.remove.from.struct', {'id': user.id}) }}">
+                        {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['DELETE_USER'])|raw }}
+                    </a>
+                {% endif %}
+                {% if user.role == constant('App\\Entity\\User::ROLE_SCOUT') or user.role == constant('App\\Entity\\User::ROLE_WOLVES') %}
+                    <div id="promotion">
+                        <promote-modal></promote-modal>
+                        <promote-btn></promote-btn>
+                    </div>
+                {% endif %}
+            {% endif %}
+            {% if user.dealScan is not null %}
+                <a id="deal-scan" title="Download deal scan" target="_blank" class="download-deal-scan download"
+                   href="{{ attachmentDeal(user.dealScan) }}">
+                    {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['DOWNLOAD_DEAL_SCAN'])|raw }}
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="profile">
+        <div class="photo">
+            <img alt="User photo" id="user-photo" src="
+                    {% if user.photo is not null %}
+                        {{ attachmentPhoto(user.photo) }}
+                    {% else %}
+                        {{ svgPath( constant('App\\Helper\\SvgHelper::SVG_NAMES')['USER_BLANK'])|raw }}
+                    {% endif %}
+                "/>
+        </div>
+        <div class="info">
+            <div class="full-name">
+                <p>Full
+                    name<span>{{ user.surname|capitalize }} {{ user.name|capitalize }} {{ user.middleName|capitalize }}</span>
+                </p>
+                <p>Email: <span>{{ user.email|isEmpty }}</span></p>
+                <p>Address: <span>{{ user.address|isEmpty }}</span></p>
+                <p>Phone number: <span>{% if user.phoneNumber is not empty %}<a
+                                href="tel:{{ user.phoneNumber }}">{% endif %}{{ user.phoneNumber|isEmpty }}{% if user.phoneNumber is not empty %}</a>{% endif %}</span>
+                </p>
+                <p>Date of
+                    birth:<span>{% if user.dateOfBirth is not empty %}{{ user.dateOfBirth|date('d-m-Y') }}{% else %}-{% endif %}</span>
+                </p>
+                {% if user.role == constant('App\\Entity\\User::ROLE_TRAVELLER') %}
+                    <p>Ministry: <span>{{ user.ministry|isEmpty }}</span></p>
+                {% endif %}
+                <p>Status: <span>{{ user.status }}</span></p>
+                {% if user.sheafOf is not null %}
+                    <p>Sheaf in: <span><a
+                                    href="{{ path('struct', {'id': user.sheafOf.id}) }}">{{ user.sheafOf.name }}</a></span>
+                    </p>
+                {% endif %}
+                {% if user.struct is not null %}
+                    <p>{{ user.struct.type|capitalize }}: <span><a
+                                    href="{{ path('struct', {'id': user.struct.id}) }}">{{ user.struct.name }}</a></span>
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

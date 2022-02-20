@@ -14,10 +14,12 @@ class RedirectService extends AbstractController
     ];
 
     const MESSAGE_TEXT = [
-        'USER_EDIT_DENIED' => 'You cant edit this user',
-        'CREATE_USER_WITH_NO_STRUCT' => 'You cant create new users without your own structure',
+        'USER_DELETE_DENIED' => 'You can`t delete this user',
+        'USER_SELF_REMOVE' => 'You can`t remove yourself from struct',
+        'USER_EDIT_DENIED' => 'You can`t edit this user',
+        'CREATE_USER_WITH_NO_STRUCT' => 'You can`t create new users without your own structure',
         'ACCESS_DENIED' => 'Access denied',
-        'STRUCT_EDIT_DENIED' => 'You cant edit this struct',
+        'STRUCT_EDIT_DENIED' => 'You can`t edit this struct',
         'NEW_STRUCT' => 'Congratulation now you have your own struct :)',
         'WRONG_ROLE_NAME' => 'Wrong role name',
     ];
@@ -32,7 +34,7 @@ class RedirectService extends AbstractController
     {
         $this->addFlash($messageType, $message);
         $url = $this->router->generate($route, $routeParams);
-        return new RedirectResponse($this->router->generate('index'));
+        return new RedirectResponse($url);
     }
 
 
