@@ -59,6 +59,12 @@
         </div>
         <div class="info">
             <div class="full-name">
+                {% set access = '' %}
+                {% if constant('App\\Entity\\User::ACTIVE_MINISTRY')[app.user.ministry] is not empty %}
+                    {% set access = constant('App\\Entity\\User::ACTIVE_MINISTRY')[app.user.ministry]['access'] %}
+                    {{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[app.user.ministry]['access'] == constant('App\\Entity\\User::PRIORITY_NATIONAL_COUNCIL') }}
+                {% endif %}
+                {% if editable == true or user.role == constant('App\\Entity\\User::ROLE_TRAVELLER') or access == constant('App\\Entity\\User::PRIORITY_NATIONAL_COUNCIL') %}
                 <p>Full
                     name<span>{{ user.surname|capitalize }} {{ user.name|capitalize }} {{ user.middleName|capitalize }}</span>
                 </p>
@@ -70,10 +76,13 @@
                 <p>Date of
                     birth:<span>{% if user.dateOfBirth is not empty %}{{ user.dateOfBirth|date('d-m-Y') }}{% else %}-{% endif %}</span>
                 </p>
-                {% if user.role == constant('App\\Entity\\User::ROLE_TRAVELLER') %}
-                    <p>Ministry: <span>{{ user.ministry|isEmpty }}</span></p>
-                {% endif %}
                 <p>Status: <span>{{ user.status }}</span></p>
+            {% else %}
+                <p>Name <span>{{ user.name|capitalize }}</span>
+                    {% endif %}
+                    {% if user.role == constant('App\\Entity\\User::ROLE_TRAVELLER') %}
+                <p>Ministry: <span>{{ user.ministry|isEmpty }}</span></p>
+                {% endif %}
                 {% if user.sheafOf is not null %}
                     <p>Sheaf in: <span><a
                                     href="{{ path('struct', {'id': user.sheafOf.id}) }}">{{ user.sheafOf.name }}</a></span>

@@ -43,6 +43,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             'struct_slug' => Struct::TROOP_SLUG,
             'access' => self::PRIORITY_STANDARD,
             'membersRole' => self::ROLE_SCOUT,
+            'colorClass' => 'troop'
         ],
         'president' => [
             'name' => 'President',
@@ -50,6 +51,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             'struct_slug' => 'none',
             'access' => self::PRIORITY_NATIONAL_COUNCIL,
             'membersRole' => 'none',
+            'colorClass' => 'national-council'
         ],
         'sheaf' => [
             'name' => 'Sheaf',
@@ -57,6 +59,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             'struct_slug' => Struct::CIRCLE_SLUG,
             'access' => self::PRIORITY_STANDARD,
             'membersRole' => self::ROLE_TRAVELLER,
+            'colorClass' => 'circle'
         ],
         'akela' => [
             'name' => 'Akela',
@@ -64,7 +67,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             'slug' => 'akela',
             'access' => self::PRIORITY_STANDARD,
             'membersRole' => self::ROLE_WOLVES,
+            'colorClass' => 'community'
         ],
+        '' => [
+
+        ]
     ];
 
     /**
