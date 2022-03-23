@@ -33,26 +33,31 @@
         <span class="black-text">{{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[struct.sheaf.ministry]['name'] }}: </span><strong><a
                     href="{{ path('user',{'id': sheaf.id}) }}">{{ sheaf.name }}</a></strong>
     </div>
-    {% if promotionRequests is not empty and app.user.id == sheaf.id %}
-        <div class="struct-promotion-request-list">
-            <h2>New request to your struct</h2>
-            <ul>
-                {% for request in promotionRequests %}
-                    <li>
-                        <a href="{{ path('user',{'id': request.targetUser.id}) }}">{{ request.targetUser.name }}</a>
-                        <a href="{{ path('user.promote.approve',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}">
-                            <button>Accept</button>
-                        </a>
-                        <a href="{{ path('user.promote.decline',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}">
-                            <button>Decline</button>
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
     <div class="members">
-        {% if (struct.getActiveMembers is defined and struct.getActiveMembers is not empty) or (struct.getPassiveMembers is defined and struct.getPassiveMembers is not empty) %}
+        {% if (struct.getActiveMembers is defined and struct.getActiveMembers is not empty) or (promotionRequests is defined and promotionRequests is not empty) or (struct.getPassiveMembers is defined and struct.getPassiveMembers is not empty) %}
+            {% if promotionRequests is not empty and app.user.id == sheaf.id %}
+                <br>
+                <p class="black-text">New request to your struct({{ promotionRequests|length }})</p>
+                <ul {% if editable == false %} class="not-editable" {% endif %}>
+                    {% for request in promotionRequests %}
+                        <li>
+                            <a href="{{ path('user',{'id': request.targetUser.id}) }}">{{ request.targetUser.name|capitalize }}</a>
+                            {% if editable == true %}
+                                <div>
+                                    <div class="three-dots-block request-block">
+                                        <a class="create" href="{{ path('user.promote.approve',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}">
+                                            Accept
+                                        </a>
+                                        <a class="delete" href="{{ path('user.promote.decline',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}">
+                                            Decline
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
             {% if struct.getActiveMembers is defined and struct.getActiveMembers is not empty %}
                 <br>
                 <p class="black-text">Active members({{ struct.getActiveMembers|length }})</p>

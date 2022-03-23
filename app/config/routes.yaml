@@ -96,6 +96,12 @@ shop:
   path: /shop
   controller: App\Controller\DefaultController::index
 
+#---------------------------INVITATION-SYSTEM---------------------------#
+
+invite:
+  path: /invite
+  controller: App\Controller\Invitations\InviteController
+
 #---------------------------EVENTS---------------------------#
 
 events:
