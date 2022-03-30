@@ -34,7 +34,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     const ROLE_SCOUT = 'scout';
     const ROLE_WOLVES = 'wolves';
 
-    const ROLES = [];
+    const ROLE_ADMIN = 'admin';
 
     const ACTIVE_MINISTRY = [
         'troopLeader' => [
@@ -48,6 +48,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         'president' => [
             'name' => 'President',
             'slug' => 'president',
+            'struct_slug' => 'none',
+            'access' => self::PRIORITY_NATIONAL_COUNCIL,
+            'membersRole' => 'none',
+            'colorClass' => 'national-council'
+        ],
+        'admin' => [
+            'name' => 'Admin',
+            'slug' => 'admin',
             'struct_slug' => 'none',
             'access' => self::PRIORITY_NATIONAL_COUNCIL,
             'membersRole' => 'none',
@@ -69,9 +77,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             'membersRole' => self::ROLE_WOLVES,
             'colorClass' => 'community'
         ],
-        '' => [
-
-        ]
     ];
 
     /**

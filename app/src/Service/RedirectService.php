@@ -16,6 +16,7 @@ class RedirectService extends AbstractController
     const MESSAGE_TEXT = [
         'USER_DELETE_DENIED' => 'You can`t delete this user',
         'USER_SELF_REMOVE' => 'You can`t remove yourself from struct',
+        'INVITE_DENIED' => 'You can`t invite users',
         'USER_EDIT_DENIED' => 'You can`t edit this user',
         'CREATE_USER_WITH_NO_STRUCT' => 'You can`t create new users without your own structure',
         'ACCESS_DENIED' => 'Access denied',

@@ -23,6 +23,7 @@ Encore
      * and one CSS file (e.g. general.scss) if your JavaScript imports CSS.
      */
     //CSS
+    .addEntry('inviteCss', './assets/sass/invite.scss')
     .addEntry('generalCss', './assets/sass/general.scss')
     .addEntry('header', './assets/sass/header.scss')
     .addEntry('structCss', './assets/sass/struct.scss')
@@ -30,6 +31,7 @@ Encore
     .addEntry('createEditForm', './assets/sass/form.scss')
     //JS
     .addEntry('generalJs', './assets/js/general.js')
+    .addEntry('inviteJs', './assets/js/invite.js')
     .addEntry('structJs', './assets/js/struct.js')
     .addEntry('createUser', './assets/js/createUser.js')
     .addEntry('editUser', './assets/js/editUser.js')

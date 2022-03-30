@@ -19,7 +19,13 @@
                     <a href="{{ path('user.list') }}">Travellers list</a>
                 </li>
             {% endif %}
-
+            {% if constant('App\\Entity\\User::ROLE_ADMIN') in app.user.roles %}
+                <li>
+                    <a href="{{ path('invite') }}">Invite to system</a>
+                </li>
+            {% else %}
+                false
+            {% endif %}
             <li class="profile-menu-item">
                 <a href="{{ path('user', {'id': app.user.id}) }}">My profile</a>
             </li>
