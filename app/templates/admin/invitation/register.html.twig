@@ -1,0 +1,76 @@
+{% extends 'admin/default/default.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('createEditForm') }}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('imagePreview') }}
+    {{ encore_entry_script_tags('registerFormJs') }}
+{% endblock %}
+
+{% block content %}
+    <div class="title-actions">
+        <h1>Register</h1>
+    </div>
+    {% set formErrors = form.vars.errors.form.getErrors(true) %}
+
+    {# If there are errors in the form, display them in this unorganized list #}
+    {% if formErrors|length %}
+        <ul class="form-errors">
+            {% for error in formErrors %}
+                <li class="error-text"><p>{{ error.message }}</p></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <div class="form-photo">
+        <div class="user-photo">
+            <img alt="User photo" id="user-photo"
+                 src="{{ svgPath( constant('App\\Helper\\SvgHelper::SVG_NAMES')['USER_BLANK'])|raw }}"/>
+        </div>
+        {{ form_start(form) }}
+        <div class="form-fields">
+            <div>
+                {{ form_label(form.name, 'Name') }}
+                {{ form_widget(form.name) }}
+            </div>
+            <div>
+                {{ form_label(form.surname, 'Surname') }}
+                {{ form_widget(form.surname) }}
+            </div>
+            <div>
+                {{ form_label(form.middleName, 'Middle name') }}
+                {{ form_widget(form.middleName) }}
+            </div>
+            <div>
+                {{ form_label(form.address, 'Address') }}
+                {{ form_widget(form.address) }}
+            </div>
+            <div>
+                {{ form_label(form.phoneNumber, 'Phone number') }}
+                {{ form_widget(form.phoneNumber) }}
+            </div>
+            <div class="form-date">
+                {{ form_label(form.dateOfBirth, 'Date of birth') }}
+                {{ form_widget(form.dateOfBirth) }}
+            </div>
+            <div class="password-first">
+                {{ form_widget(form.password) }}
+            </div>
+            <div class="form-upload">
+                {{ form_label(form.photo, 'Upload photo') }}
+                {{ form_widget(form.photo) }}
+            </div>
+            <div class="form-upload">
+                {{ form_label(form.dealScan, 'Upload deal') }}
+                {{ form_widget(form.dealScan) }}
+            </div>
+        </div>
+        <div class="form-submit">
+            {{ form_widget(form.submit) }}
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

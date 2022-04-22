@@ -22,7 +22,7 @@ class TransferService
 
     public function closeAllUserTransfers(User|UserInterface $user)
     {
-        $activeUserTransfers = $this->notificationRepository->getAllPromotionRequests($user);
+        $activeUserTransfers = $this->notificationRepository->getPromotionRequestsToUser($user);
         foreach ($activeUserTransfers as $transfer){
             $transfer->setStatus(Notification::STATUS_DECLINED);
             $this->entityManager->persist($transfer);

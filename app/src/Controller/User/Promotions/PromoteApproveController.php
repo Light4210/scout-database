@@ -24,6 +24,7 @@ class PromoteApproveController extends AbstractController
         $promotionService->promoteUserToStruct($targetUser, $targetStruct);
         $promotionService->approveRequest($targetUser, $targetStruct);
         $transferService->closeAllUserTransfers($targetUser);
+        $transferService->closeAllUserTransfers($targetUser);
 
         return $this->redirect($referer);
     }

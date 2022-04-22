@@ -1,0 +1,17 @@
+{% set messages =  app.session.flashbag.get('success') %}
+    {% if messages is not empty %}
+        <div class="success-text user-invited-message">
+            {% for flashMessage in messages %}
+                <p>{{ flashMessage }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% set messages =  app.session.flashbag.get('fail') %}
+    {% if messages is not empty %}
+        <div class="error-text user-invited-message">
+            {% for flashMessage in messages %}
+                <p>{{ flashMessage }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}

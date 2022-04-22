@@ -35,18 +35,6 @@ class RemoveFromStructUserController extends AbstractController
                 ]
             );        }
 
-        $editable = $editableService->checkUser($user, $currentUser);
-        if (!$editable) {
-            return $redirectService->redirectWithPopup(
-                RedirectService::MESSAGE_TYPE['fail'],
-                RedirectService::MESSAGE_TEXT['USER_DELETE_DENIED'],
-                'user',
-                [
-                    'id' => $id
-                ]
-            );
-        }
-
         /** @var Struct $previousStruct */
         $previousStruct = $user->getStruct();
 

@@ -233,6 +233,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->notifications = new ArrayCollection();
+        $this->created_at =  new \DateTimeImmutable();
     }
 
     /**

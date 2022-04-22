@@ -17,9 +17,8 @@
     {% endif %}
 {% endblock %}
 {% block content %}
-    {% for flashMessage in app.session.flashbag.get('fail') %}
-        {{ flashMessage }}
-    {% endfor %}
+    {% include 'admin/reusable-parts/flash-messages.html.twig' %}
+
     <div class="title-actions">
         <h1>Profile</h1>
         <div class="actions">
@@ -60,7 +59,7 @@
         <div class="info">
             <div class="full-name">
                 {% set access = '' %}
-                {% if constant('App\\Entity\\User::ACTIVE_MINISTRY')[app.user.ministry] is not empty %}
+                {% if app.user.ministry != '' and constant('App\\Entity\\User::ACTIVE_MINISTRY')[app.user.ministry] is not empty %}
                     {% set access = constant('App\\Entity\\User::ACTIVE_MINISTRY')[app.user.ministry]['access'] %}
                     {{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[app.user.ministry]['access'] == constant('App\\Entity\\User::PRIORITY_NATIONAL_COUNCIL') }}
                 {% endif %}

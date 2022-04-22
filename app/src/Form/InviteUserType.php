@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
@@ -32,7 +33,7 @@ class InviteUserType extends AbstractType
                     'none' => null
                 ],
                 'required' => true])
-            ->add('email', TextType::class, ['required' => true, 'attr' => ['maxlength' => 100, 'minlength' => 4, 'placeholder' => 'Email']])
+            ->add('email', EmailType::class, ['required' => true, 'attr' => ['maxlength' => 100, 'minlength' => 4, 'placeholder' => 'Email']])
             ->add('Invite', SubmitType::class);
     }
 

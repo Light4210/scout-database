@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use DateTime;
+use DateInterval;
 use App\Repository\InviteRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -59,17 +60,24 @@ class Invite
      * @param $token
      * @throws \Exception
      */
-    public function __construct($email, $ministry)
-    {
-        $expirationDate=Date('y:m:d', strtotime('+10 days'));
 
-        $this->email = $email;
+    public function __construct()
+    {
+        $expirationDate=new \DateTimeImmutable();
+        $expirationDate = $expirationDate->add(new DateInterval('P10D'));
         $this->expiration_date = $expirationDate;
-        $this->created_at = date('y:m:d');
-        $this->ministry = $ministry;
-        $this->token = bin2hex(random_bytes(16));
+        $this->role = User::ROLE_TRAVELLER;
+        $this->created_at =  new \DateTimeImmutable();
+        $this->token = bin2hex(random_bytes(25));
     }
 
+    public function isExpired(): bool
+    {
+        if($this->getExpirationDate() < new \DateTimeImmutable()){
+            return true;
+        }
+        return false;
+    }
 
     public function getId(): ?int
     {

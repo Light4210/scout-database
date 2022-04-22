@@ -2,9 +2,9 @@
 
 namespace App\Service;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class RedirectService extends AbstractController
 {
@@ -15,6 +15,7 @@ class RedirectService extends AbstractController
 
     const MESSAGE_TEXT = [
         'USER_DELETE_DENIED' => 'You can`t delete this user',
+        'USER_REGISTERED' => 'User by this link already registered',
         'USER_SELF_REMOVE' => 'You can`t remove yourself from struct',
         'INVITE_DENIED' => 'You can`t invite users',
         'USER_EDIT_DENIED' => 'You can`t edit this user',
@@ -23,6 +24,14 @@ class RedirectService extends AbstractController
         'STRUCT_EDIT_DENIED' => 'You can`t edit this struct',
         'NEW_STRUCT' => 'Congratulation now you have your own struct :)',
         'WRONG_ROLE_NAME' => 'Wrong role name',
+        'SENDED_INVITE' => 'Invite was successfuly sended',
+        'INVITE_ALREADY_SENDED' => 'Invite to user already sended, check the mailbox',
+        'USER_EXIST' => 'User with this email already exist',
+        'SOMETHING_WENT_WRONG' => 'Ops, something went wrong',
+        'CANT_CREATE_USER' => 'You cant create new user for this struct',
+        'LOGOUT_TO_CONTINUE' => 'If you want to register new email, firstly yo need to logout',
+        'JOIN_REQUEST_SUCCESS' => 'Join request was successfully sended',
+        'ALREADY_SENDED_REQUEST' => 'you already send request to this structure'
     ];
     private $router;
 
