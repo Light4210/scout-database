@@ -46,6 +46,10 @@ class Struct
     ];
 
     const SELECTED_STATUS_DISABLED = 'disabled';
+    const REQUEST_STATUS_PENDING = 'pending';
+    const REQUEST_STATUS_NONE = 'none';
+
+    private $requestStatus = 'none';
 
     /**
      * @ORM\Id
@@ -142,6 +146,22 @@ class Struct
     public function getSheaf()
     {
         return $this->sheaf;
+    }
+
+    /**
+     * @param string $requestStatus
+     */
+    public function setRequestStatus(string $requestStatus): void
+    {
+        $this->requestStatus = $requestStatus;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRequestStatus(): string
+    {
+        return $this->requestStatus;
     }
 
     /**

@@ -17,7 +17,6 @@ class CreateUserController extends AbstractController
     {
         $currentUser = $security->getUser();
         $id = $currentUser->getId();
-
         $sheafStruct = $entityManager->getRepository(Struct::class)->findOneBy(['sheaf' => $id]);
         if (!$sheafStruct) {
             return $redirectService->redirectWithPopup(
@@ -26,6 +25,15 @@ class CreateUserController extends AbstractController
                 'user',
                 [
                     'id' => $id
+                ]
+            );
+        } elseif ($sheafStruct->getType() == Struct::CIRCLE_SLUG || $sheafStruct->getType() == 'none'){
+            return $redirectService->redirectWithPopup(
+                RedirectService::MESSAGE_TYPE['fail'],
+                RedirectService::MESSAGE_TEXT['CANT_CREATE_USER'],
+                'struct',
+                [
+                    'id' => $sheafStruct->getId()
                 ]
             );
         }

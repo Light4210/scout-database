@@ -1,0 +1,42 @@
+@import "variables.scss";
+
+h1 {
+  text-align: center;
+}
+
+.user-invited-message {
+  text-align: center;
+}
+
+.invite-form {
+  margin: 20px auto 0 auto;
+  max-width: 300px;
+  min-width: 200px;
+
+  .email-field {
+    padding-right: 12px;
+  }
+
+  div input{
+    height: 31px;
+  }
+
+  input, select {
+    width: 100%;
+    border-radius: 4px;
+    height: 35px;
+    font-size: 17px;
+    border: 2px solid $grey-color;
+    margin: 0 0 20px 0;
+    padding: 0 4px;
+  }
+
+  button {
+    width: 100%;
+    border-radius: 4px;
+    height: 40px;
+    font-size: 17px;
+    border: 2px solid $grey-color;
+    cursor: pointer;
+  }
+}

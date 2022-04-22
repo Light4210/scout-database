@@ -75,6 +75,18 @@ struct:
   requirements:
     id: '\d+'
 
+struct.join.request:
+  path: /struct/{id}/request-join
+  controller: App\Controller\Struct\StructJoinRequestController
+  requirements:
+    id: '\d+'
+
+struct.leave:
+  path: /struct/{id}/leave
+  controller: App\Controller\Struct\StructLeaveController
+  requirements:
+    id: '\d+'
+
 struct.create:
   path: /struct/create
   controller: App\Controller\Struct\CreateStructController
@@ -95,6 +107,16 @@ struct.list:
 shop:
   path: /shop
   controller: App\Controller\DefaultController::index
+
+#---------------------------INVITATION-SYSTEM---------------------------#
+
+invite:
+  path: /invite
+  controller: App\Controller\Invitations\InviteController
+
+invite.register:
+  path: /register
+  controller: App\Controller\Invitations\RegisterController
 
 #---------------------------EVENTS---------------------------#
 

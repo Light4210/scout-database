@@ -36,7 +36,9 @@ class NotificationRepository extends ServiceEntityRepository
 
     public function getPromotionRequestsToUser(UserInterface|User $user): array
     {
-        return $this->findBy(['toUser' => $user, 'status' => Notification::STATUS_PENDING, 'type' => Notification::TYPE_TRANSFER]);
+        $userRequests = $this->findBy(['toUser' => $user, 'status' => Notification::STATUS_PENDING, 'type' => Notification::TYPE_REQUEST]);
+        $promotionRequests =  $this->findBy(['toUser' => $user, 'status' => Notification::STATUS_PENDING, 'type' => Notification::TYPE_TRANSFER]);
+        return array_merge_recursive($userRequests, $promotionRequests);
     }
 
     public function getAllPromotionRequests(UserInterface $user): array

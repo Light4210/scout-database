@@ -4,6 +4,7 @@
     {{ encore_entry_link_tags('structCss') }}
 {% endblock %}
 {% block js %}
+    {{ encore_entry_script_tags('generalJs') }}
     {{ encore_entry_script_tags('structJs') }}
 {% endblock %}
 {% block content %}
@@ -11,7 +12,7 @@
     <div class="title-actions">
         <h1>{{ struct.name }}</h1>
         <div class="actions">
-            {% if app.user.id == sheaf.id %}
+            {% if app.user.id == sheaf.id and (app.user.ministry == constant('App\\Entity\\User::ACTIVE_MINISTRY')['akela']['slug'] or app.user.ministry == constant('App\\Entity\\User::ACTIVE_MINISTRY')['troopLeader']['slug']) %}
                 <a class="create" href="{{ path('user.create') }}">
                     {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['ADD_USER'])|raw }}
                 </a>
@@ -21,38 +22,43 @@
                     {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['EDIT'])|raw }}
                 </a>
             {% endif %}
+            {% if struct.type == constant('App\\Entity\\Struct::CIRCLE_SLUG') and app.user.id != struct.sheaf.id  %}
+                <a class="delete" href="{{ path('struct.leave' , {'id': struct.id }) }}">
+                    {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['LOGOUT'])|raw }}
+                </a>
+            {% endif %}
         </div>
     </div>
-    {% for flashMessage in app.session.flashbag.get('fail') %}
-        {{ flashMessage }}
-    {% endfor %}
-    {% for flashMessage in app.session.flashbag.get('success') %}
-        {{ flashMessage }}
-    {% endfor %}
+    {% include 'admin/reusable-parts/flash-messages.html.twig' %}
     <div class="sheaf-block">
         <span class="black-text">{{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[struct.sheaf.ministry]['name'] }}: </span><strong><a
                     href="{{ path('user',{'id': sheaf.id}) }}">{{ sheaf.name }}</a></strong>
     </div>
-    {% if promotionRequests is not empty and app.user.id == sheaf.id %}
-        <div class="struct-promotion-request-list">
-            <h2>New request to your struct</h2>
-            <ul>
-                {% for request in promotionRequests %}
-                    <li>
-                        <a href="{{ path('user',{'id': request.targetUser.id}) }}">{{ request.targetUser.name }}</a>
-                        <a href="{{ path('user.promote.approve',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}">
-                            <button>Accept</button>
-                        </a>
-                        <a href="{{ path('user.promote.decline',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}">
-                            <button>Decline</button>
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
     <div class="members">
-        {% if (struct.getActiveMembers is defined and struct.getActiveMembers is not empty) or (struct.getPassiveMembers is defined and struct.getPassiveMembers is not empty) %}
+        {% if (struct.getActiveMembers is defined and struct.getActiveMembers is not empty) or (promotionRequests is defined and promotionRequests is not empty) or (struct.getPassiveMembers is defined and struct.getPassiveMembers is not empty) %}
+            {% if promotionRequests is not empty and app.user.id == sheaf.id %}
+                <br>
+                <p class="black-text">New request to your struct({{ promotionRequests|length }})</p>
+                <ul {% if editable == false %} class="not-editable" {% endif %}>
+                    {% for request in promotionRequests %}
+                        <li>
+                            <a href="{{ path('user',{'id': request.targetUser.id}) }}">{{ request.targetUser.name|capitalize }}</a>
+                            {% if editable == true %}
+                                <div>
+                                    <div class="three-dots-block request-block">
+                                        <a class="create" href="{{ path('user.promote.approve',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}">
+                                            Accept
+                                        </a>
+                                        <a class="delete" href="{{ path('user.promote.decline',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}">
+                                            Decline
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
             {% if struct.getActiveMembers is defined and struct.getActiveMembers is not empty %}
                 <br>
                 <p class="black-text">Active members({{ struct.getActiveMembers|length }})</p>
@@ -66,10 +72,12 @@
                                         {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['THREE_DOTS'])|raw }}
                                         <div class="menu hide-anim">
                                             <ul>
+                                                {% if member.role != constant('App\\Entity\\User::ROLE_TRAVELLER') %}
                                                 <li><a class="edit"
                                                        href="{{ path('user.edit', {'id': member.id}) }}">
                                                         Edit
                                                     </a></li>
+                                                {% endif %}
                                                 <li><a class="delete"
                                                        href="{{ path('user.remove.from.struct', {'id': member.id}) }}">
                                                         Delete

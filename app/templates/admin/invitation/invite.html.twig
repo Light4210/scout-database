@@ -1,0 +1,21 @@
+{% extends 'admin/default/default.html.twig' %}
+{% block css %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('inviteCss') }}
+    {{ encore_entry_link_tags('generalCss') }}
+{% endblock %}
+{% block js %}
+    {{ encore_entry_script_tags('inviteJs') }}
+{% endblock %}
+{% block content %}
+    <h1>Invite user</h1>
+    {% include 'admin/reusable-parts/flash-messages.html.twig' %}
+    <div class="invite-form">
+        {{ form_start(form) }}
+        <div class="email-field">
+            {{ form_widget(form.email) }}
+        </div>
+        {{ form_widget(form.ministry) }}
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
