@@ -6,9 +6,7 @@ RUN apt update \
     && pecl install apcu \
     && docker-php-ext-enable apcu \
     && docker-php-ext-configure zip \
-    && docker-php-ext-install zip \
-    && chmod 777 /var/www/scout-database/app/public/images/photos \
-    && chmod 777 /var/www/scout-database/app/public/images/deals \
+    && docker-php-ext-install zip 
 
 WORKDIR /var/www/scout-database
 
