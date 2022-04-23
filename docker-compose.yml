@@ -28,6 +28,7 @@ services:
     volumes:
       - ./db:/var/lib/db
   php:
+    image: php:8.0-fpm
     container_name: php_c
     build:
       context: ./php
