@@ -29,7 +29,7 @@ services:
     image: mysql:8.0
     command: --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_ROOT: secret
       MYSQL_DATABASE: scout-database
       MYSQL_USER: symfony
       MYSQL_PASSWORD: symfony
@@ -49,6 +49,7 @@ services:
     container_name: php_c
     build:
       context: ./php
+      dockerfile: Dockerfile
     ports:
       - '9000:9000'
     volumes:
