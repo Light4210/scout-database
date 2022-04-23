@@ -78,12 +78,3 @@ services:
         constraints: [ node.role == manager ]
 networks:
   network:
-secrets:
-  mysql_default_user:
-    file: ./secrets/mysql_default_user
-  mysql_default_pass:
-    file: ./secrets/mysql_default_pass
-  mysql_default_db_name:
-    file: ./secrets/mysql_default_db_name
-  mysql_default_root_pass:
-    file: ./secrets/mysql_default_root_pass
