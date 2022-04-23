@@ -1,6 +1,19 @@
 version: '3.3'
 
 services:
+  mailer:
+    image: tvial/docker-mailserver
+    container_name: mailer
+    hostname: mail
+    domainname: app.dev
+    ports:
+      - "25:25"
+      - "143:143"
+      - "587:587"
+      - "993:993"
+    volumes:
+      - ./mail/spamassassin:/tmp/spamassassin/
+      - ./mail/postfix:/tmp/postfix/
   database:
     container_name: database_c
     image: mysql:8.0

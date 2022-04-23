@@ -1,5 +1,11 @@
 <div class="header">
     <ul class="menu-list">
+        {% if app.user is not null and app.user.sheafOf is null and (app.user.ministry == constant('App\\Entity\\User::ACTIVE_MINISTRY')['sheaf']['slug'] or app.user.ministry == constant('App\\Entity\\User::ACTIVE_MINISTRY')['akela']['slug'] or app.user.ministry == constant('App\\Entity\\User::ACTIVE_MINISTRY')['troopLeader']['slug']) %}
+            <li>
+                <a href="{{ path('struct.create') }}">Create
+                    my {{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[app.user.ministry]['struct_slug'] }}</a>
+            </li>
+        {% endif %}
         {% if app.user.sheafOf.id is defined and not null %}
             <li>
                 <a href="{{ path('struct', {'id': app.user.sheafOf.id}) }}">My {{ app.user.sheafOf.type }}</a>
@@ -14,14 +20,17 @@
             <li>
                 <a href="{{ path('struct.list') }}">General struct list</a>
             </li>
-            {% if app.user.ministry is not null and constant('App\\Entity\\User::ACTIVE_MINISTRY')[app.user.ministry]['access'] >= constant('App\\Entity\\User::ACTIVE_MINISTRY')['president']['access'] %}
+            <li>
+                <a href="{{ path('user.list') }}">Travellers list</a>
+            </li>
+            {% if constant('App\\Entity\\User::ROLE_ADMIN') in app.user.roles %}
                 <li>
-                    <a href="{{ path('user.list') }}">Travellers list</a>
+                    <a href="{{ path('invite') }}">Invite to system</a>
                 </li>
             {% endif %}
-
-            <li class="profile-menu-item">
+            <li class="profile-menu-item profile-leave">
                 <a href="{{ path('user', {'id': app.user.id}) }}">My profile</a>
+                <a class="logout" href="{{ path('app_logout') }}">Log out</a>
             </li>
         {% endif %}
     </ul>

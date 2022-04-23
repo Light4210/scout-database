@@ -2,18 +2,22 @@
 
 namespace App\Controller\Single;
 
-use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Faker\Factory;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MainController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(MailerInterface $mailer, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('admin/single/main.html.twig');
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        } else {
+            return $this->redirectToRoute('struct.list');
+        }
     }
 }

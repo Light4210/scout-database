@@ -23,13 +23,18 @@ Encore
      * and one CSS file (e.g. general.scss) if your JavaScript imports CSS.
      */
     //CSS
+    .addEntry('inviteCss', './assets/sass/invite.scss')
     .addEntry('generalCss', './assets/sass/general.scss')
     .addEntry('header', './assets/sass/header.scss')
     .addEntry('structCss', './assets/sass/struct.scss')
     .addEntry('profile', './assets/sass/profile.scss')
     .addEntry('createEditForm', './assets/sass/form.scss')
+    .addEntry('registerForm', './assets/sass/register.scss')
+    .addEntry('login', './assets/sass/login.scss')
     //JS
     .addEntry('generalJs', './assets/js/general.js')
+    .addEntry('registerFormJs', './assets/js/register.js')
+    .addEntry('inviteJs', './assets/js/invite.js')
     .addEntry('structJs', './assets/js/struct.js')
     .addEntry('createUser', './assets/js/createUser.js')
     .addEntry('editUser', './assets/js/editUser.js')

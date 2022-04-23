@@ -44,7 +44,7 @@ class PromotionService extends AbstractController
     public function approveRequest(UserInterface|User $user, Struct $struct)
     {
         /** @var Notification $approvedNotification */
-        $approvedNotification = $this->notificationRepository->findOneBy(['targetUser' => $user, 'toUser' => $struct->getSheaf(), 'type' => Notification::TYPE_TRANSFER, 'status' => Notification::STATUS_PENDING]);
+        $approvedNotification = $this->notificationRepository->findOneBy(['targetUser' => $user, 'toUser' => $struct->getSheaf(), 'type' => [Notification::TYPE_TRANSFER, Notification::TYPE_REQUEST], 'status' => Notification::STATUS_PENDING]);
         $approvedNotification->setStatus(Notification::STATUS_APPROVED);
         $this->entityManager->flush($approvedNotification);
     }
@@ -52,7 +52,7 @@ class PromotionService extends AbstractController
     public function declineRequest(UserInterface|User $user, Struct $struct)
     {
         /** @var Notification $approvedNotification */
-        $approvedNotification = $this->notificationRepository->findOneBy(['targetUser' => $user, 'toUser' => $struct->getSheaf(), 'type' => Notification::TYPE_TRANSFER, 'status' => Notification::STATUS_PENDING]);
+        $approvedNotification = $this->notificationRepository->findOneBy(['targetUser' => $user, 'toUser' => $struct->getSheaf(), 'type' => [Notification::TYPE_TRANSFER, Notification::TYPE_REQUEST], 'status' => Notification::STATUS_PENDING]);
         $approvedNotification->setStatus(Notification::STATUS_DECLINED);
         $this->entityManager->flush($approvedNotification);
     }

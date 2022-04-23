@@ -14,7 +14,7 @@
             {% for user in users %}
                 <li>
                     <a href="{{ path('user',{'id': user.id}) }}">{{ user.surname }} {{ user.name }}</a>
-                        {% if  constant('App\\Entity\\User::ACTIVE_MINISTRY')[user.ministry] is not empty %}
+                        {% if user.ministry is not empty  and constant('App\\Entity\\User::ACTIVE_MINISTRY')[user.ministry] is not empty %}
                     <p>(<span class="{{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[user.ministry]['colorClass']|raw }}">{{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[user.ministry]['name']|raw }}</span>)</p>
                     {% endif %}
                 </li>

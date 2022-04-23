@@ -18,11 +18,14 @@ class Notification
     use UpdatedAtTrait;
 
     const TYPE_TRANSFER = 'transfer';
+    const TYPE_REQUEST = 'request';
 
     const STATUS_APPROVED = 'approved';
     const STATUS_DECLINED = 'declined';
     const STATUS_PENDING = 'pending';
 
+
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

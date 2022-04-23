@@ -1,8 +1,29 @@
 {% extends 'admin/default/default.html.twig' %}
 {% block css %}
     {{ parent() }}
+    {{ encore_entry_link_tags('createEditForm') }}
 {% endblock %}
 {% block content %}
     <h1>Edit struct</h1>
-    {{ form(form) }}
+    <div class="form-photo">
+        {{ form_start(form) }}
+        <div class="form-fields">
+            <div>
+                {{ form_label(form.name, 'Name') }}
+                {{ form_widget(form.name) }}
+            </div>
+            <div>
+                {{ form_label(form.city, 'City in which located struct') }}
+                {{ form_widget(form.city) }}
+            </div>
+            <div>
+                {{ form_label(form.address, 'Adress of residence') }}
+                {{ form_widget(form.address) }}
+            </div>
+        </div>
+        <div class="form-submit">
+            {{ form_widget(form.submit) }}
+        </div>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}
