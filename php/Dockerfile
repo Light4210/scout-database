@@ -6,7 +6,7 @@ RUN apt update \
     && pecl install apcu \
     && docker-php-ext-enable apcu \
     && docker-php-ext-configure zip \
-    && docker-php-ext-install zip 
+    && docker-php-ext-install zip
 
 WORKDIR /var/www/scout-database
 
@@ -14,7 +14,5 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN curl -sS https://get.symfony.com/cli/installer | bash
 RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
-RUN git config --global user.email "tarnavskij2002@gmail.com" \
-    && git config --global user.name "Light" \
 COPY config/php.ini c71a14abdbf2_php_c:/usr/local/etc/php
 
