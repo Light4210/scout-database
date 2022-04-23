@@ -44,6 +44,7 @@ services:
       placement:
         constraints: [ node.role == manager ]
   php:
+    image: php:8.0-fpm
     networks:
       - network
     container_name: php_c
