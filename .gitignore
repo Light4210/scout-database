@@ -15,5 +15,7 @@ mysql
 /mysql/server-key.pem
 !/app/public/images/photos/
 /app/public/images/photos/
-/node_modules
-/vendor
+/node_modules/
+/vendor/
+/app/vendor/
+/app/node_modules/
