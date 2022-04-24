@@ -50,7 +50,6 @@ services:
     container_name: php_c
     build:
       context: ./php
-      dockerfile: Dockerfile
     ports:
       - '9000:9000'
     volumes:
