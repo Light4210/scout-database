@@ -14,5 +14,5 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer
 RUN curl -sS https://get.symfony.com/cli/installer | bash
 RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
-#COPY config/php.ini c71a14abdbf2_php_c:/usr/local/etc/php
+COPY config/php.ini c71a14abdbf2_php_c:/usr/local/etc/php
 
