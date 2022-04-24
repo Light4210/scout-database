@@ -32,7 +32,7 @@ services:
       MYSQL_ROOT_PASSWORD: secret
       MYSQL_ROOT: secret
       MYSQL_ALLOW_EMPTY_PASSWORD: true
-      MYSQL_RANDOM_ROOT_PASSWORD: true
+      MYSQL_RANDOM_ROOT_PASSWORD: null
       MYSQL_DATABASE: scout-database
       MYSQL_USER: symfony
       MYSQL_PASSWORD: symfony
