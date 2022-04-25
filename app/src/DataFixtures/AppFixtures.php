@@ -43,7 +43,7 @@ class AppFixtures extends Fixture
             $user->setMiddleName($this->faker->firstName());
             $user->setStatus(User::STATUS_ACTIVE);
             $user->setRole(User::ROLE_TRAVELLER);
-            $user->setCreatedAt(`new \DateTimeImmutable()`);
+            $user->setCreatedAt(new \DateTimeImmutable());
             $manager->persist($user);
             echo "generated $i user \n";
         }

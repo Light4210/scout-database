@@ -43,4 +43,4 @@ services:
       - '80:80'
     volumes:
       - ./app:/var/www/scout-database
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+        - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
