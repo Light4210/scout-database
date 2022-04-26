@@ -135,10 +135,28 @@ class Struct
      */
     private $members;
 
+    /**
+     * @param string|null $type
+     * @param string|null $name
+     * @param string|null $city
+     * @param string|null $address
+     * @param mixed $sheaf
+     */
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
+        $this->created_at =  new \DateTimeImmutable();
     }
+
+    public function withAllData(?string $type, ?string $name, ?string $city, ?string $address)
+    {
+        $this->type = $type;
+        $this->name = $name;
+        $this->city = $city;
+        $this->address = $address;
+    }
+
 
     /**
      * @return mixed

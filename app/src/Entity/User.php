@@ -230,10 +230,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $notifications;
 
+    /**
+     * @param string|null $email
+     * @param array $roles
+     * @param string|null $name
+     * @param string|null $surname
+     * @param string|null $middle_name
+     * @param \DateTimeInterface|null $date_of_birth
+     * @param string|null $phoneNumber
+     * @param string|null $status
+     * @param string|null $ministry
+     * @param string|null $address
+     * @param string|null $role
+     * @param $created_at
+     * @param $updated_at
+     */
+
     public function __construct()
     {
         $this->notifications = new ArrayCollection();
         $this->created_at =  new \DateTimeImmutable();
+    }
+
+    public function withAllData(?string $email, array $roles, ?string $name, ?string $surname, ?string $middle_name, ?\DateTimeInterface $date_of_birth, ?string $phoneNumber, ?string $status, ?string $ministry, ?string $address, ?string $role)
+    {
+        $this->email = $email;
+        $this->roles = $roles;
+        $this->name = $name;
+        $this->surname = $surname;
+        $this->middle_name = $middle_name;
+        $this->date_of_birth = $date_of_birth;
+        $this->phoneNumber = $phoneNumber;
+        $this->status = $status;
+        $this->ministry = $ministry;
+        $this->address = $address;
+        $this->role = $role;
     }
 
     /**
