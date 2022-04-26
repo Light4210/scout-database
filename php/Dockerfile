@@ -1,12 +1,11 @@
 FROM php:8.0-fpm
 
 RUN apt update
-RUN apt install zlib1g-dev
-RUN apt install g++
-RUN apt install git
-RUN apt install libicu-dev
-RUN apt install zip
-RUN apt install libzip-dev
+RUN apt install -y zlib1g-dev
+RUN apt install -y g++
+RUN apt install -y libicu-dev
+RUN apt install -y zip
+RUN apt install -y libzip-dev
 RUN docker-php-ext-install intl
 RUN docker-php-ext-install opcache
 RUN docker-php-ext-install pdo
