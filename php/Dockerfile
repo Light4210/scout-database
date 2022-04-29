@@ -23,3 +23,7 @@ RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
 
 COPY config/php.ini c71a14abdbf2_php_c:/usr/local/etc/php
 
+RUN mkdir /var/www/scout-database/var/cache
+
+RUN chown -R 1000 /var/www
+
