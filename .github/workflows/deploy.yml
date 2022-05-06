@@ -1,4 +1,4 @@
-name: NodeJS with Webpack
+name: deploy and build
 
 on:
   push:
@@ -24,6 +24,7 @@ jobs:
 
     - name: Build
       run: |
+        git pull
         cd app
         yarn install
         yarn build
