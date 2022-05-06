@@ -40,6 +40,7 @@ Encore
     .addEntry('editUser', './assets/js/editUser.js')
     .addEntry('imagePreview', './assets/js/imagePreview.js')
     .addEntry('promoteModal', './assets/js/promote.js')
+    .addEntry('headerJs', './assets/js/header.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')

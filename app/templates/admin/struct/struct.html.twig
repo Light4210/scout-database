@@ -4,6 +4,7 @@
     {{ encore_entry_link_tags('structCss') }}
 {% endblock %}
 {% block js %}
+    {{ parent() }}
     {{ encore_entry_script_tags('generalJs') }}
     {{ encore_entry_script_tags('structJs') }}
 {% endblock %}

@@ -4,6 +4,9 @@
     {{ parent() }}
     {{ encore_entry_link_tags('createEditForm') }}
 {% endblock %}
+{% block js %}
+    {{ parent() }}
+{% endblock %}
 
 {% block content %}
     <h1>Create struct</h1>

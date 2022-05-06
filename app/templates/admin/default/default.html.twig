@@ -5,6 +5,7 @@
 {% endblock %}
 {% block js %}
     {{ parent() }}
+    {{ encore_entry_script_tags('headerJs') }}
 {% endblock %}
 {% block header %}
     {% include 'admin/reusable-parts/header.html.twig' %}

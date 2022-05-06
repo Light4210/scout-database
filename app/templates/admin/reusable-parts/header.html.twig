@@ -1,5 +1,10 @@
-<div class="header">
-    <ul class="menu-list">
+<div id="header" class="header">
+    <div id="burger">
+        <div id="stick-1"></div>
+        <div id="stick-2"></div>
+        <div id="stick-3"></div>
+    </div>
+    <ul id="menu-list" class="menu-list">
         {% if app.user is not null and app.user.sheafOf is null and (app.user.ministry == constant('App\\Entity\\User::ACTIVE_MINISTRY')['sheaf']['slug'] or app.user.ministry == constant('App\\Entity\\User::ACTIVE_MINISTRY')['akela']['slug'] or app.user.ministry == constant('App\\Entity\\User::ACTIVE_MINISTRY')['troopLeader']['slug']) %}
             <li>
                 <a href="{{ path('struct.create') }}">Create

@@ -5,6 +5,7 @@
     {{ encore_entry_link_tags('generalCss') }}
 {% endblock %}
 {% block js %}
+    {{ parent() }}
     {{ encore_entry_script_tags('inviteJs') }}
 {% endblock %}
 {% block content %}
