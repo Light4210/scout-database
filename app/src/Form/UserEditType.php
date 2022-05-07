@@ -31,7 +31,10 @@ class UserEditType extends AbstractType
             ->add('name', TextType::class, ['required' => true, 'attr' => ['maxlength' => 50, 'minlength' => 2, 'placeholder' => 'Name']])
             ->add('surname', TextType::class, ['required' => true, 'attr' => ['maxlength' => 50, 'minlength' => 2, 'placeholder' => 'Surname']])
             ->add('middleName', TextType::class, ['required' => false, 'attr' => ['maxlength' => 50, 'minlength' => 2, 'placeholder' => 'Middle name']])
-            ->add('dateOfBirth', DateType::class, ['required' => false,])
+            ->add('dateOfBirth', DateType::class, array(
+                'widget' => 'choice',
+                'years' => range(date('Y'), date('Y')-100),
+            ))
             ->add('address', TextType::class, ['required' => false, 'attr' => ['maxlength' => 95, 'minlength' => 2, 'placeholder' => 'address']])
             ->add('phoneNumber', TextType::class, ['required' => false, 'attr' => ['maxlength' => 15, 'minlength' => 9, 'placeholder' => 'phone number']])
             ->add('photo', FileType::class, [
