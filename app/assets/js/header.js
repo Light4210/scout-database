@@ -3,7 +3,6 @@ let menu = document.getElementById('menu-list')
 
 alert('it`s realy working')
 
-
 burger.addEventListener('click', function () {
     burger.classList.toggle('open')
     if(burger.classList.contains('open')){
