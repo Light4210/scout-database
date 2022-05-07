@@ -1,12 +1,15 @@
 name: prod deploy
-on: [push]
+on:
+  push:
+    branches:
+      - main
 jobs:
 
   build:
     name: deploy
     runs-on: ubuntu-latest
     steps:
-    - name: deploy
+    - name: pulling
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
@@ -15,6 +18,15 @@ jobs:
         port: ${{ secrets.PORT }}
         script: |
           cd /var/www/scout-database
-          git pull
-          cd app
+          git pull origin master
+    - name: yarn install && build
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: |
+          cd /var/www/scout-database/app
+          yarn install
           yarn build
