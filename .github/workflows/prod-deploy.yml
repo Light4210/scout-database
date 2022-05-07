@@ -2,7 +2,7 @@ name: prod deploy
 on:
   push:
     branches:
-      - main
+      - master
 jobs:
 
   pulling:
