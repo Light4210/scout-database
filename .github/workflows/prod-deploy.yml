@@ -5,11 +5,10 @@ on:
       - main
 jobs:
 
-  build:
-    name: deploy
+  pulling:
     runs-on: ubuntu-latest
     steps:
-    - name: pulling
+    - name: ssh
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
@@ -19,7 +18,10 @@ jobs:
         script: |
           cd /var/www/scout-database
           git pull origin master
-    - name: yarn install && build
+  yarn-install-build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: ssh
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
