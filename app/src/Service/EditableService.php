@@ -23,12 +23,15 @@ class EditableService extends AbstractController
     {
         $editable = false;
         $targetUserStruct = $targetUser->getStruct();
-
         if ($currentUser->getId() == $targetUser->getId()) {
             $editable = true;
             return $editable;
         } elseif (!$targetUserStruct) {
             return $editable;
+        }
+
+        if($targetUserStruct->getSheaf() === null){
+            return false;
         }
 
         $targetUserSheafId = $targetUserStruct->getSheaf()->getId();
@@ -41,6 +44,10 @@ class EditableService extends AbstractController
     public function checkStruct(Struct $struct, UserInterface $currentUser): bool
     {
         $editable = false;
+
+        if($struct->getSheaf() === null){
+            return $editable;
+        }
 
         $structSheafId = $struct->getSheaf()->getId();
 

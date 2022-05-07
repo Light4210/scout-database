@@ -1,18 +1,9 @@
+#AFTER EACH NEW ROUTE ADD HIM TO "config/packages/security.yml" ON "access_control" SET RIGHT ROLES ACCESS
 
 index:
   path: /
   controller: App\Controller\Single\MainController::index
   methods: GET
-
-#---------------------------DEBUG---------------------------#
-
-#_wdt:
-#  resource: "@WebProfilerBundle/Resources/config/routing/wdt.xml"
-#  prefix:   /_wdt
-#
-#_profiler:
-#  resource: "@WebProfilerBundle/Resources/config/routing/profiler.xml"
-#  prefix:   /_profiler
 
 #---------------------------USER---------------------------#
 
@@ -102,12 +93,6 @@ struct.list:
   defaults: { type: all }
   controller: App\Controller\Struct\ListStructController
 
-#---------------------------SHOP---------------------------#
-
-shop:
-  path: /shop
-  controller: App\Controller\DefaultController::index
-
 #---------------------------INVITATION-SYSTEM---------------------------#
 
 invite:
@@ -119,7 +104,23 @@ invite.register:
   controller: App\Controller\Invitations\RegisterController
 
 #---------------------------EVENTS---------------------------#
-
+#//TODO add events
 events:
   path: /events
   controller: App\Controller\DefaultController::index
+
+#---------------------------SHOP---------------------------#
+#//TODO add shop
+shop:
+  path: /shop
+  controller: App\Controller\DefaultController::index
+
+#---------------------------DEBUG---------------------------#
+
+#_wdt:
+#  resource: "@WebProfilerBundle/Resources/config/routing/wdt.xml"
+#  prefix:   /_wdt
+#
+#_profiler:
+#  resource: "@WebProfilerBundle/Resources/config/routing/profiler.xml"
+#  prefix:   /_profiler

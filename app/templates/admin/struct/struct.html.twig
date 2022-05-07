@@ -12,28 +12,35 @@
     {% set sheaf = struct.getSheaf %}
     <div class="title-actions">
         <h1>{{ struct.name }}</h1>
-        <div class="actions">
-            {% if app.user.id == sheaf.id and (app.user.ministry == constant('App\\Entity\\User::ACTIVE_MINISTRY')['akela']['slug'] or app.user.ministry == constant('App\\Entity\\User::ACTIVE_MINISTRY')['troopLeader']['slug']) %}
-                <a class="create" href="{{ path('user.create') }}">
-                    {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['ADD_USER'])|raw }}
-                </a>
-            {% endif %}
-            {% if editable == true %}
-                <a class="edit" href="{{ path('struct.edit' , {'id': struct.id }) }}">
-                    {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['EDIT'])|raw }}
-                </a>
-            {% endif %}
-            {% if struct.type == constant('App\\Entity\\Struct::CIRCLE_SLUG') and app.user.id != struct.sheaf.id  %}
-                <a class="delete" href="{{ path('struct.leave' , {'id': struct.id }) }}">
-                    {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['LOGOUT'])|raw }}
-                </a>
-            {% endif %}
-        </div>
+        {% if sheaf is not null %}
+            <div class="actions">
+                {% if app.user.id == sheaf.id and (app.user.ministry == constant('App\\Entity\\User::ACTIVE_MINISTRY')['akela']['slug'] or app.user.ministry == constant('App\\Entity\\User::ACTIVE_MINISTRY')['troopLeader']['slug']) %}
+                    <a class="create" href="{{ path('user.create') }}">
+                        {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['ADD_USER'])|raw }}
+                    </a>
+                {% endif %}
+                {% if editable == true %}
+                    <a class="edit" href="{{ path('struct.edit' , {'id': struct.id }) }}">
+                        {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['EDIT'])|raw }}
+                    </a>
+                {% endif %}
+                {% if struct.type == constant('App\\Entity\\Struct::CIRCLE_SLUG') and app.user.id != struct.sheaf.id %}
+                    <a class="delete" href="{{ path('struct.leave' , {'id': struct.id }) }}">
+                        {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['LOGOUT'])|raw }}
+                    </a>
+                {% endif %}
+            </div>
+        {% endif %}
     </div>
     {% include 'admin/reusable-parts/flash-messages.html.twig' %}
     <div class="sheaf-block">
-        <span class="black-text">{{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[struct.sheaf.ministry]['name'] }}: </span><strong><a
+        <span class="black-text">
+            {% if sheaf is not null %}
+            {{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[struct.sheaf.ministry]['name'] }}: </span><strong><a
                     href="{{ path('user',{'id': sheaf.id}) }}">{{ sheaf.name }}</a></strong>
+        {% else %}
+            <span><strong class="error-text"><p>No sheaf here</p></strong></span>
+        {% endif %}
     </div>
     <div class="members">
         {% if (struct.getActiveMembers is defined and struct.getActiveMembers is not empty) or (promotionRequests is defined and promotionRequests is not empty) or (struct.getPassiveMembers is defined and struct.getPassiveMembers is not empty) %}
@@ -47,10 +54,12 @@
                             {% if editable == true %}
                                 <div>
                                     <div class="three-dots-block request-block">
-                                        <a class="create" href="{{ path('user.promote.approve',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}">
+                                        <a class="create"
+                                           href="{{ path('user.promote.approve',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}">
                                             Accept
                                         </a>
-                                        <a class="delete" href="{{ path('user.promote.decline',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}">
+                                        <a class="delete"
+                                           href="{{ path('user.promote.decline',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}">
                                             Decline
                                         </a>
                                     </div>
@@ -74,10 +83,10 @@
                                         <div class="menu hide-anim">
                                             <ul>
                                                 {% if member.role != constant('App\\Entity\\User::ROLE_TRAVELLER') %}
-                                                <li><a class="edit"
-                                                       href="{{ path('user.edit', {'id': member.id}) }}">
-                                                        Edit
-                                                    </a></li>
+                                                    <li><a class="edit"
+                                                           href="{{ path('user.edit', {'id': member.id}) }}">
+                                                            Edit
+                                                        </a></li>
                                                 {% endif %}
                                                 <li><a class="delete"
                                                        href="{{ path('user.remove.from.struct', {'id': member.id}) }}">
