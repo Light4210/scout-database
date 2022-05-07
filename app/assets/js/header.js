@@ -1,7 +1,7 @@
 let burger = document.getElementById('burger')
 let menu = document.getElementById('menu-list')
 
-
+alert('it`s realy working')
 
 burger.addEventListener('click', function () {
     burger.classList.toggle('open')
