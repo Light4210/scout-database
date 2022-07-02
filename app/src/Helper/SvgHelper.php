@@ -15,5 +15,6 @@ class SvgHelper
         'DOWNLOAD_DEAL_SCAN' => 'downloadDealScan',
         'PROMOTE_USER' => 'promoteUser',
         'EDIT' => 'edit',
+        'CROWN' => 'crown'
     ];
 }
