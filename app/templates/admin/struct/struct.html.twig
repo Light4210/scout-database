@@ -23,7 +23,7 @@
             {% endif %}
             {% if sheaf is not null %}
                 {% if app.user.id == sheaf.id and (app.user.ministry == constant('App\\Entity\\User::ACTIVE_MINISTRY')['akela']['slug'] or app.user.ministry == constant('App\\Entity\\User::ACTIVE_MINISTRY')['troopLeader']['slug']) %}
-                    <a class="create" id="set-sheaf">
+                    <a href="{{ path('user.create')}}" class="create" id="set-sheaf">
                         {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['ADD_USER'])|raw }}
                     </a>
                 {% endif %}
