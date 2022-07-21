@@ -9,6 +9,7 @@
     "doctrine/doctrine-bundle": "^2.4",
     "doctrine/doctrine-migrations-bundle": "^3.1",
     "doctrine/orm": "^2.9",
+    "doctrine/dbal": "^2.4",
     "liip/imagine-bundle": "^2.6",
     "ramsey/uuid": "^4.2",
     "sensio/framework-extra-bundle": "^6.2.0",
