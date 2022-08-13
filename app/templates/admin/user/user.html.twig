@@ -20,7 +20,7 @@
     {% include 'admin/reusable-parts/flash-messages.html.twig' %}
 
     <div class="title-actions">
-        <h1>Profile</h1>
+        <h1>Профіль</h1>
         <div class="actions">
             {% if editable == true %}
                 <a class="edit" href="{{ path('user.edit', {'id': app.request.get('id')}) }}">
@@ -61,34 +61,37 @@
                 {% set access = '' %}
                 {% if app.user.ministry != '' and constant('App\\Entity\\User::ACTIVE_MINISTRY')[app.user.ministry] is not empty %}
                     {% set access = constant('App\\Entity\\User::ACTIVE_MINISTRY')[app.user.ministry]['access'] %}
-                    {{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[app.user.ministry]['access'] == constant('App\\Entity\\User::PRIORITY_NATIONAL_COUNCIL') }}
                 {% endif %}
                 {% if editable == true or user.role == constant('App\\Entity\\User::ROLE_TRAVELLER') or access == constant('App\\Entity\\User::PRIORITY_NATIONAL_COUNCIL') %}
-                <p>Full
-                    name<span>{{ user.surname|capitalize }} {{ user.name|capitalize }} {{ user.middleName|capitalize }}</span>
+                <p>Повне
+                    ім'я: <span>{{ user.surname|capitalize }} {{ user.name|capitalize }} {{ user.middleName|capitalize }}</span>
                 </p>
                 <p>Email: <span>{{ user.email|isEmpty }}</span></p>
-                <p>Address: <span>{{ user.address|isEmpty }}</span></p>
-                <p>Phone number: <span>{% if user.phoneNumber is not empty %}<a
+                <p>Адресса проживання: <span>{{ user.address|isEmpty }}</span></p>
+                <p>Номер телефону: <span>{% if user.phoneNumber is not empty %}<a
                                 href="tel:{{ user.phoneNumber }}">{% endif %}{{ user.phoneNumber|isEmpty }}{% if user.phoneNumber is not empty %}</a>{% endif %}</span>
                 </p>
-                <p>Date of
-                    birth:<span>{% if user.dateOfBirth is not empty %}{{ user.dateOfBirth|date('d-m-Y') }}{% else %}-{% endif %}</span>
+                <p>Дата народження :<span>{% if user.dateOfBirth is not empty %}{{ user.dateOfBirth|date('d-m-Y') }}{% else %}-{% endif %}</span>
                 </p>
-                <p>Status: <span>{{ user.status }}</span></p>
+                <p>Статус: <span>{{ user.status }}</span></p>
             {% else %}
-                <p>Name <span>{{ user.name|capitalize }}</span>
+                <p>Ім'я <span>{{ user.name|capitalize }}</span>
                     {% endif %}
                     {% if user.role == constant('App\\Entity\\User::ROLE_TRAVELLER') %}
-                <p>Ministry: <span>{{ user.ministry|isEmpty }}</span></p>
+                <p>Служіння: <span>{{ user.ministry|isEmpty }}</span></p>
                 {% endif %}
                 {% if user.sheafOf is not null %}
-                    <p>Sheaf in: <span><a
+                    <p>Шеф: <span><a
                                     href="{{ path('struct', {'id': user.sheafOf.id}) }}">{{ user.sheafOf.name }}</a></span>
                     </p>
                 {% endif %}
                 {% if user.struct is not null %}
-                    <p>{{ user.struct.type|capitalize }}: <span><a
+                    <p>
+                    {% if app.user.gender == constant('App\\Entity\\User::MALE') %}
+                        Коло
+                    {% else %}
+                        Вогнище
+                    {% endif %}: <span><a
                                     href="{{ path('struct', {'id': user.struct.id}) }}">{{ user.struct.name }}</a></span>
                     </p>
                 {% endif %}

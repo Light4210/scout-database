@@ -26,19 +26,19 @@ class Struct
 
     const STRUCT = [
         'troop' => [
-            'name' => 'Troop',
+            'name' => 'Курінь',
             'slug' => self::TROOP_SLUG,
             'sheaf' => User::ACTIVE_MINISTRY['troopLeader'],
             'membersRole' => User::ROLE_SCOUT,
         ],
         'community' => [
-            'name' => 'Community',
+            'name' => 'Громада',
             'slug' => self::COMMUNITY_SLUG,
             'sheaf' => User::ACTIVE_MINISTRY['akela'],
             'membersRole' => User::ROLE_WOLVES,
         ],
         'circle' => [
-            'name' => 'Circle',
+            'name' => 'Коло',
             'slug' => self::CIRCLE_SLUG,
             'sheaf' => User::ACTIVE_MINISTRY['sheaf'],
             'membersRole' => User:: ROLE_TRAVELLER,
@@ -161,7 +161,7 @@ class Struct
     /**
      * @return mixed
      */
-    public function getSheaf()
+    public function getSheaf(): User
     {
         return $this->sheaf;
     }

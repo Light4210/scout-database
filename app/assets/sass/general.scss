@@ -225,6 +225,8 @@ button, select, input, label {
 
 .modal__container {
   background-color: #fff;
+  margin: 0 30px;
+  width: 260px;
   padding: 30px;
   max-width: 500px;
   max-height: 100vh;
@@ -353,4 +355,21 @@ button, select, input, label {
 .micromodal-slide .modal__container,
 .micromodal-slide .modal__overlay {
   will-change: transform;
+}
+
+.password-reset{
+  h1{
+    text-align: center;
+  }
+  form{
+    div, button {
+      margin: auto;
+      display: flex;
+      text-align: center;
+    }
+    div{
+      display: block;
+      width: 220px;
+    }
+  }
 }

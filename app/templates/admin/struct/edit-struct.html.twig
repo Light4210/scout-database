@@ -7,20 +7,20 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
-    <h1>Edit struct</h1>
+    <h1>Редагування структури</h1>
     <div class="form-photo">
         {{ form_start(form) }}
         <div class="form-fields">
             <div>
-                {{ form_label(form.name, 'Name') }}
+                {{ form_label(form.name, 'Назва') }}
                 {{ form_widget(form.name) }}
             </div>
             <div>
-                {{ form_label(form.city, 'City in which located struct') }}
+                {{ form_label(form.city, 'Місто') }}
                 {{ form_widget(form.city) }}
             </div>
             <div>
-                {{ form_label(form.address, 'Adress of residence') }}
+                {{ form_label(form.address, 'Адреса домівки/парафії') }}
                 {{ form_widget(form.address) }}
             </div>
         </div>

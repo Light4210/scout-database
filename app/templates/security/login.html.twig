@@ -11,13 +11,13 @@
     <form method="post">
         {% if app.user %}
             <div class="">
-                You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                Ви ввійшли як {{ app.user.username }}, <a href="{{ path('app_logout') }}">Вийти</a>
             </div>
         {% endif %}
 
-        <h1 class="">Please sign in</h1>
+        <h1 class="">Login</h1>
         {% if error %}
-            <div class="error-login alert alert-danger error-text"><p>{{ error.messageKey|trans(error.messageData, 'security') }}</p></div>
+            <div class="error-login alert alert-danger error-text"><p>невірний пароль або логін</p></div>
         {% endif %}
 
         <div class="login-form">
@@ -36,9 +36,9 @@
                    value="{{ csrf_token('authenticate') }}"
             >
             <button class="" type="submit">
-                Sign in
+                Ввійти
             </button>
-
+            <a href="{{ path('app_forgot_password_request') }}">забув пароль</a>
         </div>
         {#
         Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.

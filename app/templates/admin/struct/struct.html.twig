@@ -15,15 +15,15 @@
         <h1>{{ struct.name }}</h1>
         <div class="actions">
             {% if app.user.ministry is not null %}
-            {% if constant('App\\Entity\\User::ACTIVE_MINISTRY')[app.user.ministry]['access'] == constant('App\\Entity\\User::PRIORITY_NATIONAL_COUNCIL')  %}
-                <a data-micromodal-trigger="modal-1" title="Set sheaf" class="create">
-                    {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['CROWN'])|raw }}
-                </a>
+                {% if constant('App\\Entity\\User::ACTIVE_MINISTRY')[app.user.ministry]['access'] == constant('App\\Entity\\User::PRIORITY_NATIONAL_COUNCIL') %}
+                    <a data-micromodal-trigger="modal-1" title="Set sheaf" class="create">
+                        {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['CROWN'])|raw }}
+                    </a>
                 {% endif %}
             {% endif %}
             {% if sheaf is not null %}
                 {% if app.user.id == sheaf.id and (app.user.ministry == constant('App\\Entity\\User::ACTIVE_MINISTRY')['akela']['slug'] or app.user.ministry == constant('App\\Entity\\User::ACTIVE_MINISTRY')['troopLeader']['slug']) %}
-                    <a href="{{ path('user.create')}}" class="create" id="set-sheaf">
+                    <a href="{{ path('user.create') }}" class="create" id="set-sheaf">
                         {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['ADD_USER'])|raw }}
                     </a>
                 {% endif %}
@@ -79,7 +79,7 @@
             {% endif %}
             {% if struct.getActiveMembers is defined and struct.getActiveMembers is not empty %}
                 <br>
-                <p class="black-text">Active members({{ struct.getActiveMembers|length }})</p>
+                <p class="black-text">Активні учасники({{ struct.getActiveMembers|length }})</p>
                 <ul {% if editable == false %} class="not-editable" {% endif %}>
                     {% for member in struct.getActiveMembers %}
                         <li>
@@ -111,7 +111,7 @@
             {% endif %}
             {% if struct.getPassiveMembers is defined and struct.getPassiveMembers is not empty %}
                 <br>
-                <p class="black-text">Passive members({{ struct.getPassiveMembers|length }})</p>
+                <p class="black-text">Пасивні учасники({{ struct.getPassiveMembers|length }})</p>
                 <ul {% if editable == false %} class="not-editable" {% endif %}>
                     {% for member in struct.getPassiveMembers %}
                         <li>
@@ -143,4 +143,5 @@
             <p class="black-text">-Here is no members(((</p>
         {% endif %}
     </div>
+    {% include 'admin/reusable-parts/modal.html.twig' %}
 {% endblock %}

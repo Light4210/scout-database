@@ -7,35 +7,40 @@
     <ul id="menu-list" class="menu-list">
         {% if app.user is not null and app.user.sheafOf is null and (app.user.ministry == constant('App\\Entity\\User::ACTIVE_MINISTRY')['sheaf']['slug'] or app.user.ministry == constant('App\\Entity\\User::ACTIVE_MINISTRY')['akela']['slug'] or app.user.ministry == constant('App\\Entity\\User::ACTIVE_MINISTRY')['troopLeader']['slug']) %}
             <li>
-                <a href="{{ path('struct.create') }}">Create
-                    my {{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[app.user.ministry]['struct_slug'] }}</a>
+                <a href="{{ path('struct.create') }}">Створити {{ constant('App\\Entity\\Struct::STRUCT')[constant('App\\Entity\\User::ACTIVE_MINISTRY')[app.user.ministry]['struct_slug']]['name'] }}</a>
             </li>
         {% endif %}
         {% if app.user.sheafOf.id is defined and not null %}
             <li>
-                <a href="{{ path('struct', {'id': app.user.sheafOf.id}) }}">My {{ app.user.sheafOf.type }}</a>
+                <a href="{{ path('struct', {'id': app.user.sheafOf.id}) }}">{{ constant('App\\Entity\\Struct::STRUCT')[app.user.sheafOf.type]['name'] }}</a>
             </li>
         {% endif %}
         {% if app.user.struct.id is defined and not null %}
             <li>
-                <a href="{{ path('struct', {'id': app.user.struct.id}) }}">My {{ app.user.struct.type }}</a>
+                <a href="{{ path('struct', {'id': app.user.struct.id}) }}">Mоє
+                    {% if app.user.gender == constant('App\\Entity\\User::MALE') %}
+                        коло
+                    {% else %}
+                        вогнище
+                    {% endif %}
+                </a>
             </li>
         {% endif %}
         {% if app.user.id is defined and not null %}
             <li>
-                <a href="{{ path('struct.list') }}">General struct list</a>
+                <a href="{{ path('struct.list') }}">Структури</a>
             </li>
             <li>
-                <a href="{{ path('user.list') }}">Travellers list</a>
+                <a href="{{ path('user.list') }}">Провідники</a>
             </li>
             {% if constant('App\\Entity\\User::ROLE_ADMIN') in app.user.roles %}
                 <li>
-                    <a href="{{ path('invite') }}">Invite to system</a>
+                    <a href="{{ path('invite') }}">Запросити до системи</a>
                 </li>
             {% endif %}
             <li class="profile-menu-item profile-leave">
-                <a href="{{ path('user', {'id': app.user.id}) }}">My profile</a>
-                <a class="logout" href="{{ path('app_logout') }}">Log out</a>
+                <a href="{{ path('user', {'id': app.user.id}) }}">Мій профіль</a>
+                <a class="logout" href="{{ path('app_logout') }}">Вийти</a>
             </li>
         {% endif %}
     </ul>

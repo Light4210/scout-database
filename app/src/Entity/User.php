@@ -24,6 +24,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     use CreatedAtTrait;
     use UpdatedAtTrait;
 
+    const MALE = 'male';
+    const FEMALE = 'female';
+
     const STATUS_ACTIVE = 'active';
     const STATUS_PASSIVE = 'passive';
 
@@ -38,7 +41,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     const ACTIVE_MINISTRY = [
         'troopLeader' => [
-            'name' => 'Troop leader',
+            'name' => 'Курінний/на',
             'slug' => 'troopLeader',
             'struct_slug' => Struct::TROOP_SLUG,
             'access' => self::PRIORITY_STANDARD,
@@ -46,7 +49,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             'colorClass' => 'troop'
         ],
         'president' => [
-            'name' => 'President',
+            'name' => 'Президент',
             'slug' => 'president',
             'struct_slug' => 'none',
             'access' => self::PRIORITY_NATIONAL_COUNCIL,
@@ -54,7 +57,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             'colorClass' => 'national-council'
         ],
         'admin' => [
-            'name' => 'Admin',
+            'name' => 'Адмін',
             'slug' => 'admin',
             'struct_slug' => 'none',
             'access' => self::PRIORITY_NATIONAL_COUNCIL,
@@ -62,7 +65,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             'colorClass' => 'national-council'
         ],
         'sheaf' => [
-            'name' => 'Sheaf',
+            'name' => 'Шеф',
             'slug' => 'sheaf',
             'struct_slug' => Struct::CIRCLE_SLUG,
             'access' => self::PRIORITY_STANDARD,
@@ -70,7 +73,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             'colorClass' => 'circle'
         ],
         'akela' => [
-            'name' => 'Akela',
+            'name' => 'Акела',
             'struct_slug' => Struct::COMMUNITY_SLUG,
             'slug' => 'akela',
             'access' => self::PRIORITY_STANDARD,
@@ -229,6 +232,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity=Notification::class, mappedBy="targetUser", orphanRemoval=true)
      */
     private $notifications;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $gender;
 
     /**
      * @param string|null $email
@@ -568,5 +576,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->setStatus(User::STATUS_PASSIVE);
         return $this;
     }
+    public function getUserPermision(){
+        $ministry = $this->getMinistry();
+        return self::ACTIVE_MINISTRY[$ministry]['access'];
+    }
 
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(string $gender): self
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
 }
