@@ -30,9 +30,9 @@ user.remove.from.struct:
     id: '\d+'
 
 user.list:
-    path: /user/list/{role}
-    defaults: { role: all }
-    controller: App\Controller\User\ListUserController
+  path: /user/list/{role}
+  defaults: { role: all }
+  controller: App\Controller\User\ListUserController
 
 #--------USER-PROMOTION--------#
 
@@ -55,8 +55,8 @@ ajax.get.promotion.structs:
   controller: App\Controller\User\Promotions\GetPromotionData
 
 ajax.send.promotion.request:
-    path: /ajax/promotion/{struct}/{target_user}
-    controller: App\Controller\User\Promotions\SendPromotionRequest
+  path: /ajax/promotion/{struct}/{target_user}
+  controller: App\Controller\User\Promotions\SendPromotionRequest
 
 #---------------------------STRUCTS---------------------------#
 
@@ -92,6 +92,11 @@ struct.list:
   path: /struct/list/{type}
   defaults: { type: all }
   controller: App\Controller\Struct\ListStructController
+
+struct.set.sheaf:
+  path: /struct/{struct_id}/set-sheaf
+  defaults: { struct-id: 1 }
+  controller: App\Controller\Struct\SetSheafController
 
 #---------------------------INVITATION-SYSTEM---------------------------#
 

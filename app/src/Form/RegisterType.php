@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use App\Entity\Invite;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -54,8 +55,14 @@ class RegisterType extends AbstractType
                 'data_class' => null,
                 'required' => false
             ])
+            ->add('gender', ChoiceType::class, [
+                'choices' => [
+                    User::MALE => 'male',
+                    User::FEMALE => 'female',
+                ],
+                'required' => true])
             ->add('submit', SubmitType::class, [
-                'label' => 'Register'
+                'label' => 'Зареєструватися'
             ]);
     }
 

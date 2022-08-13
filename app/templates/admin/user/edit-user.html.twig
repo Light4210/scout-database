@@ -19,7 +19,7 @@
         {% endblock %}
         {% block content %}
             <div class="title-actions">
-                <h1>Edit profile</h1>
+                <h1>Редагування профілю</h1>
                 <div class="actions">
                     {% if user.id != app.user.id %}
                         <a class="delete" href="{{ path('user.remove.from.struct', {'id': user.id}) }}">
@@ -63,39 +63,39 @@
                 {{ form_start(form) }}
                 <div class="form-fields">
                     <div>
-                        {{ form_label(form.name, 'Name') }}
+                        {{ form_label(form.name, "Ім'я") }}
                         {{ form_widget(form.name) }}
                     </div>
                     <div>
-                        {{ form_label(form.surname, 'Surname') }}
+                        {{ form_label(form.surname, 'Прізвище') }}
                         {{ form_widget(form.surname) }}
                     </div>
                     <div>
-                        {{ form_label(form.middleName, 'Middle name') }}
+                        {{ form_label(form.middleName, 'По-батькові') }}
                         {{ form_widget(form.middleName) }}
                     </div>
                     <div>
-                        {{ form_label(form.address, 'Address') }}
+                        {{ form_label(form.address, 'Адреса проживання') }}
                         {{ form_widget(form.address) }}
                     </div>
                     <div>
-                        {{ form_label(form.phoneNumber, 'Phone number') }}
+                        {{ form_label(form.phoneNumber, 'Номер телефону') }}
                         {{ form_widget(form.phoneNumber) }}
                     </div>
                     <div class="form-date">
-                        {{ form_label(form.dateOfBirth, 'Date of birth') }}
+                        {{ form_label(form.dateOfBirth, 'Дата народження') }}
                         {{ form_widget(form.dateOfBirth) }}
                     </div>
                     <div class="form-upload">
-                        {{ form_label(form.photo, 'Upload photo') }}
+                        {{ form_label(form.photo, 'Завантажити фото') }}
                         {{ form_widget(form.photo) }}
                     </div>
                     <div class="form-upload">
-                        {{ form_label(form.dealScan, 'Upload deal') }}
+                        {{ form_label(form.dealScan, 'Завантажити угоду(pdf)') }}
                         {{ form_widget(form.dealScan) }}
                     </div>
                     <div class="form-select">
-                        {{ form_label(form.status, 'Status') }}
+                        {{ form_label(form.status, 'Статус') }}
                         {{ form_widget(form.status) }}
                     </div>
                 </div>

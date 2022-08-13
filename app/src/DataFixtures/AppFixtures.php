@@ -18,6 +18,11 @@ class AppFixtures extends Fixture
         'STRUCTS' => 10
     ];
 
+    const GENDER_ARR = [
+        User::MALE,
+        User::FEMALE
+    ];
+
     protected $faker;
 
     public function __construct(
@@ -35,6 +40,7 @@ class AppFixtures extends Fixture
         $user->setEmail('admin@test.com');
         $user->setPassword($this->PasswordHasherFactoryInterface->getPasswordHasher($user)->hash('test'));
         $user->setName('Vitali');
+        $user->setGender($this->faker->randomElement(self::GENDER_ARR));
         $user->setSurname('Tarnavskyi');
         $user->setMiddleName('Olegivich');
         $user->setStatus(User::STATUS_ACTIVE);
@@ -45,9 +51,11 @@ class AppFixtures extends Fixture
         $manager->persist($user);
         $sheaf = new User();
         $sheaf->setEmail($this->faker->email());
+        $user->setGender($this->faker->randomElement(self::GENDER_ARR));
         $sheaf->setPassword($this->PasswordHasherFactoryInterface->getPasswordHasher($sheaf)->hash('test'));
         $sheaf->setName($this->faker->firstName());
         $sheaf->setSurname($this->faker->lastName());
+        $sheaf->setGender($this->faker->randomElement(self::GENDER_ARR));
         $sheaf->setMinistry(User::ACTIVE_MINISTRY['sheaf']['slug']);
         $sheaf->setMiddleName($this->faker->firstName());
         $sheaf->setStatus(User::STATUS_ACTIVE);
@@ -80,6 +88,7 @@ class AppFixtures extends Fixture
                 $this->faker->address(),
                 User::ROLE_TRAVELLER
             );
+            $traveller->setGender($this->faker->randomElement(self::GENDER_ARR));
             $traveller->setSheafOf($struct);
             $struct->setSheaf($traveller);
             $traveller->setStruct($circle);
@@ -92,6 +101,7 @@ class AppFixtures extends Fixture
                 $scout->setPhoneNumber((int)$this->faker->phoneNumber());
                 $scout->setDateOfBirth($this->faker->dateTimeBetween('--30 years', '++30 years'));
                 $scout->setName($this->faker->firstName());
+                $scout->setGender($this->faker->randomElement(self::GENDER_ARR));
                 $scout->setStruct($struct);
                 $scout->setSurname($this->faker->lastName());
                 $scout->setMiddleName($this->faker->firstName());
@@ -101,6 +111,7 @@ class AppFixtures extends Fixture
                 $manager->persist($scout);
                 echo "generated $j user \n";
             }
+            echo $sheaf->getGender();
             $manager->flush();
         }
 
@@ -113,6 +124,7 @@ class AppFixtures extends Fixture
         $sheaf->setSurname($this->faker->lastName());
         $sheaf->setMinistry(User::ACTIVE_MINISTRY['sheaf']['slug']);
         $sheaf->setMiddleName($this->faker->firstName());
+        $sheaf->setGender($this->faker->randomElement(self::GENDER_ARR));
         $sheaf->setStatus(User::STATUS_ACTIVE);
         $sheaf->setRoles(['admin']);
         $sheaf->setRole(User::ROLE_TRAVELLER);
@@ -142,6 +154,7 @@ class AppFixtures extends Fixture
                 $this->faker->address(),
                 User::ROLE_TRAVELLER
             );
+            $traveller->setGender($this->faker->randomElement(self::GENDER_ARR));
             $traveller->setSheafOf($struct);
             $struct->setSheaf($traveller);
             $traveller->setStruct($circle);
@@ -150,6 +163,7 @@ class AppFixtures extends Fixture
             for ($j = 0; $j < $this::LOAD_FIXTURES['WOLVES']; $j++) {
                 $scout = new User();
                 $scout->setEmail($this->faker->email());
+                $scout->setGender($this->faker->randomElement(self::GENDER_ARR));
                 $scout->setAddress($this->faker->address());
                 $scout->setPhoneNumber((int)$this->faker->phoneNumber());
                 $scout->setDateOfBirth($this->faker->dateTimeBetween('--30 years', '++30 years'));

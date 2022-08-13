@@ -53,6 +53,7 @@ class RegisterController extends AbstractController
             $user->setStatus(User::STATUS_ACTIVE);
             $user->setRole(User::ROLE_TRAVELLER);
             $user->setMinistry($invite->getMinistry());
+            $user->setGender($form->get('gender')->getData());
             $user->setPassword(($PasswordHasherFactoryInterface->getPasswordHasher($user)->hash(($user->getPassword()))));
             $user = $form->getData();
             if ($form->has('photo') && $form->get('photo')->getData() !== null) {

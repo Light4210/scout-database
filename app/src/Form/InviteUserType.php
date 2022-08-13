@@ -34,7 +34,7 @@ class InviteUserType extends AbstractType
                 ],
                 'required' => true])
             ->add('email', EmailType::class, ['required' => true, 'attr' => ['maxlength' => 100, 'minlength' => 4, 'placeholder' => 'Email']])
-            ->add('Invite', SubmitType::class);
+            ->add('Invite', SubmitType::class, ['label' => 'запросити']);
     }
 
     public function configureOptions(OptionsResolver $resolver)

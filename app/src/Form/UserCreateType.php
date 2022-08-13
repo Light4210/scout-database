@@ -46,7 +46,7 @@ class UserCreateType extends AbstractType
                 'required' => false
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Add member'
+                'label' => 'Додати учасника'
             ])
             ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
                 $uuidGenerator = Uuid::uuid4();
