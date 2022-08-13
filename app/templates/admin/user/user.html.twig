@@ -66,7 +66,9 @@
                 <p>Повне
                     ім'я: <span>{{ user.surname|capitalize }} {{ user.name|capitalize }} {{ user.middleName|capitalize }}</span>
                 </p>
+                {% if user.role == constant('App\\Entity\\User::ROLE_TRAVELLER')  %}
                 <p>Email: <span>{{ user.email|isEmpty }}</span></p>
+                {% endif %}
                 <p>Адресса проживання: <span>{{ user.address|isEmpty }}</span></p>
                 <p>Номер телефону: <span>{% if user.phoneNumber is not empty %}<a
                                 href="tel:{{ user.phoneNumber }}">{% endif %}{{ user.phoneNumber|isEmpty }}{% if user.phoneNumber is not empty %}</a>{% endif %}</span>
