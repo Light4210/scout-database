@@ -42,6 +42,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     const ACTIVE_MINISTRY = [
         'troopLeader' => [
             'name' => 'Курінний/на',
+            'gender' => [
+                self::MALE => 'Курінний',
+                self::FEMALE => 'Курінна'
+            ],
             'slug' => 'troopLeader',
             'struct_slug' => Struct::TROOP_SLUG,
             'access' => self::PRIORITY_STANDARD,

@@ -44,7 +44,12 @@
     <div class="sheaf-block">
         <span class="black-text">
             {% if sheaf is not null %}
-            {{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[struct.sheaf.ministry]['name'] }}: </span><strong><a
+            {% if  struct.sheaf.ministry == 'troopLeader' %}
+            {{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[struct.sheaf.ministry]['gender'][struct.sheaf.gender] }}
+            {% else %}
+                {{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[struct.sheaf.ministry]['name'] }}
+            {% endif %}
+            : </span><strong><a
                     href="{{ path('user',{'id': sheaf.id}) }}">{{ sheaf.name }}</a></strong>
         {% else %}
             <span><strong class="error-text"><p>No sheaf here</p></strong></span>

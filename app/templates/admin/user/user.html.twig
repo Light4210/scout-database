@@ -78,7 +78,14 @@
                 <p>Ім'я <span>{{ user.name|capitalize }}</span>
                     {% endif %}
                     {% if user.role == constant('App\\Entity\\User::ROLE_TRAVELLER') %}
-                <p>Служіння: <span>{{ user.ministry|isEmpty }}</span></p>
+                <p>Служіння: <span>{% if user.ministry != 'null' %}
+
+                    {% if  user.ministry == 'troopLeader' %}
+                        {{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[user.ministry]['gender'][user.gender] }}
+                    {% else %}
+                        {{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[user.ministry]['name'] }}
+                    {% endif %}
+                {% endif %}</span></p>
                 {% endif %}
                 {% if user.sheafOf is not null %}
                     <p>Шеф: <span><a
@@ -86,13 +93,7 @@
                     </p>
                 {% endif %}
                 {% if user.struct is not null %}
-                    <p>
-                    {% if app.user.gender == constant('App\\Entity\\User::MALE') %}
-                        Коло
-                    {% else %}
-                        Вогнище
-                    {% endif %}: <span><a
-                                    href="{{ path('struct', {'id': user.struct.id}) }}">{{ user.struct.name }}</a></span>
+                    <p>Учасник: <span><a href="{{ path('struct', {'id': user.struct.id}) }}">{{ user.struct.name }}</a></span>
                     </p>
                 {% endif %}
             </div>

@@ -15,8 +15,13 @@
             {% for user in users %}
                 <li>
                     <a href="{{ path('user',{'id': user.id}) }}">{{ user.surname }} {{ user.name }}</a>
-                        {% if user.ministry is not empty  and constant('App\\Entity\\User::ACTIVE_MINISTRY')[user.ministry] is not empty %}
-                    <p>(<span class="{{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[user.ministry]['colorClass']|raw }}">{{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[user.ministry]['name']|raw }}</span>)</p>
+                    {% if user.ministry != 'null' %}
+                    <p><span class="{{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[user.ministry]['colorClass']|raw }}">(
+                    {% if  user.ministry == 'troopLeader' %}
+                        {{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[user.ministry]['gender'][user.gender] }}
+                    {% else %}
+                        {{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[user.ministry]['name'] }}
+                    {% endif %})</span></p>
                     {% endif %}
                 </li>
             {% endfor %}
