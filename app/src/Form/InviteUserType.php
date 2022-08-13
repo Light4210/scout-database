@@ -30,6 +30,7 @@ class InviteUserType extends AbstractType
                     User::ACTIVE_MINISTRY['sheaf']['name'] => User::ACTIVE_MINISTRY['sheaf']['slug'],
                     User::ACTIVE_MINISTRY['troopLeader']['name'] => User::ACTIVE_MINISTRY['troopLeader']['slug'],
                     User::ACTIVE_MINISTRY['akela']['name'] => User::ACTIVE_MINISTRY['akela']['slug'],
+                    User::ACTIVE_MINISTRY['president']['name'] => User::ACTIVE_MINISTRY['president']['slug'],
                     'none' => null
                 ],
                 'required' => true])
