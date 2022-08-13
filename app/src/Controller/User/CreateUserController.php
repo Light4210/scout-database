@@ -50,6 +50,7 @@ class CreateUserController extends AbstractController
                 $dealScan = $attachmentService->createDealScan($form->get('dealScan')->getData());
                 $user->setDealScan($dealScan);
             }
+            $user->setGender($currentUser->getGender());
             $user->setCreatedAt(new \DateTimeImmutable());
             $entityManager->persist($user);
             $entityManager->flush();
