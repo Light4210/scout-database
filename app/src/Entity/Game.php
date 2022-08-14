@@ -12,6 +12,7 @@ class Game
 {
     const STATUS_APPROVE = 'approved';
     const STATUS_PENDING = 'pending';
+    const STATUS_DELETED = 'deleted';
     const BIG_GAME = 'bigGame';
     const SIMPLE_GAME = 'simpleGame';
     const GAME_NAMES = [
@@ -186,5 +187,9 @@ class Game
 
     public function approve(){
         $this->setStatus(self::STATUS_APPROVE);
+    }
+
+    public function delete(){
+        $this->setStatus(self::STATUS_DELETED);
     }
 }

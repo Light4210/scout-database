@@ -52,6 +52,8 @@ class GameRepository extends ServiceEntityRepository
     public function getGames(User|UserInterface $user)
     {
         if ($user->getUserPermision() == User::PRIORITY_NATIONAL_COUNCIL) {
+            $qb = $this->createQueryBuilder('g');
+            return $qb->where('g.status = :approved')->orWhere('g.status = :pending')->setParameter('approved' , Game::STATUS_APPROVE)->setParameter('pending', Game::STATUS_PENDING)->getQuery()->execute();
             return $this->findBy([], ['status' => 'DESC']);
         } else {
             $qb = $this->createQueryBuilder('g');

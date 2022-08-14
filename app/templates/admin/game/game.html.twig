@@ -24,6 +24,11 @@
                         {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['APPROVE'])|raw }}
                     </a>
                 {% endif %}
+                {% if app.user.getUserPermision == constant('App\\Entity\\User::PRIORITY_NATIONAL_COUNCIL') %}
+                <a class="delete" href="{{ path('game.delete', {'id': game.id}) }}">
+                    {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['DELETE'])|raw }}
+                </a>
+                {% endif %}
             </div>
         </div>
         <p>Автор: <a href="{{ path('user', {'id': game.author.id}) }}"><span>{{ game.author.name }}</span></a></p>
