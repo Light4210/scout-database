@@ -129,6 +129,11 @@ game.approve:
 game.edit:
   path: /games/{id}/edit
   controller: App\Controller\Games\GameEditController
+
+game.delete:
+  path: /games/{id}/delete
+  controller: App\Controller\Games\DeleteGameController
+
 #---------------------------EVENTS---------------------------#
 #//TODO add events
 events:
