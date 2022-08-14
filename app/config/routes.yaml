@@ -107,7 +107,28 @@ invite:
 invite.register:
   path: /register
   controller: App\Controller\Invitations\RegisterController
+#---------------------------EVENTS---------------------------#
+game.list:
+  path: /games
+  controller: App\Controller\Games\GameListController
 
+game:
+  path: /games/{id}
+  controller: App\Controller\Games\GameShowController
+  requirements:
+    id: '\d+'
+
+game.create:
+  path: /games/create
+  controller: App\Controller\Games\GameCreateController
+
+game.approve:
+  path: /games/{id}/approve
+  controller: App\Controller\Games\GameApproveController
+
+game.edit:
+  path: /games/{id}/edit
+  controller: App\Controller\Games\GameEditController
 #---------------------------EVENTS---------------------------#
 #//TODO add events
 events:
@@ -129,3 +150,7 @@ shop:
 #_profiler:
 #  resource: "@WebProfilerBundle/Resources/config/routing/profiler.xml"
 #  prefix:   /_profiler
+#--------------------------FROALA------------------------------#
+kms_froala_editor:
+  resource: '@KMSFroalaEditorBundle/Resources/config/routing.yml'
+  prefix:   /froalaeditor

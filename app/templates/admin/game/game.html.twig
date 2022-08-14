@@ -1,0 +1,38 @@
+{% extends 'admin/default/default.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('create-game') }}
+{% endblock %}
+{% block js %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('editor') }}
+{% endblock %}
+
+{% block content %}
+    <div class="single-game">
+        <div class="title-actions">
+            <h1>{{ game.name }}</h1>
+            <div class="actions">
+                {% if game.author.id == app.user.id or app.user.getUserPermision == constant('App\\Entity\\User::PRIORITY_NATIONAL_COUNCIL') %}
+                    <a class="edit" href="{{ path('game.edit', {'id': game.id}) }}">
+                        {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['EDIT'])|raw }}
+                    </a>
+                {% endif %}
+                {% if game.status == constant('App\\Entity\\Game::STATUS_PENDING') and app.user.getUserPermision == constant('App\\Entity\\User::PRIORITY_NATIONAL_COUNCIL') %}
+                    <a href="{{ path('game.approve', {'id': game.id}) }}" title="approve" class="create">
+                        {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['APPROVE'])|raw }}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        <p>Автор: <a href="{{ path('user', {'id': game.author.id}) }}"><span>{{ game.author.name }}</span></a></p>
+        {% if game.type == constant('App\\Entity\\Game::SIMPLE_GAME') %}
+        <p>Мінімальна кількість гравців: <span class="black-text">{{ game.minUsers }}</span>
+            {% endif %}
+        </p>
+        <p>Тип: <span class="black-text">{{ constant('App\\Entity\\GAME::GAME_NAMES')[game.type] }}</span></p>
+        <p class="game-description-title">Опис:</p>
+        {{ game.description|raw }}
+    </div>
+{% endblock %}

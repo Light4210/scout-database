@@ -8,6 +8,7 @@ class SvgHelper
 
     const SVG_NAMES = [
         'ADD_USER' => 'addUser',
+        'APPROVE' => 'approve',
         'LOGOUT' => 'logout',
         'THREE_DOTS' => 'threeDots',
         'USER_BLANK' => 'userBlank',

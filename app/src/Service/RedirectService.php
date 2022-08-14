@@ -14,6 +14,9 @@ class RedirectService extends AbstractController
     ];
 
     const MESSAGE_TEXT = [
+        'GAME_EDITED' => 'Гра успішно відредагована',
+        'APPROVE_GAME' => 'Гра схвалена',
+        'CREATE_GAME_SUCCESS' => 'Дякуємо за додану гру, наразі гра проходить модерацію',
         'USER_DELETE_DENIED' => 'You can`t delete this user',
         'USER_REGISTERED' => 'User by this link already registered',
         'USER_SELF_REMOVE' => 'You can`t remove yourself from struct',
@@ -40,7 +43,7 @@ class RedirectService extends AbstractController
         $this->router = $router;
     }
 
-    public function redirectWithPopup(string $messageType, string $message, string $route, array $routeParams)
+    public function redirectWithPopup(string $messageType, string $message, string $route, array $routeParams = [])
     {
         $this->addFlash($messageType, $message);
         $url = $this->router->generate($route, $routeParams);

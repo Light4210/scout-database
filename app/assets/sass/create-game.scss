@@ -1,0 +1,51 @@
+@import "variables.scss";
+button[type="submit"] {
+  font-size: 15px;
+  display: block;
+  width: 100%;
+  padding: 8px 0 5px 0;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 2px solid #7b7c7c;
+  min-width: 161px;
+  max-width: 202px;
+  margin-top: 10px;
+}
+.create-game-fields {
+  div{
+    margin-top: 10px;
+  }
+  input, select{
+    border: unset;
+    border-bottom: 2px solid $grey-color;
+  }
+  select{
+    background-color: #fff;
+  }
+  display: block;
+  .secondary-fields {
+    display: block;
+    .players{
+    display: flex;
+      div{
+        margin-left: 10px;
+        input{
+          width: 40px;
+        }
+      }
+    }
+    div {
+      display: block;
+      margin-top: auto;
+      margin-bottom: 10px;
+
+      select, input {
+        width: 120px;
+      }
+    }
+  }
+}
+.game-name{
+  margin-bottom: 10px;
+}

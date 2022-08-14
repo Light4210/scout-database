@@ -31,8 +31,11 @@ Encore
     .addEntry('createEditForm', './assets/sass/form.scss')
     .addEntry('registerForm', './assets/sass/register.scss')
     .addEntry('login', './assets/sass/login.scss')
+    .addEntry('game', './assets/sass/game.scss')
+    .addEntry('create-game', './assets/sass/create-game.scss')
     //JS
     .addEntry('generalJs', './assets/js/general.js')
+    .addEntry('editor', './assets/js/editor.js')
     .addEntry('registerFormJs', './assets/js/register.js')
     .addEntry('inviteJs', './assets/js/invite.js')
     .addEntry('structJs', './assets/js/struct.js')
@@ -42,6 +45,7 @@ Encore
     .addEntry('promoteModal', './assets/js/promote.js')
     .addEntry('headerJs', './assets/js/header.js')
     .addEntry('modalJs', './assets/js/modal.js')
+    .addEntry('gameJs', './assets/js/game.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')

@@ -16,6 +16,7 @@ class AttachmentService extends AbstractController
      * @param EntityManager $entityManager
      * @return bool
      */
+
     public function createPhoto($file): Attachments
     {
         $entityManager = $this->getDoctrine()->getManager();
@@ -40,6 +41,20 @@ class AttachmentService extends AbstractController
         $attachment->setUpdatedAt(new \DateTimeImmutable());
         $publicPath = $this->getParameter('kernel.project_dir');
         $file->move($publicPath . '/public/' . Attachments::DEAL_PATH, $title . '.' . $extension);
+        $entityManager->persist($attachment);
+        return $attachment;
+    }
+
+    public function createIlustration($file): Attachments
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $uuidGenerator = Uuid::uuid4();
+        $title = $uuidGenerator;
+        $extension = $file->getClientOriginalExtension();
+        $attachment = Attachments::create($title, $extension);
+        $attachment->setUpdatedAt(new \DateTimeImmutable());
+        $publicPath = $this->getParameter('kernel.project_dir');
+        $file->move($publicPath . '/public/' . Attachments::ILUSTRATION_PATH, $title . '.' . $extension);
         $entityManager->persist($attachment);
         return $attachment;
     }

@@ -1,0 +1,57 @@
+@import "variables.scss";
+
+.new-game{
+  width: 148px !important;
+  button {
+    padding: 5px 8px;
+    transition: .3s;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 17px;
+    background-color: #0859bd;
+  }
+  &:hover{
+    button {
+      background-color: #074593;
+    }
+  }
+}
+.members li{
+  display: flex;
+}
+.big-game{
+  background-color: #f5cc0b;
+  padding: 1px 10px;
+  color: #fff;
+  margin-left: 10px !important;
+  font-family: S-font, serif;
+  height: 18px;
+  margin-bottom: 10px !important;
+  font-size: 15px;
+  border-radius: 4px;
+}
+.simple-game{
+  background-color: $scout-color;
+  padding: 1px 10px;
+  color: #fff;
+  margin-left: 10px !important;
+  font-family: S-font, serif;
+  height: 18px;
+  margin-bottom: 10px !important;
+  font-size: 15px;
+  border-radius: 4px;
+}
+.pending-game{
+  margin-left: 10px;
+  background-color: $traveller-color;
+  padding: 1px 10px;
+  color: #fff;
+  margin-left: 10px !important;
+  font-family: S-font, serif;
+  height: 18px;
+  margin-bottom: 10px !important;
+  font-size: 15px;
+  border-radius: 4px;
+}

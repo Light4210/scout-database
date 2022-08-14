@@ -3,6 +3,7 @@
 
 namespace App\Service;
 
+use App\Entity\Game;
 use App\Entity\Struct;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,7 +31,7 @@ class EditableService extends AbstractController
             return $editable;
         }
 
-        if($targetUserStruct->getSheaf() === null){
+        if ($targetUserStruct->getSheaf() === null) {
             return false;
         }
 
@@ -45,7 +46,7 @@ class EditableService extends AbstractController
     {
         $editable = false;
 
-        if($struct->getSheaf() === null){
+        if ($struct->getSheaf() === null) {
             return $editable;
         }
 
@@ -53,10 +54,19 @@ class EditableService extends AbstractController
 
         if ($structSheafId == $currentUser->getId()) {
             $editable = true;
-                return $editable;
+            return $editable;
         }
 
         return $editable;
+    }
+
+    public function checkGame(Game $game): bool
+    {
+        $user = $this->getUser();
+        if ($user->getUserIdentifier() == $game->getAuthor()->getUserIdentifier() || $user->getUserPermision() == User::PRIORITY_NATIONAL_COUNCIL) {
+            return true;
+        }
+        return false;
     }
 }
 

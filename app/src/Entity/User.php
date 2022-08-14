@@ -243,6 +243,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $gender;
 
     /**
+     * @ORM\OneToMany(targetEntity=Game::class, mappedBy="author")
+     */
+    private $games;
+
+    /**
      * @param string|null $email
      * @param array $roles
      * @param string|null $name
@@ -262,6 +267,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->notifications = new ArrayCollection();
         $this->created_at =  new \DateTimeImmutable();
+        $this->games = new ArrayCollection();
     }
 
     public function withAllData(?string $email, array $roles, ?string $name, ?string $surname, ?string $middle_name, ?\DateTimeInterface $date_of_birth, ?string $phoneNumber, ?string $status, ?string $ministry, ?string $address, ?string $role)
@@ -593,6 +599,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setGender(string $gender): self
     {
         $this->gender = $gender;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Game[]
+     */
+    public function getGames(): Collection
+    {
+        return $this->games;
+    }
+
+    public function addGame(Game $game): self
+    {
+        if (!$this->games->contains($game)) {
+            $this->games[] = $game;
+            $game->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGame(Game $game): self
+    {
+        if ($this->games->removeElement($game)) {
+            // set the owning side to null (unless already changed)
+            if ($game->getAuthor() === $this) {
+                $game->setAuthor(null);
+            }
+        }
 
         return $this;
     }

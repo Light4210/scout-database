@@ -1,0 +1,40 @@
+{% extends 'admin/default/default.html.twig' %}
+{% block css %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('structCss') }}
+    {{ encore_entry_link_tags('game') }}
+{% endblock %}
+{% block js %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+    <div class="title-actions">
+        <h1>Ігри</h1>
+        <div class="actions">
+            <a class="new-game" href="{{ path('game.create') }}">
+                <button>Додати нову гру</button>
+            </a>
+        </div>
+    </div>
+    {% if games is defined and games is not empty %}
+        {% include 'admin/reusable-parts/flash-messages.html.twig' %}
+        <div class="members">
+        <ul class="not-editable">
+            {% for game in games %}
+                <li>
+                    <a href="{{ path('game', {'id': game.id}) }}">{{ game.name }}</a>
+                    {% if game.type == constant('App\\Entity\\Game::BIG_GAME') %}
+                        <div class="big-game">Bелика гра</div>
+                    {% elseif game.type == constant('App\\Entity\\Game::SIMPLE_GAME') %}
+                        <div class="simple-game">Звичайна гра</div>
+                    {% endif %}
+                    {% if game.status == constant('App\\Entity\\Game::STATUS_PENDING') %}
+                        <div class="pending-game">на модерації</div>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="black-text">Ніхто ще не додавав ігор, будь першим)</p>
+    {% endif %}
+{% endblock %}

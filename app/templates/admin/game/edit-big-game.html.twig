@@ -1,0 +1,27 @@
+{% extends 'admin/default/default.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('create-game') }}
+{% endblock %}
+{% block js %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('editor') }}
+    {{ encore_entry_script_tags('gameJs') }}
+{% endblock %}
+
+{% block content %}
+    <h1>Редагувати гру</h1>
+    {{ form_start(form) }}
+    <div>
+        <div class="create-game-fields">
+            <div class="game-name">
+                {{ form_label(form.name, "Назва гри") }}
+                {{ form_widget(form.name) }}
+            </div>
+        </div>
+        {{ form_widget(form.description) }}
+    </div>
+    {{ form_end(form) }}
+    </div>
+{% endblock %}
