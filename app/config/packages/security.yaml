@@ -58,5 +58,4 @@ security:
         - { path: /games/list, roles: IS_AUTHENTICATED_FULLY }
         - { path: /games/create, roles: IS_AUTHENTICATED_FULLY }
         - { path: /games/\d+, roles: IS_AUTHENTICATED_FULLY }
-        - { path: /invite/\d+/approve, roles: IS_AUTHENTICATED_FULLY }
-        - { path: /invite/\d+/delete, roles: IS_AUTHENTICATED_FULLY }
+        - { path: /games, roles: IS_AUTHENTICATED_FULLY }
