@@ -18,18 +18,18 @@
     </div>
     {% if games is defined and games is not empty %}
         {% include 'admin/reusable-parts/flash-messages.html.twig' %}
-        <div class="members">
+        <div class="game-list members">
         <ul class="not-editable">
             {% for game in games %}
                 <li>
                     <a href="{{ path('game', {'id': game.id}) }}">{{ game.name }}</a>
                     {% if game.type == constant('App\\Entity\\Game::BIG_GAME') %}
-                        <div class="big-game">Bелика гра</div>
+                        <span class="big-game">Bелика гра</span>
                     {% elseif game.type == constant('App\\Entity\\Game::SIMPLE_GAME') %}
-                        <div class="simple-game">Звичайна гра</div>
+                        <span class="simple-game">Звичайна гра</span>
                     {% endif %}
                     {% if game.status == constant('App\\Entity\\Game::STATUS_PENDING') %}
-                        <div class="pending-game">на модерації</div>
+                        <span class="pending-game">на модерації</span>
                     {% endif %}
                 </li>
             {% endfor %}

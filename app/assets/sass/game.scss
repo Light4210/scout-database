@@ -1,5 +1,14 @@
 @import "variables.scss";
-
+.game-list{
+  li{
+    flex-direction: row;
+    flex-wrap: wrap;
+    span{
+      display: block;
+      min-width: fit-content;
+    }
+  }
+}
 .new-game{
   width: 148px !important;
   button {
