@@ -54,4 +54,9 @@ security:
         - { path: /struct/\d+/edit, roles: IS_AUTHENTICATED_FULLY}
         - { path: /struct/list, roles: IS_AUTHENTICATED_FULLY}
         #invite
-        - { path: /invite, roles: IS_AUTHENTICATED_FULLY }
+        - { path: /games/\d+/edit, roles: IS_AUTHENTICATED_FULLY }
+        - { path: /games/list, roles: IS_AUTHENTICATED_FULLY }
+        - { path: /games/create, roles: IS_AUTHENTICATED_FULLY }
+        - { path: /games/\d+, roles: IS_AUTHENTICATED_FULLY }
+        - { path: /invite/\d+/approve, roles: IS_AUTHENTICATED_FULLY }
+        - { path: /invite/\d+/delete, roles: IS_AUTHENTICATED_FULLY }
