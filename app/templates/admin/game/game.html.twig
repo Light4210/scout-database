@@ -3,6 +3,7 @@
 {% block css %}
     {{ parent() }}
     {{ encore_entry_link_tags('create-game') }}
+    {{ encore_entry_link_tags('game') }}
 {% endblock %}
 {% block js %}
     {{ parent() }}
@@ -38,6 +39,8 @@
         </p>
         <p>Тип: <span class="black-text">{{ constant('App\\Entity\\GAME::GAME_NAMES')[game.type] }}</span></p>
         <p class="game-description-title">Опис:</p>
+        <div class="game-description">
         {{ game.description|raw }}
+        </div>
     </div>
 {% endblock %}
