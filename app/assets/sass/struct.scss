@@ -15,6 +15,7 @@
   ul li {
     border-bottom: 2px solid $grey-color;
     margin-top: 15px;
+    flex-wrap: wrap;
     padding: 0 10px;
     position: relative;
     display: flex;
