@@ -40,6 +40,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     const ROLE_ADMIN = 'admin';
 
     const ACTIVE_MINISTRY = [
+        ''=> [
+            'name' => 'none',
+            'slug' => 'none',
+            'struct_slug' => 'none',
+            'access' => self::PRIORITY_STANDARD,
+            'membersRole' => 'none',
+            'colorClass' => 'none'
+        ],
         'troopLeader' => [
             'name' => 'Курінний/на',
             'gender' => [
