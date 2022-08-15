@@ -1,16 +1,20 @@
 @import "variables.scss";
-.game-list{
-  li{
+
+.game-list {
+  li {
     flex-direction: row;
     flex-wrap: wrap;
-    span{
+
+    span {
       display: block;
       min-width: fit-content;
     }
   }
 }
-.new-game{
+
+.new-game {
   width: 148px !important;
+
   button {
     padding: 5px 8px;
     transition: .3s;
@@ -21,16 +25,19 @@
     font-size: 17px;
     background-color: #0859bd;
   }
-  &:hover{
+
+  &:hover {
     button {
       background-color: #074593;
     }
   }
 }
-.members li{
+
+.members li {
   display: flex;
 }
-.big-game{
+
+.big-game {
   background-color: #f5cc0b;
   padding: 1px 10px;
   color: #fff;
@@ -41,7 +48,8 @@
   font-size: 15px;
   border-radius: 4px;
 }
-.simple-game{
+
+.simple-game {
   background-color: $scout-color;
   padding: 1px 10px;
   color: #fff;
@@ -52,7 +60,8 @@
   font-size: 15px;
   border-radius: 4px;
 }
-.pending-game{
+
+.pending-game {
   margin-left: 10px;
   background-color: $traveller-color;
   padding: 1px 10px;
