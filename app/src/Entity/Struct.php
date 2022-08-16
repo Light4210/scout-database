@@ -27,18 +27,30 @@ class Struct
     const STRUCT = [
         'troop' => [
             'name' => 'Курінь',
+            'gender' => [
+                User::MALE => 'Курінь',
+                User::FEMALE => 'Курінь'
+            ],
             'slug' => self::TROOP_SLUG,
             'sheaf' => User::ACTIVE_MINISTRY['troopLeader'],
             'membersRole' => User::ROLE_SCOUT,
         ],
         'community' => [
             'name' => 'Громада',
+            'gender' => [
+                User::MALE => 'Громада',
+                User::FEMALE => 'Громада'
+            ],
             'slug' => self::COMMUNITY_SLUG,
             'sheaf' => User::ACTIVE_MINISTRY['akela'],
             'membersRole' => User::ROLE_WOLVES,
         ],
         'circle' => [
             'name' => 'Коло',
+            'gender' => [
+                User::MALE => 'Коло',
+                User::FEMALE => 'Вогнище'
+            ],
             'slug' => self::CIRCLE_SLUG,
             'sheaf' => User::ACTIVE_MINISTRY['sheaf'],
             'membersRole' => User:: ROLE_TRAVELLER,
