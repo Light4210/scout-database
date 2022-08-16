@@ -23,12 +23,12 @@
                     {% if app.request.get('type') == 'all' %}
                         <span class="{{ struct.type }}">({{ constant('App\\Entity\\Struct::STRUCT')[struct.type]['name']|raw }})</span>
                     {% endif %}
-                    {% if app.user.struct == null and struct.type == constant('App\\Entity\\Struct::CIRCLE_SLUG') %}
+                    {% if app.user.struct == null and struct.type == constant('App\\Entity\\Struct::CIRCLE_SLUG') and app.user.gender == struct.sheaf.gender and app.user.id != struct.sheaf.id %}
                         {% if struct.requestStatus == constant('App\\Entity\\Struct::REQUEST_STATUS_NONE') %}
                             <div>
                                 <a class="create"
                                    href="{{ path('struct.join.request', {'id': struct.id}) }}">
-                                    Send join request
+                                    Доєднатися
                                 </a>
                             </div>
                         {% elseif struct.requestStatus == constant('App\\Entity\\Struct::REQUEST_STATUS_PENDING') %}

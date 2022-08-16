@@ -44,6 +44,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             'name' => 'none',
             'slug' => 'none',
             'struct_slug' => 'none',
+            'gender' => [
+                self::MALE => 'none',
+                self::FEMALE => 'none'
+            ],
             'access' => self::PRIORITY_STANDARD,
             'membersRole' => 'none',
             'colorClass' => 'none'
@@ -65,12 +69,68 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             'slug' => 'president',
             'struct_slug' => 'none',
             'access' => self::PRIORITY_NATIONAL_COUNCIL,
+            'gender' => [
+                self::MALE => 'Президент',
+                self::FEMALE => 'Президент'
+            ],
+            'membersRole' => 'none',
+            'colorClass' => 'national-council'
+        ],
+        'boysLeader' => [
+            'name' => 'Крайовий',
+            'slug' => 'boysLeader',
+            'struct_slug' => 'none',
+            'gender' => [
+                self::MALE => 'Крайовий',
+                self::FEMALE => 'Крайовий'
+            ],
+            'access' => self::PRIORITY_NATIONAL_COUNCIL,
+            'membersRole' => 'none',
+            'colorClass' => 'national-council'
+        ],
+        'shopLeader' => [
+            'name' => 'Каріковий',
+            'slug' => 'shopLeader',
+            'struct_slug' => 'none',
+            'gender' => [
+                self::MALE => 'Каріковий',
+                self::FEMALE => 'Карікова'
+            ],
+            'access' => self::PRIORITY_NATIONAL_COUNCIL,
+            'membersRole' => 'none',
+            'colorClass' => 'national-council'
+        ],
+        'secretary' => [
+            'name' => 'Секретар',
+            'slug' => 'secretary',
+            'struct_slug' => 'none',
+            'gender' => [
+                self::MALE => 'Крайова',
+                self::FEMALE => 'Крайова'
+            ],
+            'access' => self::PRIORITY_NATIONAL_COUNCIL,
+            'membersRole' => 'none',
+            'colorClass' => 'national-council'
+        ],
+        'girlsLeader' => [
+            'name' => 'Крайова',
+            'slug' => 'girlsLeader',
+            'struct_slug' => 'none',
+            'gender' => [
+                self::MALE => 'Крайова',
+                self::FEMALE => 'Крайова'
+            ],
+            'access' => self::PRIORITY_NATIONAL_COUNCIL,
             'membersRole' => 'none',
             'colorClass' => 'national-council'
         ],
         'admin' => [
             'name' => 'Адмін',
             'slug' => 'admin',
+            'gender' => [
+                self::MALE => 'Адмін',
+                self::FEMALE => 'Адмін'
+            ],
             'struct_slug' => 'none',
             'access' => self::PRIORITY_NATIONAL_COUNCIL,
             'membersRole' => 'none',
@@ -79,6 +139,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         'sheaf' => [
             'name' => 'Шеф',
             'slug' => 'sheaf',
+            'gender' => [
+                self::MALE => 'Шеф',
+                self::FEMALE => 'Шефова'
+            ],
             'struct_slug' => Struct::CIRCLE_SLUG,
             'access' => self::PRIORITY_STANDARD,
             'membersRole' => self::ROLE_TRAVELLER,
@@ -88,6 +152,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             'name' => 'Акела',
             'struct_slug' => Struct::COMMUNITY_SLUG,
             'slug' => 'akela',
+            'gender' => [
+                self::MALE => 'Акела',
+                self::FEMALE => 'Акела'
+            ],
             'access' => self::PRIORITY_STANDARD,
             'membersRole' => self::ROLE_WOLVES,
             'colorClass' => 'community'
