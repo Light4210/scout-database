@@ -64,6 +64,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             'membersRole' => self::ROLE_SCOUT,
             'colorClass' => 'troop'
         ],
+        'assistant' => [
+            'name' => 'Асистент',
+            'gender' => [
+                self::MALE => 'Асистент',
+                self::FEMALE => 'Асистентка'
+            ],
+            'slug' => 'assistant',
+            'struct_slug' => 'none',
+            'access' => self::PRIORITY_STANDARD,
+            'membersRole' => 'none',
+            'colorClass' => 'assistant'
+        ],
         'president' => [
             'name' => 'Президент',
             'slug' => 'president',
