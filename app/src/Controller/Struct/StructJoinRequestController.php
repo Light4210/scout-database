@@ -26,15 +26,6 @@ class StructJoinRequestController extends AbstractController
             return $this->render('admin/single/404.html.twig');
         }
 
-        if ($struct->getType() !== Struct::CIRCLE_SLUG) {
-            return $redirectService->redirectWithPopup(
-                RedirectService::MESSAGE_TYPE['fail'],
-                RedirectService::MESSAGE_TEXT['SOMETHING_WENT_WRONG'],
-                'struct.list',
-                []
-            );
-        }
-
         /** @var User $user */
         $user = $this->getUser();
         if (!$user || $user->getRole() !== User::ROLE_TRAVELLER || $user->getStruct() !== null) {

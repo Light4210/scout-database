@@ -16,13 +16,11 @@ class ListStructController extends AbstractController
         $structs = $entityManager->getRepository(Struct::class)->findAll();
         /** @var User $user */
         $user = $this->getUser();
-        if($user->getRole() == User::ROLE_TRAVELLER && $user->getStruct() === null) {
+        if ($user->getRole() == User::ROLE_TRAVELLER && $user->getStruct() === null) {
             foreach ($structs as $struct) {
-                if($struct->getType() == Struct::CIRCLE_SLUG){
-                    $isDuplicateExist = $notificationRepository->findOneBy(['status' => Notification::STATUS_PENDING, 'type' => Notification::TYPE_REQUEST, 'targetUser' => $user, 'fromUser' => $user, 'toUser' => $struct->getSheaf()]);
-                    if($isDuplicateExist){
-                        $struct->setRequestStatus(Struct::REQUEST_STATUS_PENDING);
-                    }
+                $isDuplicateExist = $notificationRepository->findOneBy(['status' => Notification::STATUS_PENDING, 'type' => Notification::TYPE_REQUEST, 'targetUser' => $user, 'fromUser' => $user, 'toUser' => $struct->getSheaf()]);
+                if ($isDuplicateExist) {
+                    $struct->setRequestStatus(Struct::REQUEST_STATUS_PENDING);
                 }
             }
         }

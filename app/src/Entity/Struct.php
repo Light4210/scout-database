@@ -148,6 +148,11 @@ class Struct
     private $members;
 
     /**
+     * @ORM\OneToMany(targetEntity=StructAssistant::class, mappedBy="struct", orphanRemoval=true)
+     */
+    private $structAssistants;
+
+    /**
      * @param string|null $type
      * @param string|null $name
      * @param string|null $city
@@ -159,6 +164,7 @@ class Struct
     {
         $this->members = new ArrayCollection();
         $this->created_at =  new \DateTimeImmutable();
+        $this->structAssistants = new ArrayCollection();
     }
 
     public function withAllData(?string $type, ?string $name, ?string $city, ?string $address)
@@ -339,5 +345,35 @@ class Struct
     public function setPassiveMembers(ArrayCollection $passiveMembers): void
     {
         $this->passiveMembers = $passiveMembers;
+    }
+
+    /**
+     * @return Collection|StructAssistant[]
+     */
+    public function getStructAssistants(): Collection
+    {
+        return $this->structAssistants;
+    }
+
+    public function addStructAssistant(StructAssistant $structAssistant): self
+    {
+        if (!$this->structAssistants->contains($structAssistant)) {
+            $this->structAssistants[] = $structAssistant;
+            $structAssistant->setStruct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStructAssistant(StructAssistant $structAssistant): self
+    {
+        if ($this->structAssistants->removeElement($structAssistant)) {
+            // set the owning side to null (unless already changed)
+            if ($structAssistant->getStruct() === $this) {
+                $structAssistant->setStruct(null);
+            }
+        }
+
+        return $this;
     }
 }

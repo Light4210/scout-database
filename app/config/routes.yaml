@@ -33,6 +33,19 @@ user.list:
   path: /user/list/{role}
   defaults: { role: all }
   controller: App\Controller\User\ListUserController
+#--------ASSISTANT-REQUEST--------#
+
+user.assistant.promote.decline:
+  path: /user/assistant/promote/decline/{struct_id}/{user_id}
+  controller: App\Controller\User\Promotions\AssistantJoinDeclineController
+  requirements:
+    id: '\d+'
+
+user.assistant.promote.approve:
+  path: /user/assistant/promote/approve/{struct_id}/{user_id}
+  controller: App\Controller\User\Promotions\AssistantJoinApproveController
+  requirements:
+    id: '\d+'
 
 #--------USER-PROMOTION--------#
 

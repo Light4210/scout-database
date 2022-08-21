@@ -45,7 +45,7 @@
         <span class="black-text">
             {% if sheaf is not null %}
             {% if  struct.sheaf.ministry == 'troopLeader' %}
-            {{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[struct.sheaf.ministry]['gender'][struct.sheaf.gender] }}
+                {{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[struct.sheaf.ministry]['gender'][struct.sheaf.gender] }}
             {% else %}
                 {{ constant('App\\Entity\\User::ACTIVE_MINISTRY')[struct.sheaf.ministry]['name'] }}
             {% endif %}
@@ -56,6 +56,18 @@
         {% endif %}
     </div>
     <div class="members">
+        {% if struct.getStructAssistants is defined and struct.getStructAssistants is not empty %}
+            <br>
+            <p class="black-text">Асистенти({{ struct.getStructAssistants|length }})</p>
+            <ul class="assistants">
+                {% for assistant in struct.getStructAssistants %}
+                    {% set assistant = assistant.getUser %}
+                    <li>
+                        <a href="{{ path('user',{'id': assistant.id}) }}">{{ assistant.surname|capitalize }} {{ assistant.name|capitalize }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
         {% if (struct.getActiveMembers is defined and struct.getActiveMembers is not empty) or (promotionRequests is defined and promotionRequests is not empty) or (struct.getPassiveMembers is defined and struct.getPassiveMembers is not empty) %}
             {% if promotionRequests is not empty and app.user.id == sheaf.id %}
                 <br>
@@ -67,14 +79,25 @@
                             {% if editable == true %}
                                 <div>
                                     <div class="three-dots-block request-block">
-                                        <a class="create"
-                                           href="{{ path('user.promote.approve',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}">
-                                            Accept
-                                        </a>
-                                        <a class="delete"
-                                           href="{{ path('user.promote.decline',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}">
-                                            Decline
-                                        </a>
+                                        {% if request.targetUser.ministry == constant('App\\Entity\\User::ACTIVE_MINISTRY')['assistant']['slug'] %}
+                                            <a class="create"
+                                               href="{{ path('user.assistant.promote.approve',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}">
+                                                Accept
+                                            </a>
+                                            <a class="delete"
+                                               href="{{ path('user.promote.decline',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}">
+                                                Decline
+                                            </a>
+                                        {% else %}
+                                            <a class="create"
+                                               href="{{ path('user.promote.approve',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}">
+                                                Accept
+                                            </a>
+                                            <a class="delete"
+                                               href="{{ path('user.promote.decline',{'user_id': request.targetUser.id, 'struct_id': struct.id}) }}">
+                                                Decline
+                                            </a>
+                                        {% endif %}
                                     </div>
                                 </div>
                             {% endif %}

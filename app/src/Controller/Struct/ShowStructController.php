@@ -30,7 +30,6 @@ class ShowStructController extends AbstractController
         if(!empty($this->getUser())){
             $promotionRequests = $notificationRepository->getPromotionRequestsToUser($this->getUser());
         }
-
         $editable = $editableService->checkStruct($struct, $this->getUser());
         return $this->render('admin/struct/struct.html.twig', [
             'editable' => $editable,
