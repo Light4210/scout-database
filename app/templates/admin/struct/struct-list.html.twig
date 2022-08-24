@@ -23,8 +23,8 @@
                     {% if app.request.get('type') == 'all' %}
                         <span class="{{ struct.type }}">({{ constant('App\\Entity\\Struct::STRUCT')[struct.type]['gender'][struct.sheaf.gender]|raw }})</span>
                     {% endif %}
-                    {% if app.user.struct == null and struct.type == constant('App\\Entity\\Struct::CIRCLE_SLUG') and app.user.gender == struct.sheaf.gender and app.user.id != struct.sheaf.id %}
-                        {% if struct.requestStatus == constant('App\\Entity\\Struct::REQUEST_STATUS_NONE') %}
+                    {% if app.user.struct == null and app.user.gender == struct.sheaf.gender and app.user.id != struct.sheaf.id %}
+                        {% if struct.requestStatus == constant('App\\Entity\\Struct::REQUEST_STATUS_NONE') and app.user.getStructAssistant == null %}
                             <div>
                                 <a class="create"
                                    href="{{ path('struct.join.request', {'id': struct.id}) }}">

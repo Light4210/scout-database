@@ -12,6 +12,7 @@ RUN docker-php-ext-install gd
 RUN docker-php-ext-configure gd
 
 WORKDIR /var/www/scout-database
+RUN apk add npm nodejs
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 

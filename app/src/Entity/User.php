@@ -336,6 +336,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $games;
 
     /**
+     * @ORM\OneToOne(targetEntity=StructAssistant::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $structAssistant;
+
+    /**
      * @param string|null $email
      * @param array $roles
      * @param string|null $name
@@ -717,6 +722,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $game->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStructAssistant(): ?StructAssistant
+    {
+        return $this->structAssistant;
+    }
+
+    public function setStructAssistant(StructAssistant $structAssistant): self
+    {
+        // set the owning side of the relation if necessary
+        if ($structAssistant->getUser() !== $this) {
+            $structAssistant->setUser($this);
+        }
+
+        $this->structAssistant = $structAssistant;
 
         return $this;
     }

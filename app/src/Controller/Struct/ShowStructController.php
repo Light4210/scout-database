@@ -4,6 +4,7 @@ namespace App\Controller\Struct;
 
 use App\Entity\Struct;
 use App\Form\StructEditType;
+use App\Repository\StructAssistantRepository;
 use App\Service\EditableService;
 use App\Service\RedirectService;
 use App\Repository\UserRepository;
@@ -18,7 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ShowStructController extends AbstractController
 {
-    public function __invoke(UserRepository $userRepository, EditableService $editableService, NotificationRepository $notificationRepository, StructRepository $structRepository, Request $request)
+    public function __invoke(StructAssistantRepository $structAssistantRepository, UserRepository $userRepository, EditableService $editableService, NotificationRepository $notificationRepository, StructRepository $structRepository, Request $request)
     {
         $id = $request->attributes->get('id');
         $struct = $structRepository->find($id);
@@ -30,11 +31,12 @@ class ShowStructController extends AbstractController
         if(!empty($this->getUser())){
             $promotionRequests = $notificationRepository->getPromotionRequestsToUser($this->getUser());
         }
-
         $editable = $editableService->checkStruct($struct, $this->getUser());
+        $isAssistant = $structAssistantRepository->findBy(['user'=>$this->getUser(), 'struct'=> $struct]);
         return $this->render('admin/struct/struct.html.twig', [
             'editable' => $editable,
             'struct' => $struct,
+            'isAssistant' => $isAssistant,
             'promotionRequests' => $promotionRequests
         ]);
     }

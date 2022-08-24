@@ -9,7 +9,7 @@ use App\Repository\StructRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class PromoteApproveController extends AbstractController
+class AssistantJoinApproveController extends AbstractController
 {
     public function __invoke(TransferService $transferService, StructRepository $structRepository, PromotionService $promotionService, Request $request, UserRepository $userRepository)
     {
@@ -20,8 +20,7 @@ class PromoteApproveController extends AbstractController
         if (empty($targetUser) || empty($targetStruct)) {
             return $this->redirect($referer);
         }
-
-        $promotionService->promoteUserToStruct($targetUser, $targetStruct);
+        $promotionService->joinAssistant($targetUser, $targetStruct);
         $promotionService->approveRequest($targetUser, $targetStruct);
         $transferService->closeAllUserTransfers($targetUser);
 

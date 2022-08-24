@@ -93,6 +93,10 @@
                     <p>Учасник: <span><a href="{{ path('struct', {'id': user.struct.id}) }}">{{ user.struct.name }}</a></span>
                     </p>
                 {% endif %}
+                {% if user.ministry == constant('App\\Entity\\User::ACTIVE_MINISTRY')['assistant']['slug'] %}
+                    <p>Асистент: <span><a href="{{ path('struct', {'id': user.getStructAssistant.struct.id}) }}">{{ user.getStructAssistant.struct.name }}</a></span>
+                    </p>
+                {% endif %}
             </div>
         </div>
     </div>

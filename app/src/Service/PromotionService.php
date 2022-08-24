@@ -3,9 +3,11 @@
 
 namespace App\Service;
 
+use App\Entity\StructAssistant;
 use App\Entity\User;
 use App\Entity\Struct;
 use App\Entity\Notification;
+use App\Repository\StructAssistantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\NotificationRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -32,6 +34,13 @@ class PromotionService extends AbstractController
                 return Struct::CIRCLE_SLUG;
         }
         return $currentStructType;
+    }
+
+    public function joinAssistant(UserInterface|User $user, Struct $struct)
+    {
+        $structAssistant = new StructAssistant($user, $struct);
+        $this->entityManager->persist($structAssistant);
+        $this->entityManager->flush();
     }
 
     public function promoteUserToStruct(UserInterface|User $user, Struct $struct)
