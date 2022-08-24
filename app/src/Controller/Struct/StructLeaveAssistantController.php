@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use function Symfony\Component\String\u;
 
-class StructLeaveController extends AbstractController
+class StructLeaveAssistantController extends AbstractController
 {
     public function __invoke(StructAssistantRepository $structAssistantRepository, EntityManagerInterface $entityManager, UserRepository $userRepository, EditableService $editableService, NotificationRepository $notificationRepository, StructRepository $structRepository, Request $request)
     {
@@ -23,11 +23,11 @@ class StructLeaveController extends AbstractController
         $struct = $structRepository->find($id);
         /** @var User $user */
         $user = $this->getUser();
-        if (!$struct || !$user || $struct->getSheaf()->getId() == $user->getId() || $user->getRole() !== User::ROLE_TRAVELLER || $user->getStruct() == null ) {
+        $assistant = $user->getStructAssistant();
+        if (empty($user->getStructAssistant())) {
             return $this->render('admin/single/404.html.twig');
         }
-        $user->setStruct(null);
-        $entityManager->persist($user);
+        $entityManager->remove($assistant);
         $entityManager->flush();
 
         return $this->redirectToRoute('struct.list');

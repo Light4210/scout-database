@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\StructAssistantRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=StructAssistantRepository::class)
@@ -24,12 +25,12 @@ class StructAssistant
     private $struct;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="structAssistant")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
-    public function __construct($user, $struct)
+    public function __construct(User|UserInterface $user, Struct $struct)
     {
         $this->user = $user;
         $this->struct = $struct;

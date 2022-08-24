@@ -32,10 +32,18 @@
                         {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['EDIT'])|raw }}
                     </a>
                 {% endif %}
-                {% if struct.type == constant('App\\Entity\\Struct::CIRCLE_SLUG') and app.user.id != struct.sheaf.id and app.user.struct != null and app.user.struct.id == struct.id %}
-                    <a class="delete" href="{{ path('struct.leave' , {'id': struct.id }) }}">
-                        {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['LOGOUT'])|raw }}
-                    </a>
+                {% if (app.user.getStructAssistant is not empty and isAssistant is not empty) or (app.user.struct != null and app.user.struct.id == struct.id) %}
+                    {% if app.user.id != struct.sheaf.id  and app.user.role == constant('App\\Entity\\User::ROLE_TRAVELLER') %}
+                        {% if app.user.ministry == constant('App\\Entity\\User::ACTIVE_MINISTRY')['assistant']['slug'] %}
+                            <a class="delete" href="{{ path('struct.leave.assistant' , {'id': struct.id }) }}">
+                                {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['LOGOUT'])|raw }}
+                            </a>
+                        {% else %}
+                            <a class="delete" href="{{ path('struct.leave' , {'id': struct.id }) }}">
+                                {{ svg( constant('App\\Helper\\SvgHelper::SVG_NAMES')['LOGOUT'])|raw }}
+                            </a>
+                        {% endif %}
+                    {% endif %}
                 {% endif %}
             {% endif %}
         </div>

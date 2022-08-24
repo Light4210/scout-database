@@ -7,8 +7,6 @@ use App\Trait\CreatedAtTrait;
 use App\Trait\UpdatedAtTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping\OneToOne;
@@ -336,6 +334,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity=Game::class, mappedBy="author")
      */
     private $games;
+
+    /**
+     * @ORM\OneToOne(targetEntity=StructAssistant::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $structAssistant;
 
     /**
      * @param string|null $email
@@ -719,6 +722,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $game->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStructAssistant(): ?StructAssistant
+    {
+        return $this->structAssistant;
+    }
+
+    public function setStructAssistant(StructAssistant $structAssistant): self
+    {
+        // set the owning side of the relation if necessary
+        if ($structAssistant->getUser() !== $this) {
+            $structAssistant->setUser($this);
+        }
+
+        $this->structAssistant = $structAssistant;
 
         return $this;
     }

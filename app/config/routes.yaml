@@ -91,6 +91,12 @@ struct.leave:
   requirements:
     id: '\d+'
 
+struct.leave.assistant:
+  path: /struct/{id}/leave/assistant
+  controller: App\Controller\Struct\StructLeaveAssistantController
+  requirements:
+    id: '\d+'
+
 struct.create:
   path: /struct/create
   controller: App\Controller\Struct\CreateStructController
