@@ -24,6 +24,7 @@ class InviteUserType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
         $builder
             ->add('ministry', ChoiceType::class, [
                 'choices' => [
@@ -31,6 +32,7 @@ class InviteUserType extends AbstractType
                     User::ACTIVE_MINISTRY['troopLeader']['name'] => User::ACTIVE_MINISTRY['troopLeader']['slug'],
                     User::ACTIVE_MINISTRY['akela']['name'] => User::ACTIVE_MINISTRY['akela']['slug'],
                     User::ACTIVE_MINISTRY['president']['name'] => User::ACTIVE_MINISTRY['president']['slug'],
+                    User::ACTIVE_MINISTRY['assistant']['name'] => User::ACTIVE_MINISTRY['assistant']['slug'],
                     'none' => null
                 ],
                 'required' => true])
