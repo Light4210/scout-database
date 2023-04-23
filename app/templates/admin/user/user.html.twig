@@ -75,7 +75,6 @@
                 </p>
                 <p>Дата народження :<span>{% if user.dateOfBirth is not empty %}{{ user.dateOfBirth|date('d-m-Y') }}{% else %}-{% endif %}</span>
                 </p>
-                <p>Статус: <span>{{ user.status }}</span></p>
             {% else %}
                 <p>Ім'я <span>{{ user.name|capitalize }}</span>
                     {% endif %}
