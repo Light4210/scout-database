@@ -1,0 +1,1 @@
+docker exec -i database_c mysqldump -uroot -psecret --default_character_set utf8 scout-database > dump-file-16-10-2023.sql
